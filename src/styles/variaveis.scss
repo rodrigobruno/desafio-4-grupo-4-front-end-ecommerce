@@ -1,0 +1,31 @@
+$cor-verde-1: #49D13A;
+$cor-verde-2: #2EB81F;
+$cor-verde-3: #2BAF1D;
+$cor-verde-4: #269A19;
+$cor-preta-1: #FFFFFF;
+$cor-preta-2: #D6D6D6;
+$cor-preta-3: #898989;
+$cor-preta-4: #4A4A4A;
+$cor-preta-5: #101010;
+$cor-preta-6: #000000;
+$font-weight-regular: 400;
+$font-weight-medio: 500;
+$font-weight-bold: 600;
+$font-weight-black: 900;
+
+:root {
+    --cor-verde-1: #{$cor-verde-1};
+    --cor-verde-2: #{$cor-verde-2};
+    --cor-verde-3: #{$cor-verde-3};
+    --cor-verde-4: #{$cor-verde-4};
+    --cor-preta-1: #{$cor-preta-1};
+    --cor-preta-2: #{$cor-preta-2};
+    --cor-preta-3: #{$cor-preta-3};
+    --cor-preta-4: #{$cor-preta-4};
+    --cor-preta-5: #{$cor-preta-5};
+    --cor-preta-6: #{$cor-preta-6};
+    --font-weight-regular: $font-weight-regular;
+    --font-weight-medio: $font-weight-medio;
+    --font-weight-bold: $font-weight-bold;
+    --font-weight-black: $font-weight-black;
+}
