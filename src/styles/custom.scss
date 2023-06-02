@@ -1,11 +1,15 @@
 @import './variaveis.scss';
 
-$primary: $cor-verde-1;
-$font-family-sans-serif: Barlow, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
-$nav-link-font-size: 1.25rem;
-$nav-link-font-weight: $font-weight-regular;
 $dark: $cor-preta-6;
-$badge-font-weight: $font-weight-medio;
+$body-bg-dark: $cor-preta-6;
+$font-family-sans-serif: Barlow, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+
+$primary: $cor-verde-1;
+
+$nav-link-font-size: 1.25rem;
+$nav-link-font-weight: $font-weight-light;
+
+$badge-font-weight: $font-weight-regular;
 $badge-font-size:.75rem;
 $badge-color: $cor-preta-6;
 $badge-border-radius: 9999em;

@@ -11,10 +11,10 @@ export default function Topo() {
     return (
         <Header>
             <Navbar bg='dark' expand='md' variant='dark' className='py-3'>
-                <Container>
+                <Container fluid='xl'>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
 
-                    <Navbar.Brand className='me-0 me-md-5'>
+                    <Navbar.Brand className='me-0 me-md-4 me-lg-5'>
                         <Nav.Link as={Link} eventKey='/' to='/'>
                             <LogoGamaZoneDark />
                         </Nav.Link>
@@ -56,8 +56,8 @@ export default function Topo() {
                                     Entrar
                                 </NavLink>
 
-                                <NavLink to='/cadastro' className={'nav-link'}>
-                                    Cadastro
+                                <NavLink to='/cadastrar' className={'nav-link'}>
+                                    Cadastrar
                                 </NavLink>
 
                                 {/* <NavLink

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import AppRoutes from './routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/custom.scss';
 
@@ -9,6 +9,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App />
+        <AppRoutes />
     </React.StrictMode>
 );

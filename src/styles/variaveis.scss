@@ -8,10 +8,14 @@ $cor-preta-3: #898989;
 $cor-preta-4: #4A4A4A;
 $cor-preta-5: #101010;
 $cor-preta-6: #000000;
-$font-weight-regular: 400;
-$font-weight-medio: 500;
+$cor-roxa-1: #692DD2;
+$cor-roxa-2: #5D27B9;
+$cor-roxa-3: #4E219C;
+$cor-roxa-4: #3D1976;
+$font-weight-light: 400;
+$font-weight-regular: 500;
 $font-weight-bold: 600;
-$font-weight-black: 900;
+$font-weight-preta: 900;
 
 :root {
     --cor-verde-1: #{$cor-verde-1};
@@ -24,8 +28,13 @@ $font-weight-black: 900;
     --cor-preta-4: #{$cor-preta-4};
     --cor-preta-5: #{$cor-preta-5};
     --cor-preta-6: #{$cor-preta-6};
-    --font-weight-regular: $font-weight-regular;
-    --font-weight-medio: $font-weight-medio;
-    --font-weight-bold: $font-weight-bold;
-    --font-weight-black: $font-weight-black;
+    --cor-roxa-1: #{$cor-roxa-1};
+    --cor-roxa-2: #{$cor-roxa-2};
+    --cor-roxa-3: #{$cor-roxa-3};
+    --cor-roxa-4: #{$cor-roxa-4};
+    --font-weight-light: #{$font-weight-light};
+    --font-weight-regular: #{$font-weight-regular};
+    --font-weight-bold: #{$font-weight-bold};
+    --font-weight-preta: #{$font-weight-preta};
+    --bs-body-font-weight: #{$font-weight-regular};
 }
