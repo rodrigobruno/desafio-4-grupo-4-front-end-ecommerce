@@ -44,3 +44,7 @@ export const CardSubTitulo = styled(Card.Title)`
     text-transform: uppercase;
     font-weight: var(--font-weight-regular);
 `;
+
+export const CardFooter = styled.footer`
+    padding-bottom: 2.625rem;
+`;

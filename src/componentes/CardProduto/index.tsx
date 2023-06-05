@@ -1,7 +1,13 @@
 import { Button, Card } from 'react-bootstrap';
 import { CardProdutoProps } from 'types';
 import { precoFormatadoParaReal } from 'utils';
-import { CardContainer, CardImagem, CardTitulo, CardSubTitulo } from './style';
+import {
+    CardContainer,
+    CardImagem,
+    CardTitulo,
+    CardSubTitulo,
+    CardFooter,
+} from './style';
 
 export default function CardProduto({ title, price, image }: CardProdutoProps) {
     const preco = precoFormatadoParaReal(price);
@@ -13,8 +19,10 @@ export default function CardProduto({ title, price, image }: CardProdutoProps) {
                 <Card.Body>
                     <CardTitulo>{title}</CardTitulo>
                     <CardSubTitulo>{preco}</CardSubTitulo>
-                    <Button variant='primary'>Comprar</Button>
                 </Card.Body>
+                <CardFooter>
+                    <Button variant='primary'>Comprar</Button>
+                </CardFooter>
             </CardContainer>
         </div>
     );
