@@ -10,7 +10,7 @@ export default function Entrar() {
                     content='Faça login na nossa loja de board games e tenha acesso a vantagens exclusivas, histórico de compras e uma experiência personalizada. Junte-se a nós agora!'
                 />
             </Helmet>
-            <h1>Cadastar</h1>
+            <h1>Entrar</h1>
         </>
     );
 }
