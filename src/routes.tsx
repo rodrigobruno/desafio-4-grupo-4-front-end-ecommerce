@@ -24,10 +24,12 @@ import AdminUsuarios from 'paginas/Admin/Usuarios';
 import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
 import Categorias from 'paginas/Categorias';
+import ScrollToTop from 'componentes/ScrollToTop';
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 <Route path='/' element={<PaginaPadrao />}>
                     <Route index element={<Inicio />} />

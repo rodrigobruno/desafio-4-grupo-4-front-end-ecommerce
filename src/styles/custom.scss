@@ -3,8 +3,9 @@
 $dark: $cor-preta-6;
 $body-bg-dark: $cor-preta-6;
 $font-family-sans-serif: Barlow, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
-
 $primary: $cor-verde-1;
+
+$btn-font-weight: var(--font-weight-bold);
 
 $nav-link-font-size: 1.25rem;
 $nav-link-font-weight: $font-weight-light;
@@ -13,6 +14,10 @@ $badge-font-weight: $font-weight-regular;
 $badge-font-size:.75rem;
 $badge-color: $cor-preta-6;
 $badge-border-radius: 9999em;
+
+$card-title-color: $cor-preta-1;
+$card-border-width: 0;
+$card-height: 100%;
 
 /* import bootstrap to set changes */
 @import 'bootstrap/scss/bootstrap';
