@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { api } from 'lib/axios';
+import { CardProdutoProps } from 'types/';
 import Spinner from 'react-bootstrap/Spinner';
 import CardProduto from 'componentes/CardProduto';
-import { CardProdutoProps } from 'types/';
-import { api } from 'lib/axios';
 import CardsProdutos from 'componentes/CardsProdutos';
 
 export default function Inicio() {
@@ -14,10 +14,10 @@ export default function Inicio() {
     useEffect(() => {
         const pegarProdutos = async () => {
             try {
-                const response = await api.get('/products?limit=3');
+                const response = await api.get('/');
                 setProdutos(response.data);
             } catch (error) {
-                alert('Erro na requisição');
+                //alert('Erro na requisição');
             } finally {
                 setIsInitialLoading(false);
             }
