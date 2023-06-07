@@ -29,6 +29,7 @@ import Categorias from 'paginas/Categorias';
 import ScrollToTop from 'componentes/ScrollToTop';
 import { PrivateRoute } from 'componentes/PrivateRoute';
 import { LoginRoute } from 'componentes/LoginRoute';
+import PaginaBackground from 'componentes/PaginaBackground';
 
 export default function AppRoutes() {
     return (
@@ -43,14 +44,6 @@ export default function AppRoutes() {
                         <Route path='categorias' element={<Categorias />} />
                         <Route path='carrinho' element={<Carrinho />} />
                         <Route path='sucesso' element={<Sucesso />} />
-                        <Route
-                            path='entrar'
-                            element={
-                                <LoginRoute>
-                                    <Entrar />
-                                </LoginRoute>
-                            }
-                        />
                         <Route
                             path='cadastrar'
                             element={
@@ -84,6 +77,17 @@ export default function AppRoutes() {
                             }
                         />
                         <Route path='*' element={<NaoEncontrada />} />
+                    </Route>
+
+                    <Route path='/' element={<PaginaBackground />}>
+                        <Route
+                            path='/entrar'
+                            element={
+                                <LoginRoute>
+                                    <Entrar />
+                                </LoginRoute>
+                            }
+                        />
                     </Route>
 
                     <Route path='/admin' element={<PaginaAdmin />}>

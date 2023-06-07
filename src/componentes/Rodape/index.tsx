@@ -19,8 +19,8 @@ export default function Rodape() {
                         xl={4}
                         className='d-flex flex-column justify-content-between gap-4'
                     >
-                        <LogoGamaZoneLight />
-                        <Ul className='d-flex flex-row m-0 p-0'>
+                        <LogoGamaZoneLight className='mw-100' />
+                        <Ul className='d-flex flex-row m-0 p-0 flex-wrap'>
                             <li>
                                 <a
                                     href='https://www.instagram.com/'

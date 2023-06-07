@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 
 import { api } from 'lib/axios';
@@ -8,6 +8,9 @@ import { useAppDispatch } from 'hooks';
 import { login } from 'store/modules/usuario';
 import { LoginResponse } from 'types';
 import { AxiosError } from 'axios';
+import { LinkContainer } from 'react-router-bootstrap';
+
+import { Background, BgForm, ButtonBlock } from './style';
 
 interface CamposForm {
     username: string;
@@ -30,6 +33,7 @@ export default function Entrar() {
         password: null,
     });
 
+    const [enviadandoDados, setEnviadandoDados] = useState(false);
     const [mostrarAlertaErro422, setMostrarAlertaErroApi422] = useState(false);
     const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
@@ -75,14 +79,19 @@ export default function Entrar() {
 
     const lidarComEnvio = async (e: FormEvent) => {
         e.preventDefault();
+
         setMostrarAlertaErroApi422(false);
         setMostrarAlertaErro401(false);
+        setEnviadandoDados(false);
 
         const errosNoFormulario = validarForm();
 
         if (Object.keys(errosNoFormulario).length > 0) {
             setErros(errosNoFormulario);
+            window.scrollTo(0, 0);
         } else {
+            setEnviadandoDados(true);
+
             try {
                 const responseData: LoginResponse = await api.post(
                     '/auth/login',
@@ -105,6 +114,7 @@ export default function Entrar() {
             } catch (error) {
                 const err = error as AxiosError;
                 if (err.response) {
+                    window.scrollTo(0, 0);
                     if (err.response.status === 401)
                         return setMostrarAlertaErro401(true);
                     if (err.response.status === 422)
@@ -114,6 +124,8 @@ export default function Entrar() {
                 } else {
                     console.log(err.message);
                 }
+            } finally {
+                setEnviadandoDados(false);
             }
         }
     };
@@ -127,93 +139,158 @@ export default function Entrar() {
                     content='Faça login na nossa loja de board games e tenha acesso a vantagens exclusivas, histórico de compras e uma experiência personalizada. Junte-se a nós agora!'
                 />
             </Helmet>
+            <Background>
+                <Container className='py-5'>
+                    <Row>
+                        <Col>
+                            <h1 className='mb-4 text-uppercase'>
+                                Identificação
+                            </h1>
+                        </Col>
+                    </Row>
+                    <Row className='mx-1 mx-sm-0'>
+                        <BgForm
+                            xs='12'
+                            sm='12'
+                            md='8'
+                            lg='8'
+                            xl='7'
+                            xxl='5'
+                            className='mb-5 p-5 p-sm-5'
+                        >
+                            <h2 className='mb-4 text-uppercase'>
+                                Entrar na conta
+                            </h2>
+                            {mostrarAlertaErro422 && (
+                                <Alert key='warning' variant='warning'>
+                                    Não foi possível se conectar, tente na
+                                    próxima rodada.
+                                </Alert>
+                            )}
 
-            <h1 className='mb-4'>Entrar</h1>
+                            {mostrarAlertaErro401 && (
+                                <Alert key='danger' variant='danger'>
+                                    E-mail ou senha incorretos, volte duas casas
+                                    e tente novamente.
+                                </Alert>
+                            )}
 
-            {mostrarAlertaErro422 && (
-                <Alert key='warning' variant='warning'>
-                    Não foi possível se conectar, tente na próxima rodada.
-                </Alert>
-            )}
+                            <Form noValidate onSubmit={lidarComEnvio}>
+                                <Form.Group
+                                    className='mt-4 mb-3'
+                                    controlId='formLoginUsername'
+                                >
+                                    <Form.Label>Usuário</Form.Label>
+                                    <Form.Control
+                                        size='lg'
+                                        type='text'
+                                        placeholder='Digite o seu usuário'
+                                        value={form.username}
+                                        onChange={(e) =>
+                                            lidarComAsMudancasNosCampos(
+                                                'username',
+                                                e.target.value
+                                            )
+                                        }
+                                        isInvalid={!!erros.username}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type='valid'>
+                                        Looks good!
+                                    </Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>
+                                        {erros.username}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
 
-            {mostrarAlertaErro401 && (
-                <Alert key='danger' variant='danger'>
-                    E-mail ou senha incorretos, volte duas casas e tente
-                    novamente.
-                </Alert>
-            )}
+                                <Form.Group
+                                    className='mb-3'
+                                    controlId='formLoginEmail'
+                                >
+                                    <Form.Label>E-mail</Form.Label>
+                                    <Form.Control
+                                        size='lg'
+                                        type='email'
+                                        placeholder='Digite o seu email'
+                                        value={form.email}
+                                        onChange={(e) =>
+                                            lidarComAsMudancasNosCampos(
+                                                'email',
+                                                e.target.value
+                                            )
+                                        }
+                                        isInvalid={!!erros.email}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type='valid'>
+                                        Looks good!
+                                    </Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>
+                                        {erros.email}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
 
-            <Form noValidate onSubmit={lidarComEnvio}>
-                <Form.Group className='mt-4 mb-3' controlId='formLoginUsername'>
-                    <Form.Label>Usuário</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Digite o seu usuário'
-                        value={form.username}
-                        onChange={(e) =>
-                            lidarComAsMudancasNosCampos(
-                                'username',
-                                e.target.value
-                            )
-                        }
-                        isInvalid={!!erros.username}
-                        required
-                    />
-                    <Form.Control.Feedback type='valid'>
-                        Looks good!
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback type='invalid'>
-                        {erros.username}
-                    </Form.Control.Feedback>
-                </Form.Group>
+                                <Form.Group
+                                    className='mb-3'
+                                    controlId='formLoginSenha'
+                                >
+                                    <Form.Label>Senha</Form.Label>
+                                    <Form.Control
+                                        size='lg'
+                                        type='password'
+                                        placeholder='Digite sua senha'
+                                        value={form.password}
+                                        onChange={(e) =>
+                                            lidarComAsMudancasNosCampos(
+                                                'password',
+                                                e.target.value
+                                            )
+                                        }
+                                        isInvalid={!!erros.password}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type='valid'>
+                                        Looks good!
+                                    </Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>
+                                        {erros.password}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <ButtonBlock
+                                    variant='primary'
+                                    type='submit'
+                                    disabled={enviadandoDados}
+                                    size='lg'
+                                    className='d-flex align-items-center justify-content-center'
+                                >
+                                    {enviadandoDados && (
+                                        <Spinner
+                                            as='span'
+                                            animation='border'
+                                            size='sm'
+                                            role='status'
+                                            aria-hidden='true'
+                                            className='me-3'
+                                        />
+                                    )}
+                                    Entrar
+                                </ButtonBlock>
+                            </Form>
 
-                <Form.Group className='mb-3' controlId='formLoginEmail'>
-                    <Form.Label>E-mail</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Digite o seu email'
-                        value={form.email}
-                        onChange={(e) =>
-                            lidarComAsMudancasNosCampos('email', e.target.value)
-                        }
-                        isInvalid={!!erros.email}
-                        required
-                    />
-                    <Form.Control.Feedback type='valid'>
-                        Looks good!
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback type='invalid'>
-                        {erros.email}
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group className='mb-3' controlId='formLoginSenha'>
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Digite sua senha'
-                        value={form.password}
-                        onChange={(e) =>
-                            lidarComAsMudancasNosCampos(
-                                'password',
-                                e.target.value
-                            )
-                        }
-                        isInvalid={!!erros.password}
-                        required
-                    />
-                    <Form.Control.Feedback type='valid'>
-                        Looks good!
-                    </Form.Control.Feedback>
-                    <Form.Control.Feedback type='invalid'>
-                        {erros.password}
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Button variant='primary' type='submit'>
-                    Entrar
-                </Button>
-            </Form>
+                            <Alert
+                                key='primary'
+                                variant='primary'
+                                className='mt-5 mb-0 text-center'
+                            >
+                                Não é cliente?{' '}
+                                <LinkContainer to='/cadastrar'>
+                                    <Alert.Link>Crie sua conta</Alert.Link>
+                                </LinkContainer>
+                            </Alert>
+                        </BgForm>
+                    </Row>
+                </Container>
+            </Background>
         </>
     );
 }
