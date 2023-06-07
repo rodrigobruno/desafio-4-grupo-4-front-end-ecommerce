@@ -1,12 +1,13 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 
 import { api } from 'lib/axios';
 import { useAppDispatch } from 'hooks';
 import { login } from 'store/modules/usuario';
 import { LoginResponse } from 'types';
+import { AxiosError } from 'axios';
 
 interface CamposForm {
     username: string;
@@ -28,6 +29,9 @@ export default function Entrar() {
         email: null,
         password: null,
     });
+
+    const [mostrarAlertaErro422, setMostrarAlertaErroApi422] = useState(false);
+    const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
     const lidarComAsMudancasNosCampos = (campo: string, valor: string) => {
         setForm({
@@ -71,6 +75,8 @@ export default function Entrar() {
 
     const lidarComEnvio = async (e: FormEvent) => {
         e.preventDefault();
+        setMostrarAlertaErroApi422(false);
+        setMostrarAlertaErro401(false);
 
         const errosNoFormulario = validarForm();
 
@@ -87,8 +93,9 @@ export default function Entrar() {
                     },
                     {
                         headers: {
-                            Prefer: 'code=200, example=Usuário admin logado',
+                            //Prefer: 'code=200, example=Usuário admin logado',
                             //Prefer: 'code=200, example=Usuário logado',
+                            Prefer: 'code=401',
                             'Content-Type': 'application/json',
                             Accept: 'application/json',
                         },
@@ -96,8 +103,17 @@ export default function Entrar() {
                 );
                 dispatch(login(responseData.data));
             } catch (error) {
-                console.log(error);
-                alert('Erro na requisição PQ');
+                const err = error as AxiosError;
+                if (err.response) {
+                    if (err.response.status === 401)
+                        return setMostrarAlertaErro401(true);
+                    if (err.response.status === 422)
+                        return setMostrarAlertaErroApi422(true);
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log(err.message);
+                }
             }
         }
     };
@@ -112,10 +128,23 @@ export default function Entrar() {
                 />
             </Helmet>
 
-            <h1>Entrar</h1>
+            <h1 className='mb-4'>Entrar</h1>
+
+            {mostrarAlertaErro422 && (
+                <Alert key='warning' variant='warning'>
+                    Não foi possível se conectar, tente na próxima rodada.
+                </Alert>
+            )}
+
+            {mostrarAlertaErro401 && (
+                <Alert key='danger' variant='danger'>
+                    E-mail ou senha incorretos, volte duas casas e tente
+                    novamente.
+                </Alert>
+            )}
 
             <Form noValidate onSubmit={lidarComEnvio}>
-                <Form.Group className='mb-3' controlId='formLoginUsername'>
+                <Form.Group className='mt-4 mb-3' controlId='formLoginUsername'>
                     <Form.Label>Usuário</Form.Label>
                     <Form.Control
                         type='text'
