@@ -7,7 +7,7 @@ import { api } from 'lib/axios';
 import { CardProdutoProps } from 'types/';
 import CardProduto from 'componentes/CardProduto';
 import CardsProdutos from 'componentes/CardsProdutos';
-import { Dice5Fill, EmojiFrown, PlusCircle } from 'react-bootstrap-icons';
+import { Dice5Fill, PlusCircle } from 'react-bootstrap-icons';
 
 export default function Inicio() {
     const [produtos, setProdutos] = useState<CardProdutoProps[]>([]);
@@ -40,6 +40,7 @@ export default function Inicio() {
                     content='A Gama Zone loja especializada em board games que oferece uma experiência única para entusiastas de jogos de tabuleiro. Possui uma ampla variedade de títulos.'
                 />
             </Helmet>
+
             <CardsProdutos>
                 {estaCarregando && !ocorreuErroNaRespostaApi && (
                     <div className='w-100 d-flex justify-content-center'>
@@ -49,10 +50,11 @@ export default function Inicio() {
 
                 {ocorreuErroNaRespostaApi && (
                     <div className='w-100 d-flex justify-content-center'>
-                        <Alert key='erro-api-inicio' variant='primary'>
-                            Algo deu errado <EmojiFrown className='ms-1 me-3' />{' '}
+                        <Alert key='erro-api-inicio' variant='warning'>
+                            <span className='me-2'>Algo deu errado</span>
                             <Button
                                 className='d-inline-flex align-items-center'
+                                variant='warning'
                                 onClick={() => navigate(0)}
                             >
                                 <Dice5Fill className='me-2' />
@@ -67,7 +69,7 @@ export default function Inicio() {
                         .slice(0, 3)
                         .map((produto) => (
                             <CardProduto
-                                key={produto.id}
+                                key={produto._id}
                                 title={produto.title}
                                 price={produto.price}
                                 img={produto.img}

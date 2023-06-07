@@ -7,9 +7,6 @@ const ehAdmin =
     localStorage.getItem('@autenticacao-react:ehAdmin') === 'true' || null;
 const token = localStorage.getItem('@autenticacao-react:token') || null;
 
-console.log(ehAdmin);
-console.log(localStorage.getItem('@autenticacao-react:ehAdmin'));
-
 const initialState: UsuarioState = {
     _id: id,
     username: null,
