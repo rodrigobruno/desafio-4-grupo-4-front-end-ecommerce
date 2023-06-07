@@ -1,14 +1,23 @@
+// export type CardProdutoProps = {
+//     category?: string;
+//     description?: string;
+//     id?: number;
+//     image: string;
+//     price: number;
+//     rating?: {
+//         rate: number;
+//         count: number;
+//     };
+//     title: string;
+// };
+
 export type CardProdutoProps = {
-    category?: string;
-    description?: string;
     id?: number;
-    image: string;
-    price: number;
-    rating?: {
-        rate: number;
-        count: number;
-    };
     title: string;
+    desc?: string;
+    img: string;
+    categories?: string;
+    price: number;
 };
 
 export interface UsuarioState {

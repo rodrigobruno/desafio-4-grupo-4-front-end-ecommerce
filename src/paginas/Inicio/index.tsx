@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Alert, Button, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 import { api } from 'lib/axios';
 import { CardProdutoProps } from 'types/';
-import Spinner from 'react-bootstrap/Spinner';
 import CardProduto from 'componentes/CardProduto';
 import CardsProdutos from 'componentes/CardsProdutos';
+import { Dice5Fill, EmojiFrown, PlusCircle } from 'react-bootstrap-icons';
 
 export default function Inicio() {
     const [produtos, setProdutos] = useState<CardProdutoProps[]>([]);
-    const [isInitialLoading, setIsInitialLoading] = useState(true);
-    console.log(produtos);
+    const [estaCarregando, setEstaCarregando] = useState(true);
+    const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
+        useState(false);
+    const navigate = useNavigate();
+
+    const pegarProdutos = async () => {
+        try {
+            const resposta = await api.get('/products');
+            setProdutos(resposta.data);
+        } catch (error) {
+            setOcorreuErroNaRespostaApi(true);
+        } finally {
+            setEstaCarregando(false);
+        }
+    };
 
     useEffect(() => {
-        const pegarProdutos = async () => {
-            try {
-                const response = await api.get('/');
-                setProdutos(response.data);
-            } catch (error) {
-                //alert('Erro na requisição');
-            } finally {
-                setIsInitialLoading(false);
-            }
-        };
-
         pegarProdutos();
     }, []);
 
@@ -36,20 +41,55 @@ export default function Inicio() {
                 />
             </Helmet>
             <CardsProdutos>
-                {isInitialLoading && (
+                {estaCarregando && !ocorreuErroNaRespostaApi && (
                     <div className='w-100 d-flex justify-content-center'>
                         <Spinner animation='border' variant='primary' />
                     </div>
                 )}
-                {produtos.map((produto) => (
-                    <CardProduto
-                        key={produto.id}
-                        title={produto.title}
-                        price={produto.price}
-                        image={produto.image}
-                    />
-                ))}
+
+                {ocorreuErroNaRespostaApi && (
+                    <div className='w-100 d-flex justify-content-center'>
+                        <Alert key='erro-api-inicio' variant='primary'>
+                            Algo deu errado <EmojiFrown className='ms-1 me-3' />{' '}
+                            <Button
+                                className='d-inline-flex align-items-center'
+                                onClick={() => navigate(0)}
+                            >
+                                <Dice5Fill className='me-2' />
+                                Jogue o dado novamente
+                            </Button>
+                        </Alert>
+                    </div>
+                )}
+
+                {!ocorreuErroNaRespostaApi &&
+                    produtos
+                        .slice(0, 3)
+                        .map((produto) => (
+                            <CardProduto
+                                key={produto.id}
+                                title={produto.title}
+                                price={produto.price}
+                                img={produto.img}
+                            />
+                        ))}
             </CardsProdutos>
+
+            {produtos.length > 3 && !ocorreuErroNaRespostaApi && (
+                <div className='d-flex justify-content-center my-5'>
+                    <LinkContainer to={'produtos'}>
+                        <Button
+                            variant='secondary'
+                            size='lg'
+                            as='a'
+                            className='d-flex align-items-center'
+                        >
+                            <PlusCircle className='me-3' />
+                            Ver mais produtos
+                        </Button>
+                    </LinkContainer>
+                </div>
+            )}
         </>
     );
 }

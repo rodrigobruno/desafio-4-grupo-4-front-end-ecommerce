@@ -1,4 +1,4 @@
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const CardContainer = styled(Card)`
@@ -24,7 +24,7 @@ export const CardContainer = styled(Card)`
 export const CardImagem = styled(Card.Img)`
     aspect-ratio: 1 / 1;
     object-fit: contain;
-    margin-bottom: 3rem;
+    padding: 2.625rem 1.5rem 3rem 1.5rem;
     opacity: 0.8;
     &:hover {
         opacity: 1;
@@ -39,10 +39,14 @@ export const CardTitulo = styled(Card.Title)`
 `;
 
 export const CardSubTitulo = styled(Card.Title)`
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: var(--font-weight-regular);
+`;
+
+export const CardButton = styled(Button)`
+    font-weight: var(--font-weight-bold);
 `;
 
 export const CardFooter = styled.footer`
