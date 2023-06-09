@@ -27,10 +27,12 @@ export const authSlice = createSlice({
                 '@autenticacao-react:id',
                 JSON.stringify(action.payload._id)
             );
+
             localStorage.setItem(
                 '@autenticacao-react:ehAdmin',
                 JSON.stringify(action.payload.isAdmin)
             );
+
             localStorage.setItem(
                 '@autenticacao-react:token',
                 action.payload.accessToken
@@ -58,6 +60,7 @@ export const authSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.isAdmin = action.payload.isAdmin;
+            state.accessToken = action.payload.accessToken;
         },
     },
 });

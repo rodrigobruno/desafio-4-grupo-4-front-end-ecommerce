@@ -18,6 +18,12 @@ interface CamposForm {
     password: string;
 }
 
+interface ErrosForm {
+    username: string | null;
+    email: string | null;
+    password: string | null;
+}
+
 export default function Entrar() {
     const dispatch = useAppDispatch();
 
@@ -27,7 +33,7 @@ export default function Entrar() {
         password: '',
     });
 
-    const [erros, setErros] = useState<any>({
+    const [erros, setErros] = useState<ErrosForm>({
         username: null,
         email: null,
         password: null,
@@ -37,7 +43,10 @@ export default function Entrar() {
     const [mostrarAlertaErro422, setMostrarAlertaErroApi422] = useState(false);
     const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
-    const lidarComAsMudancasNosCampos = (campo: string, valor: string) => {
+    const lidarComAsMudancasNosCampos = (
+        campo: keyof ErrosForm,
+        valor: string
+    ) => {
         setForm({
             ...form,
             [campo]: valor,
@@ -102,9 +111,9 @@ export default function Entrar() {
                     },
                     {
                         headers: {
-                            //Prefer: 'code=200, example=Usuário admin logado',
+                            Prefer: 'code=200, example=Usuário admin logado',
                             //Prefer: 'code=200, example=Usuário logado',
-                            Prefer: 'code=401',
+                            //Prefer: 'code=401',
                             'Content-Type': 'application/json',
                             Accept: 'application/json',
                         },
