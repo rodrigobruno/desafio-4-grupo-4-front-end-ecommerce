@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 
 import { api } from 'lib/axios';
@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { Background, BgForm, ButtonBlock } from './style';
+import Carregando from 'componentes/Carregando';
 
 interface CamposForm {
     username: string;
@@ -273,13 +274,11 @@ export default function Entrar() {
                                     className='d-flex align-items-center justify-content-center'
                                 >
                                     {enviadandoDados && (
-                                        <Spinner
-                                            as='span'
-                                            animation='border'
-                                            size='sm'
-                                            role='status'
-                                            aria-hidden='true'
-                                            className='me-3'
+                                        <Carregando
+                                            largura={1.5}
+                                            altura={1.5}
+                                            cor='#000'
+                                            className='me-2'
                                         />
                                     )}
                                     Entrar

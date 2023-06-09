@@ -4,7 +4,7 @@ import { CardProdutoProps } from 'types/';
 import CardProduto from 'componentes/CardProduto';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import BotaoMais from 'componentes/BotaoMais';
-import { Spinner } from 'react-bootstrap';
+import Carregando from 'componentes/Carregando';
 
 type Props = {
     limite?: boolean;
@@ -51,7 +51,7 @@ export default function CardsProdutos({
             <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 g-4'>
                 {estaCarregando && !ocorreuErroNaRespostaApi && (
                     <div className='w-100 d-flex justify-content-center'>
-                        <Spinner animation='border' variant='primary' />
+                        <Carregando largura={2} altura={2} cor='#FFF' />
                     </div>
                 )}
 
