@@ -20,7 +20,7 @@ export const Header = styled.header`
         transform: translate(-20%, 120%);
     }
 
-    @media (min-width: 767.98px) {
+    @media (min-width: 992px) {
         & #menu-carrinho {
             order: 1;
         }

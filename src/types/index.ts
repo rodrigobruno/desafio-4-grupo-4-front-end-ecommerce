@@ -57,3 +57,15 @@ export interface UserResponse {
         __v: number;
     };
 }
+
+export interface CamposFormUsuario {
+    username: string;
+    email: string;
+    password: string;
+}
+
+export interface ErrosFormUsuario {
+    username: string | null;
+    email: string | null;
+    password: string | null;
+}

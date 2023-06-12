@@ -66,7 +66,7 @@ export default function AppRoutes() {
                     }
                 />
                 <Route
-                    path='profile'
+                    path='perfil'
                     element={
                         <PrivateRoute>
                             <Profile />

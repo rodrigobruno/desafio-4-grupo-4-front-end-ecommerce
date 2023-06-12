@@ -27,7 +27,8 @@ export default function App() {
                             '/auth/user/',
                             {
                                 headers: {
-                                    Prefer: 'code=200',
+                                    Prefer: 'code=200, example=200',
+                                    //Prefer: 'code=200, example=200 admin',
                                     Accept: 'application/json',
                                     Authorization: `Bearer ${accessToken}`,
                                 },

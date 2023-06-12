@@ -1,40 +1,28 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Alert, Col, Container, Row } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
+import { Form, Alert, Col, Container, Row } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { api } from 'lib/axios';
+import { AxiosError } from 'axios';
+
 import { useAppDispatch } from 'hooks';
 import { login } from 'store/modules/usuario';
-import { LoginResponse } from 'types';
-import { AxiosError } from 'axios';
-import { LinkContainer } from 'react-router-bootstrap';
+import { LoginResponse, CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { Background, BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
 
-interface CamposForm {
-    username: string;
-    email: string;
-    password: string;
-}
-
-interface ErrosForm {
-    username: string | null;
-    email: string | null;
-    password: string | null;
-}
-
 export default function Entrar() {
     const dispatch = useAppDispatch();
 
-    const [form, setForm] = useState<CamposForm>({
+    const [form, setForm] = useState<CamposFormUsuario>({
         username: '',
         email: '',
         password: '',
     });
 
-    const [erros, setErros] = useState<ErrosForm>({
+    const [erros, setErros] = useState<ErrosFormUsuario>({
         username: null,
         email: null,
         password: null,
@@ -45,7 +33,7 @@ export default function Entrar() {
     const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
     const lidarComAsMudancasNosCampos = (
-        campo: keyof ErrosForm,
+        campo: keyof ErrosFormUsuario,
         valor: string
     ) => {
         setForm({
@@ -62,8 +50,8 @@ export default function Entrar() {
     };
 
     const validarForm = () => {
-        const { username, email, password }: CamposForm = form;
-        const novoErros = {} as CamposForm;
+        const { username, email, password }: CamposFormUsuario = form;
+        const novoErros = {} as CamposFormUsuario;
 
         const ehEmail = (email: string) =>
             /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
