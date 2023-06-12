@@ -6,8 +6,6 @@ import { useAppSelector } from 'hooks';
 export default function PaginaAdmin() {
     const ehAdmin = useAppSelector((state) => state?.isAdmin === true);
 
-    console.log(ehAdmin);
-
     if (!ehAdmin) {
         return <Navigate to='/entrar' replace />;
     }

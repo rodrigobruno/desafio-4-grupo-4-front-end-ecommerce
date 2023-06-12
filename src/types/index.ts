@@ -29,6 +29,7 @@ export interface UsuarioState {
     updatedAt: string | null;
     __v: number | null;
     accessToken: string | null;
+    carregando: boolean;
 }
 
 export interface Usuario {

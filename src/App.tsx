@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from './hooks';
-import { setUsuario } from './store/modules/usuario';
+import { setUsuario, carregado } from './store/modules/usuario';
 
 import { api } from './lib/axios';
 import { AxiosError } from 'axios';
@@ -46,6 +46,8 @@ export default function App() {
                         } else {
                             console.log(err.message);
                         }
+                    } finally {
+                        dispatch(carregado());
                     }
                 })();
             }

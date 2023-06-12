@@ -10,6 +10,7 @@ import { store } from 'store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/custom.scss';
+import './styles/global.scss';
 
 import ScrollToTop from 'componentes/ScrollToTop';
 import App from 'App';

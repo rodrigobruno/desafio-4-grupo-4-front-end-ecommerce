@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+
 import { Form, Alert, Col, Container, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -29,7 +30,7 @@ export default function Entrar() {
     });
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
-    const [mostrarAlertaErro422, setMostrarAlertaErroApi422] = useState(false);
+    const [mostrarAlertaErro422, setMostrarAlertaErro422] = useState(false);
     const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
     const lidarComAsMudancasNosCampos = (
@@ -78,7 +79,7 @@ export default function Entrar() {
     const lidarComEnvio = async (e: FormEvent) => {
         e.preventDefault();
 
-        setMostrarAlertaErroApi422(false);
+        setMostrarAlertaErro422(false);
         setMostrarAlertaErro401(false);
         setEnviadandoDados(false);
 
@@ -116,7 +117,7 @@ export default function Entrar() {
                     if (err.response.status === 401)
                         return setMostrarAlertaErro401(true);
                     if (err.response.status === 422)
-                        return setMostrarAlertaErroApi422(true);
+                        return setMostrarAlertaErro422(true);
                 } else if (err.request) {
                     console.log(err.request);
                 } else {
@@ -193,9 +194,6 @@ export default function Entrar() {
                                         isInvalid={!!erros.username}
                                         required
                                     />
-                                    <Form.Control.Feedback type='valid'>
-                                        Looks good!
-                                    </Form.Control.Feedback>
                                     <Form.Control.Feedback type='invalid'>
                                         {erros.username}
                                     </Form.Control.Feedback>
@@ -220,9 +218,6 @@ export default function Entrar() {
                                         isInvalid={!!erros.email}
                                         required
                                     />
-                                    <Form.Control.Feedback type='valid'>
-                                        Looks good!
-                                    </Form.Control.Feedback>
                                     <Form.Control.Feedback type='invalid'>
                                         {erros.email}
                                     </Form.Control.Feedback>
@@ -247,9 +242,6 @@ export default function Entrar() {
                                         isInvalid={!!erros.password}
                                         required
                                     />
-                                    <Form.Control.Feedback type='valid'>
-                                        Looks good!
-                                    </Form.Control.Feedback>
                                     <Form.Control.Feedback type='invalid'>
                                         {erros.password}
                                     </Form.Control.Feedback>
