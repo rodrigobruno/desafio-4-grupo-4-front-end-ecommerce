@@ -2,16 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Usuario, UsuarioState } from 'types';
 
-const id = Number(localStorage.getItem('@autenticacao-react:id')) || null;
-const ehAdmin =
-    localStorage.getItem('@autenticacao-react:ehAdmin') === 'true' || null;
 const token = localStorage.getItem('@autenticacao-react:token') || null;
 
 const initialState: UsuarioState = {
-    _id: id,
+    _id: null,
     username: null,
     email: null,
-    isAdmin: ehAdmin,
+    isAdmin: null,
     createdAt: null,
     updatedAt: null,
     __v: null,
@@ -24,16 +21,6 @@ export const authSlice = createSlice({
     reducers: {
         login: (state, action: PayloadAction<Usuario>) => {
             localStorage.setItem(
-                '@autenticacao-react:id',
-                JSON.stringify(action.payload._id)
-            );
-
-            localStorage.setItem(
-                '@autenticacao-react:ehAdmin',
-                JSON.stringify(action.payload.isAdmin)
-            );
-
-            localStorage.setItem(
                 '@autenticacao-react:token',
                 action.payload.accessToken
             );
@@ -45,8 +32,6 @@ export const authSlice = createSlice({
             state.accessToken = action.payload.accessToken;
         },
         logout: (state) => {
-            localStorage.removeItem('@autenticacao-react:id');
-            localStorage.removeItem('@autenticacao-react:ehAdmin');
             localStorage.removeItem('@autenticacao-react:token');
 
             state._id = null;
@@ -60,7 +45,7 @@ export const authSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.isAdmin = action.payload.isAdmin;
-            state.accessToken = action.payload.accessToken;
+            //state.accessToken = action.payload.accessToken;
         },
     },
 });

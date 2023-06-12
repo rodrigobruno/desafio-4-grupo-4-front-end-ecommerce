@@ -45,3 +45,15 @@ export interface Usuario {
 export interface LoginResponse {
     data: Usuario;
 }
+
+export interface UserResponse {
+    data: {
+        _id: number;
+        username: string;
+        email: string;
+        isAdmin: boolean;
+        createdAt: string;
+        updatedAt: string;
+        __v: number;
+    };
+}
