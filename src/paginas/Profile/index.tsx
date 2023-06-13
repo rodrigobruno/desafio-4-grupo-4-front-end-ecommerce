@@ -193,7 +193,7 @@ export default function Profile() {
 
                         <Form noValidate onSubmit={lidarComEnvio}>
                             <Form.Group
-                                className='mt-4 mb-3'
+                                className='mb-3'
                                 controlId='formLoginUsername'
                             >
                                 <Form.Label>Nome completo</Form.Label>
