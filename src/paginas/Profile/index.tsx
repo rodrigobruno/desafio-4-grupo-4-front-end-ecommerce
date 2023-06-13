@@ -11,7 +11,12 @@ import { CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
-import { CheckCircleFill } from 'react-bootstrap-icons';
+import {
+    CheckCircleFill,
+    PencilSquare,
+    PersonCircle,
+} from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
     const id = useAppSelector((state) => state._id);
@@ -21,13 +26,11 @@ export default function Profile() {
     const [form, setForm] = useState<CamposFormUsuario>({
         username: nome || '',
         email: email || '',
-        password: '',
     });
 
     const [erros, setErros] = useState<ErrosFormUsuario>({
         username: null,
         email: null,
-        password: null,
     });
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
@@ -39,7 +42,6 @@ export default function Profile() {
         setForm({
             username: nome || '',
             email: email || '',
-            password: '',
         });
     }, [nome, email]);
 
@@ -61,7 +63,7 @@ export default function Profile() {
     };
 
     const validarForm = () => {
-        const { username, email, password }: CamposFormUsuario = form;
+        const { username, email }: CamposFormUsuario = form;
         const novoErros = {} as CamposFormUsuario;
 
         const ehEmail = (email: string) =>
@@ -77,10 +79,6 @@ export default function Profile() {
             novoErros.email = 'Preencha o e-mail';
         } else if (!ehEmail(email)) {
             novoErros.email = 'E-mail inválido';
-        }
-
-        if (password && password.length < 6) {
-            novoErros.password = 'A senha deve ter mais do que 6 caracteres';
         }
 
         return novoErros;
@@ -107,21 +105,17 @@ export default function Profile() {
                     {
                         username: form.username,
                         email: form.email,
-                        password: form.password,
                     },
                     {
                         headers: {
-                            //Prefer: 'code=200, example=200',
-                            Prefer: 'code=500, example=500',
+                            Prefer: 'code=200, example=200',
+                            //Prefer: 'code=500, example=500',
                             'Content-Type': 'application/json',
                             Accept: 'application/json',
                         },
                     }
                 );
 
-                console.log(
-                    `${id}, ${form.username}, ${form.email}, "${form.password}"`
-                );
                 window.scrollTo(0, 0);
                 return setMostrarAlertaSucesso200(true);
             } catch (error) {
@@ -155,6 +149,7 @@ export default function Profile() {
                 <Row>
                     <Col>
                         <h1 className='mb-4 text-center text-uppercase'>
+                            <PersonCircle className='bi me-2' />
                             Seus dados
                         </h1>
                     </Col>
@@ -171,7 +166,7 @@ export default function Profile() {
                     >
                         {mostrarAlertaErro500 && (
                             <Alert
-                                key='warning'
+                                key='alerta-erro-salvar-dados'
                                 variant='warning'
                                 className='mb-4'
                             >
@@ -182,7 +177,7 @@ export default function Profile() {
 
                         {mostrarAlertaSucesso200 && (
                             <Alert
-                                key='success'
+                                key='alerta-sucesso-salvar-dados'
                                 variant='success'
                                 className='mb-4'
                             >
@@ -240,47 +235,34 @@ export default function Profile() {
                                 </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Form.Group
-                                className='mb-3'
-                                controlId='formLoginSenha'
-                            >
-                                <Form.Label>Senha</Form.Label>
-                                <Form.Control
-                                    size='lg'
-                                    type='password'
-                                    placeholder='Digite sua senha'
-                                    value={form.password}
-                                    onChange={(e) =>
-                                        lidarComAsMudancasNosCampos(
-                                            'password',
-                                            e.target.value
-                                        )
-                                    }
-                                    isInvalid={!!erros.password}
-                                    required
-                                />
-                                <Form.Control.Feedback type='invalid'>
-                                    {erros.password}
-                                </Form.Control.Feedback>
-                            </Form.Group>
                             <ButtonBlock
                                 variant='primary'
                                 type='submit'
                                 disabled={enviadandoDados}
                                 size='lg'
-                                className='d-flex align-items-center justify-content-center'
+                                className='d-flex align-items-center justify-content-center mt-4'
                             >
                                 {enviadandoDados && (
                                     <Carregando
                                         largura={1.5}
                                         altura={1.5}
-                                        cor='#000'
+                                        cor='var(--cor-preta-5)'
                                         className='me-2'
                                     />
                                 )}
                                 Salvar
                             </ButtonBlock>
                         </Form>
+
+                        <Link to='/senha'>
+                            <Alert
+                                key='alerta-alterar-senha'
+                                className='mt-5 mb-0 text-center'
+                            >
+                                <PencilSquare className='bi me-2' />
+                                Alterar sua senha
+                            </Alert>
+                        </Link>
                     </BgForm>
                 </Row>
             </Container>

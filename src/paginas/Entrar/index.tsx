@@ -13,6 +13,7 @@ import { LoginResponse, CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { Background, BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
+import { DoorOpen, PersonVcard } from 'react-bootstrap-icons';
 
 export default function Entrar() {
     const dispatch = useAppDispatch();
@@ -142,12 +143,13 @@ export default function Entrar() {
                 <Container className='py-5'>
                     <Row>
                         <Col>
-                            <h1 className='mb-4 text-uppercase'>
+                            <h1 className='mb-4 text-center text-uppercase'>
+                                <PersonVcard className='bi me-2' />
                                 Identificação
                             </h1>
                         </Col>
                     </Row>
-                    <Row className='mx-1 mx-sm-0'>
+                    <Row className='mx-1 mx-sm-0 justify-content-center'>
                         <BgForm
                             xs='12'
                             sm='12'
@@ -158,6 +160,7 @@ export default function Entrar() {
                             className='mb-5 p-5 p-sm-5'
                         >
                             <h2 className='mb-4 text-uppercase'>
+                                <DoorOpen className='bi me-2' />
                                 Entrar na conta
                             </h2>
                             {mostrarAlertaErro422 && (
@@ -251,7 +254,7 @@ export default function Entrar() {
                                     type='submit'
                                     disabled={enviadandoDados}
                                     size='lg'
-                                    className='d-flex align-items-center justify-content-center'
+                                    className='d-flex align-items-center justify-content-center mt-4'
                                 >
                                     {enviadandoDados && (
                                         <Carregando
