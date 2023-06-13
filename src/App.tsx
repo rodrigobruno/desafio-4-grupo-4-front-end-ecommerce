@@ -8,10 +8,11 @@ import { AxiosError } from 'axios';
 
 import { LoginResponse } from 'types';
 import AppRoutes from 'Router';
+import CarregandoPagina from 'componentes/CarregandoPagina';
 
 export default function App() {
     const dispatch = useAppDispatch();
-    const { _id, accessToken } = useAppSelector((state) => state);
+    const { _id, accessToken, carregando } = useAppSelector((state) => state);
 
     useEffect(() => {
         if (accessToken) {
@@ -20,7 +21,6 @@ export default function App() {
             ] = `Bearer ${accessToken}`;
 
             if (!_id) {
-                // CHAMADA PRA API
                 (async () => {
                     try {
                         const responseData: LoginResponse = await api.get(
@@ -54,5 +54,10 @@ export default function App() {
         }
     }, [_id, accessToken, dispatch]);
 
-    return <AppRoutes />;
+    return (
+        <>
+            <CarregandoPagina visibilidade={carregando} />
+            <AppRoutes />
+        </>
+    );
 }
