@@ -143,7 +143,7 @@ export default function Entrar() {
                 <Container className='py-5'>
                     <Row>
                         <Col>
-                            <h1 className='mb-4 text-center text-uppercase'>
+                            <h1 className='mb-5 text-center text-uppercase'>
                                 <PersonVcard className='bi me-2' />
                                 Identificação
                             </h1>

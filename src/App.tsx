@@ -24,7 +24,7 @@ export default function App() {
                 (async () => {
                     try {
                         const responseData: LoginResponse = await api.get(
-                            '/auth/user/',
+                            '/auth/user',
                             {
                                 headers: {
                                     Prefer: 'code=200, example=200',

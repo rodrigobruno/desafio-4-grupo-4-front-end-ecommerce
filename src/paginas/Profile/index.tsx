@@ -1,7 +1,13 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 import { Form, Alert, Col, Container, Row } from 'react-bootstrap';
+import {
+    CheckCircleFill,
+    PencilSquare,
+    PersonCircle,
+} from 'react-bootstrap-icons';
 
 import { api } from 'lib/axios';
 import { AxiosError } from 'axios';
@@ -11,12 +17,6 @@ import { CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
-import {
-    CheckCircleFill,
-    PencilSquare,
-    PersonCircle,
-} from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
 
 export default function Profile() {
     const id = useAppSelector((state) => state._id);

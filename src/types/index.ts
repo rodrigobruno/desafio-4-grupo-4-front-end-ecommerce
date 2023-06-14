@@ -1,15 +1,37 @@
-// export type CardProdutoProps = {
-//     category?: string;
-//     description?: string;
-//     id?: number;
-//     image: string;
-//     price: number;
-//     rating?: {
-//         rate: number;
-//         count: number;
-//     };
-//     title: string;
-// };
+export type CardPedidosProps = {
+    _id: string;
+    //userId: string;
+    //products: [{ productId: string; quantity: number; _id: string }];
+    amount: number;
+    //address: string;
+    status: string;
+    createdAt: string;
+    //updatedAt: string;
+    //__v: number;
+};
+
+export type PedidoProps = {
+    _id: string;
+    userId: string;
+    products: [
+        {
+            _id: number;
+            title: string;
+            //desc: string;
+            img: string;
+            //categories: [string];
+            price: number;
+            quantity: number;
+            //_id: string
+        }
+    ];
+    amount: number;
+    address: string;
+    status: string;
+    createdAt: string;
+    //updatedAt: string;
+    //__v: number;
+};
 
 export type CardProdutoProps = {
     _id?: number;

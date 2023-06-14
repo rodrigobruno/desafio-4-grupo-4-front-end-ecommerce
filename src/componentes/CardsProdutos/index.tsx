@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from 'lib/axios';
 import { CardProdutoProps } from 'types/';
-import CardProduto from 'componentes/CardProduto';
+import CardProduto from 'componentes/CardsProdutos/CardProduto';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import BotaoMais from 'componentes/BotaoMais';
 import Carregando from 'componentes/Carregando';

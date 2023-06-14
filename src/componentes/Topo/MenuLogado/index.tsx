@@ -9,7 +9,7 @@ export default function MenuLogado() {
 
     return (
         <div className='d-flex flex-lg-row flex-column gap-3'>
-            <NavLink to='/pedido' className={'nav-link'}>
+            <NavLink to='/pedidos' className={'nav-link'}>
                 Seus pedidos
             </NavLink>
 

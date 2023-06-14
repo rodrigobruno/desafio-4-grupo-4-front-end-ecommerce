@@ -58,7 +58,7 @@ export default function AppRoutes() {
                     }
                 />
                 <Route
-                    path='pedido'
+                    path='pedidos/:id'
                     element={
                         <PrivateRoute>
                             <Pedido />
