@@ -15,14 +15,13 @@ export type PedidoProps = {
     userId: string;
     products: [
         {
-            _id: number;
+            _id: string;
             title: string;
             //desc: string;
             img: string;
             //categories: [string];
             price: number;
             quantity: number;
-            //_id: string
         }
     ];
     amount: number;

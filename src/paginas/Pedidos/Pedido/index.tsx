@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from 'lib/axios';
 import { PedidoProps } from 'types';
-import NaoEncontrada from 'paginas/NaoEncontrada';
 import { Col, Container, Row } from 'react-bootstrap';
-import { CardText } from 'react-bootstrap-icons';
-import Carregando from 'componentes/Carregando';
+import { Box2Heart, CardText } from 'react-bootstrap-icons';
+import NaoEncontrada from 'paginas/NaoEncontrada';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
-import { dataFormatadaParaDDMMYY, precoFormatadoParaReal } from 'utils';
+import CarregandoPagina from 'componentes/CarregandoPagina';
+import CardDadosDoPedido from 'componentes/CardDadosDoPedido';
+import CardProdutosDoPedido from 'componentes/CardProdutosDoPedido';
 
 export default function Pedido() {
     const { id } = useParams();
@@ -28,26 +29,41 @@ export default function Pedido() {
                         //Prefer: 'code=204',
                     },
                 });
-                if (
-                    resposta.status === 204 ||
-                    Object.keys(resposta.data).length === 0 ||
-                    id === resposta.data.userId
-                ) {
-                    setApiResposta204(true);
-                } else {
+
+                if (resposta.status === 200) {
                     setPedido(resposta.data);
                 }
+
+                if (resposta.status === 204) {
+                    setApiResposta204(true);
+                }
             } catch (error) {
+                console.log(ocorreuErroNaRespostaApi);
+
                 setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);
             }
         };
         pegarPedidos();
-    }, [id]);
+    }, [id, ocorreuErroNaRespostaApi]);
 
-    if (apiResposta204 || !pedido) {
-        return <NaoEncontrada />;
+    if (ocorreuErroNaRespostaApi) {
+        return (
+            <>
+                <CarregandoPagina visibilidade={estaCarregando} />
+                <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
+            </>
+        );
+    }
+
+    if (apiResposta204 || !pedido || Object.keys(pedido).length === 0) {
+        return (
+            <>
+                <CarregandoPagina visibilidade={estaCarregando} />
+                <NaoEncontrada />
+            </>
+        );
     }
 
     return (
@@ -59,62 +75,56 @@ export default function Pedido() {
                     content='Acompanhe seu pedido de board game na nossa loja. Entrega rápida, status atualizado e suporte dedicado para garantir sua satisfação.'
                 />
             </Helmet>
+            <CarregandoPagina visibilidade={estaCarregando} />
             <Container>
                 <Row>
                     <Col>
-                        <h1 className='mb-4 text-uppercase'>
-                            <CardText className='bi me-2' />
-                            Pedido {id}
+                        <h1 className='mb-4 text-uppercase text-break'>
+                            Pedido {pedido?._id}
                         </h1>
                     </Col>
                 </Row>
 
                 <Row>
-                    <Col className='mb-5'>
-                        {estaCarregando && !ocorreuErroNaRespostaApi && (
-                            <div className='w-100 d-flex justify-content-center'>
-                                <Carregando
-                                    largura={2}
-                                    altura={2}
-                                    cor='var(--cor-preta-1)'
-                                />
-                            </div>
-                        )}
-                        {ocorreuErroNaRespostaApi && (
-                            <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
-                        )}
-                        {!ocorreuErroNaRespostaApi && (
-                            <>
-                                <div>{pedido.status}</div>
-                                <div>
-                                    {dataFormatadaParaDDMMYY(pedido.createdAt)}
-                                </div>
-                                <div>{pedido.address}</div>
-                                <div>
-                                    {precoFormatadoParaReal(pedido.amount)}
-                                </div>
-                                {pedido.products.map((produto) => {
-                                    return (
-                                        <>
-                                            <div>{produto.title}</div>
-                                            <div>{produto.quantity}</div>
-                                            <div>
-                                                <img
-                                                    src={produto.img}
-                                                    alt={produto.title}
-                                                />
-                                            </div>
-                                            <div>
-                                                {precoFormatadoParaReal(
-                                                    produto.price
-                                                )}
-                                            </div>
-                                        </>
-                                    );
-                                })}
-                            </>
-                        )}
+                    <Col>
+                        <h2 className='mt-5 mb-3 text-uppercase'>
+                            <CardText className='bi me-2' />
+                            Dados do pedido
+                        </h2>
                     </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <CardDadosDoPedido
+                            status={pedido.status}
+                            data={pedido.createdAt}
+                            endereco={pedido.address}
+                            total={pedido.amount}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <h2 className='mt-5 mb-3 text-uppercase'>
+                            <Box2Heart className='bi me-2' />
+                            Produtos adquiridos
+                        </h2>
+                    </Col>
+                </Row>
+                <Row className='row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3'>
+                    {pedido.products.map((produto) => {
+                        return (
+                            <Col className='mb-4' key={produto._id}>
+                                <CardProdutosDoPedido
+                                    id={produto._id}
+                                    imagem={produto.img}
+                                    nome={produto.title}
+                                    quantidade={produto.quantity}
+                                    preco={produto.price}
+                                />
+                            </Col>
+                        );
+                    })}
                 </Row>
             </Container>
         </>

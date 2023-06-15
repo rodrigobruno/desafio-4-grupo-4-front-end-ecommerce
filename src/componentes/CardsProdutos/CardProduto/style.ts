@@ -1,6 +1,14 @@
 import { Button, Card } from 'react-bootstrap';
 import styled from 'styled-components';
 
+export const CardImagem = styled(Card.Img)`
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    padding: 2.625rem 1.5rem 3rem 1.5rem;
+    opacity: 0.8;
+    transition: all 0.4s ease-in-out;
+`;
+
 export const CardContainer = styled(Card)`
     background-image: linear-gradient(
         to bottom,
@@ -13,21 +21,10 @@ export const CardContainer = styled(Card)`
 
     &:hover {
         background-position: 0 100%;
-        transition: all 0.4s ease-in-out;
 
-        & .card-img-top {
+        & ${CardImagem} {
             opacity: 1;
         }
-    }
-`;
-
-export const CardImagem = styled(Card.Img)`
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    padding: 2.625rem 1.5rem 3rem 1.5rem;
-    opacity: 0.8;
-    &:hover {
-        opacity: 1;
     }
 `;
 
