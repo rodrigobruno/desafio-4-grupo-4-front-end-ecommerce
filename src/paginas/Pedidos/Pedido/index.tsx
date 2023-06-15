@@ -8,7 +8,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { CardText } from 'react-bootstrap-icons';
 import Carregando from 'componentes/Carregando';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
-import { precoFormatadoParaReal } from 'utils';
+import { dataFormatadaParaDDMMYY, precoFormatadoParaReal } from 'utils';
 
 export default function Pedido() {
     const { id } = useParams();
@@ -86,7 +86,9 @@ export default function Pedido() {
                         {!ocorreuErroNaRespostaApi && (
                             <>
                                 <div>{pedido.status}</div>
-                                <div>{pedido.createdAt}</div>
+                                <div>
+                                    {dataFormatadaParaDDMMYY(pedido.createdAt)}
+                                </div>
                                 <div>{pedido.address}</div>
                                 <div>
                                     {precoFormatadoParaReal(pedido.amount)}
