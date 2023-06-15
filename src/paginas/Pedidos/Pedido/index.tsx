@@ -46,7 +46,7 @@ export default function Pedido() {
         pegarPedidos();
     }, [id]);
 
-    if (apiResposta204) {
+    if (apiResposta204 || !pedido) {
         return <NaoEncontrada />;
     }
 
@@ -85,19 +85,23 @@ export default function Pedido() {
                         )}
                         {!ocorreuErroNaRespostaApi && (
                             <>
-                                <div>{pedido?.status}</div>
-                                <div>{pedido?.createdAt}</div>
-                                <div>{pedido?.address}</div>
-                                {/* <div>
-                                    {precoFormatadoParaReal(pedido?.amount)}
-                                </div> */}
-                                {pedido?.products.map((produto) => {
+                                <div>{pedido.status}</div>
+                                <div>{pedido.createdAt}</div>
+                                <div>{pedido.address}</div>
+                                <div>
+                                    {precoFormatadoParaReal(pedido.amount)}
+                                </div>
+                                {pedido.products.map((produto) => {
                                     return (
                                         <>
                                             <div>{produto.title}</div>
                                             <div>{produto.quantity}</div>
                                             <div>{produto.img}</div>
-                                            {/* <div>{precoFormatadoParaReal(pedido?.price)}</div> */}
+                                            <div>
+                                                {precoFormatadoParaReal(
+                                                    produto.price
+                                                )}
+                                            </div>
                                         </>
                                     );
                                 })}

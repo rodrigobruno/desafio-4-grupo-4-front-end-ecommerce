@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from './hooks';
-import {
-    setUsuario,
-    carregado,
-    iniciandoCarregamento,
-} from './store/modules/usuario';
+import { setUsuario, carregado } from './store/modules/usuario';
 
 import { api } from './lib/axios';
 import { AxiosError } from 'axios';
@@ -25,7 +21,6 @@ export default function App() {
             ] = `Bearer ${accessToken}`;
 
             if (!_id) {
-                dispatch(iniciandoCarregamento());
                 (async () => {
                     try {
                         const responseData: LoginResponse = await api.get(
@@ -56,6 +51,8 @@ export default function App() {
                     }
                 })();
             }
+        } else {
+            dispatch(carregado());
         }
     }, [_id, accessToken, dispatch]);
 
