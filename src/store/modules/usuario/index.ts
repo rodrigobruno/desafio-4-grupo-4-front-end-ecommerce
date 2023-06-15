@@ -13,7 +13,7 @@ const initialState: UsuarioState = {
     updatedAt: null,
     __v: null,
     accessToken: token,
-    carregando: true,
+    carregando: false,
 };
 
 export const authSlice = createSlice({
@@ -48,11 +48,15 @@ export const authSlice = createSlice({
             state.isAdmin = action.payload.isAdmin;
             //state.accessToken = action.payload.accessToken;
         },
+        iniciandoCarregamento: (state) => {
+            state.carregando = true;
+        },
         carregado: (state) => {
             state.carregando = false;
         },
     },
 });
 
-export const { login, logout, setUsuario, carregado } = authSlice.actions;
+export const { login, logout, setUsuario, iniciandoCarregamento, carregado } =
+    authSlice.actions;
 export default authSlice.reducer;

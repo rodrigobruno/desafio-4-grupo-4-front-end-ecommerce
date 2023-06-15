@@ -8,10 +8,10 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { CardText } from 'react-bootstrap-icons';
 import Carregando from 'componentes/Carregando';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import { precoFormatadoParaReal } from 'utils';
 
 export default function Pedido() {
     const { id } = useParams();
-
     const [pedido, setPedido] = useState<PedidoProps>();
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
@@ -23,12 +23,16 @@ export default function Pedido() {
             try {
                 const resposta = await api.get(`/orders/${id}`, {
                     headers: {
-                        //Prefer: 'code=200, example=200 - Pedido',
-                        Prefer: 'code=200, example=200 - Pedido vazio',
+                        Prefer: 'code=200, example=200 - Pedido',
+                        //Prefer: 'code=200, example=200 - Pedido vazio',
                         //Prefer: 'code=204',
                     },
                 });
-                if (resposta.status === 204) {
+                if (
+                    resposta.status === 204 ||
+                    Object.keys(resposta.data).length === 0 ||
+                    id === resposta.data.userId
+                ) {
                     setApiResposta204(true);
                 } else {
                     setPedido(resposta.data);
@@ -42,7 +46,7 @@ export default function Pedido() {
         pegarPedidos();
     }, [id]);
 
-    if (apiResposta204 || !pedido) {
+    if (apiResposta204) {
         return <NaoEncontrada />;
     }
 
@@ -82,7 +86,21 @@ export default function Pedido() {
                         {!ocorreuErroNaRespostaApi && (
                             <>
                                 <div>{pedido?.status}</div>
-                                <div>{pedido?.status}</div>
+                                <div>{pedido?.createdAt}</div>
+                                <div>{pedido?.address}</div>
+                                {/* <div>
+                                    {precoFormatadoParaReal(pedido?.amount)}
+                                </div> */}
+                                {pedido?.products.map((produto) => {
+                                    return (
+                                        <>
+                                            <div>{produto.title}</div>
+                                            <div>{produto.quantity}</div>
+                                            <div>{produto.img}</div>
+                                            {/* <div>{precoFormatadoParaReal(pedido?.price)}</div> */}
+                                        </>
+                                    );
+                                })}
                             </>
                         )}
                     </Col>
