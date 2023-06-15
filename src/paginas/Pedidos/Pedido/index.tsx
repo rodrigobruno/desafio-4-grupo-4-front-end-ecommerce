@@ -98,7 +98,12 @@ export default function Pedido() {
                                         <>
                                             <div>{produto.title}</div>
                                             <div>{produto.quantity}</div>
-                                            <div>{produto.img}</div>
+                                            <div>
+                                                <img
+                                                    src={produto.img}
+                                                    alt={produto.title}
+                                                />
+                                            </div>
                                             <div>
                                                 {precoFormatadoParaReal(
                                                     produto.price
