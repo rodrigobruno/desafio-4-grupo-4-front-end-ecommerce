@@ -6,8 +6,8 @@ import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { CardPedidosProps } from 'types';
 import CardPedido from 'componentes/CardPedido';
-import Carregando from 'componentes/Carregando';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import CarregandoPagina from 'componentes/CarregandoPagina';
 
 export default function Pedidos() {
     const nome = useAppSelector((state) => state.username);
@@ -45,6 +45,9 @@ export default function Pedidos() {
                     content='Acompanhe seus pedidos de board games na nossa loja. Entrega rápida, rastreamento online e suporte dedicado para garantir sua satisfação.'
                 />
             </Helmet>
+
+            <CarregandoPagina visibilidade={estaCarregando} />
+
             <Container>
                 {!ocorreuErroNaRespostaApi && (
                     <>
@@ -67,18 +70,10 @@ export default function Pedidos() {
                 )}
                 <Row>
                     <Col className='mb-5'>
-                        {estaCarregando && !ocorreuErroNaRespostaApi && (
-                            <div className='w-100 d-flex justify-content-center'>
-                                <Carregando
-                                    largura={2}
-                                    altura={2}
-                                    cor='var(--cor-preta-1)'
-                                />
-                            </div>
-                        )}
                         {ocorreuErroNaRespostaApi && (
                             <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                         )}
+
                         {!ocorreuErroNaRespostaApi && (
                             <Stack gap={4}>
                                 {pedidos.map((produto) => (

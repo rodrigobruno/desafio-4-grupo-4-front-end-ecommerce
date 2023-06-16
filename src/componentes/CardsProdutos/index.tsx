@@ -4,7 +4,7 @@ import { CardProdutoProps } from 'types/';
 import CardProduto from 'componentes/CardsProdutos/CardProduto';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import BotaoMais from 'componentes/BotaoMais';
-import Carregando from 'componentes/Carregando';
+import CarregandoPagina from 'componentes/CarregandoPagina';
 
 type Props = {
     limite?: boolean;
@@ -48,17 +48,9 @@ export default function CardsProdutos({
 
     return (
         <>
-            <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 g-4'>
-                {estaCarregando && !ocorreuErroNaRespostaApi && (
-                    <div className='w-100 d-flex justify-content-center'>
-                        <Carregando
-                            largura={2}
-                            altura={2}
-                            cor='var(--cor-preta-1)'
-                        />
-                    </div>
-                )}
+            <CarregandoPagina visibilidade={estaCarregando} />
 
+            <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3 g-4'>
                 {ocorreuErroNaRespostaApi && (
                     <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                 )}

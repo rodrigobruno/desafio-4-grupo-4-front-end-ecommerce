@@ -75,7 +75,9 @@ export default function Pedido() {
                     content='Acompanhe seu pedido de board game na nossa loja. Entrega rápida, status atualizado e suporte dedicado para garantir sua satisfação.'
                 />
             </Helmet>
+
             <CarregandoPagina visibilidade={estaCarregando} />
+
             <Container>
                 <Row>
                     <Col>

@@ -17,8 +17,11 @@ import { CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
+import CarregandoPagina from 'componentes/CarregandoPagina';
 
 export default function Profile() {
+    const [estaCarregando, setEstaCarregando] = useState(true);
+
     const id = useAppSelector((state) => state._id);
     const nome = useAppSelector((state) => state.username);
     const email = useAppSelector((state) => state.email);
@@ -43,6 +46,7 @@ export default function Profile() {
             username: nome || '',
             email: email || '',
         });
+        setEstaCarregando(false);
     }, [nome, email]);
 
     const lidarComAsMudancasNosCampos = (
@@ -144,6 +148,8 @@ export default function Profile() {
                     content='Faça login na nossa loja de board games e tenha acesso a vantagens exclusivas, histórico de compras e uma experiência personalizada. Junte-se a nós agora!'
                 />
             </Helmet>
+
+            <CarregandoPagina visibilidade={estaCarregando} />
 
             <Container>
                 <Row>

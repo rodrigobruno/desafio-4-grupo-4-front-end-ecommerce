@@ -1,11 +1,14 @@
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export const ThumbnailProduto = styled.img`
+export const ThumbnailDoProduto = styled.img`
     width: 100px;
     aspect-ratio: 1 / 1;
     object-fit: contain;
     opacity: 0.8;
     transition: all 0.4s ease-in-out;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
 `;
 
 export const Container = styled.div`
@@ -29,13 +32,18 @@ export const Container = styled.div`
     &:hover {
         background-position: 0 100%;
 
-        & ${ThumbnailProduto} {
+        & ${ThumbnailDoProduto} {
             opacity: 1;
         }
     }
+`;
 
-    /* @media (min-width: 992px) {
-        grid-auto-flow: column;
-        grid-template-columns: 2fr repeat(3, 1fr) auto;
-    } */
+export const InformacoesDoProduto = styled.div`
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+`;
+
+export const LinkProduto = styled(Button)`
+    grid-row: 2 / 3;
+    grid-column: 1 / 3;
 `;

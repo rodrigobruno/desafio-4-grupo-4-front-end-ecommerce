@@ -1,5 +1,11 @@
-import { Container, ThumbnailProduto } from './style';
+import { LinkContainer } from 'react-router-bootstrap';
 import { precoFormatadoParaReal } from 'utils';
+import {
+    Container,
+    ThumbnailDoProduto,
+    LinkProduto,
+    InformacoesDoProduto,
+} from './style';
 
 interface Props {
     id: string;
@@ -21,14 +27,17 @@ export default function CardProdutosDoPedido({
 
     return (
         <Container>
-            <ThumbnailProduto src={imagem} alt={nome} className='rounded' />
-            <div>
-                <h3 className='mb-3'>{nome}</h3>
+            <ThumbnailDoProduto src={imagem} alt={nome} className='rounded' />
+            <InformacoesDoProduto>
+                <h3 className='mb-3 text-uppercase'>{nome}</h3>
                 <p className='mb-0'>
                     {quantidade} x {precoEmReais}
                 </p>
                 <p className='mb-0'>Total {total}</p>
-            </div>
+            </InformacoesDoProduto>
+            <LinkContainer to={`/produto/${id}`}>
+                <LinkProduto variant='secondary'>Ver produto</LinkProduto>
+            </LinkContainer>
         </Container>
     );
 }
