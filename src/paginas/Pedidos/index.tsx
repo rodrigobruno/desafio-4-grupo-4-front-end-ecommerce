@@ -21,7 +21,7 @@ export default function Pedidos() {
     useEffect(() => {
         const pegarPedidos = async () => {
             try {
-                const resposta = await api.get(`/orders/find/${id}`, {
+                const resposta = await api.get(`/orders/${id}`, {
                     headers: {
                         Prefer: 'code=200, example=200 - 10 produtos',
                     },

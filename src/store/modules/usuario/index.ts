@@ -7,7 +7,7 @@ const token = localStorage.getItem('@autenticacao-react:token') || null;
 const initialState: UsuarioState = {
     _id: null,
     username: null,
-    email: null,
+    emails: null,
     isAdmin: null,
     createdAt: null,
     updatedAt: null,
@@ -28,7 +28,7 @@ export const authSlice = createSlice({
 
             state._id = action.payload._id;
             state.username = action.payload.username;
-            state.email = action.payload.email;
+            state.emails = action.payload.emails;
             state.isAdmin = action.payload.isAdmin;
             state.accessToken = action.payload.accessToken;
         },
@@ -37,14 +37,14 @@ export const authSlice = createSlice({
 
             state._id = null;
             state.username = null;
-            state.email = null;
+            state.emails = null;
             state.isAdmin = null;
             state.accessToken = null;
         },
         setUsuario: (state, action: PayloadAction<Usuario>) => {
             state._id = action.payload._id;
             state.username = action.payload.username;
-            state.email = action.payload.email;
+            state.emails = action.payload.emails;
             state.isAdmin = action.payload.isAdmin;
             //state.accessToken = action.payload.accessToken;
         },

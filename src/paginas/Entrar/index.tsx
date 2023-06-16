@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 
 import { useAppDispatch } from 'hooks';
 import { login } from 'store/modules/usuario';
-import { LoginResponse, CamposFormUsuario, ErrosFormUsuario } from 'types';
+import { LoginResponse, CamposFormLogin, ErrosFormLogin } from 'types';
 
 import { Background, BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
@@ -18,24 +18,22 @@ import { DoorOpen, PersonVcard } from 'react-bootstrap-icons';
 export default function Entrar() {
     const dispatch = useAppDispatch();
 
-    const [form, setForm] = useState<CamposFormUsuario>({
+    const [form, setForm] = useState<CamposFormLogin>({
         username: '',
-        email: '',
         password: '',
     });
 
-    const [erros, setErros] = useState<ErrosFormUsuario>({
+    const [erros, setErros] = useState<ErrosFormLogin>({
         username: null,
-        email: null,
         password: null,
     });
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
-    const [mostrarAlertaErro422, setMostrarAlertaErro422] = useState(false);
+    const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
     const [mostrarAlertaErro401, setMostrarAlertaErro401] = useState(false);
 
     const lidarComAsMudancasNosCampos = (
-        campo: keyof ErrosFormUsuario,
+        campo: keyof ErrosFormLogin,
         valor: string
     ) => {
         setForm({
@@ -52,22 +50,13 @@ export default function Entrar() {
     };
 
     const validarForm = () => {
-        const { username, email, password }: CamposFormUsuario = form;
-        const novoErros = {} as CamposFormUsuario;
-
-        const ehEmail = (email: string) =>
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+        const { username, password }: CamposFormLogin = form;
+        const novoErros = {} as CamposFormLogin;
 
         if (!username || username === '') {
             novoErros.username = 'Preencha o usuário';
         } else if (username.length < 3) {
             novoErros.username = 'O usuário deve ter mais do que 3 caracteres';
-        }
-
-        if (!email || email === '') {
-            novoErros.email = 'Preencha o e-mail';
-        } else if (!ehEmail(email)) {
-            novoErros.email = 'E-mail inválido';
         }
 
         if (!password || password === '') {
@@ -80,7 +69,7 @@ export default function Entrar() {
     const lidarComEnvio = async (e: FormEvent) => {
         e.preventDefault();
 
-        setMostrarAlertaErro422(false);
+        setMostrarAlertaErro404(false);
         setMostrarAlertaErro401(false);
         setEnviadandoDados(false);
 
@@ -97,16 +86,15 @@ export default function Entrar() {
                     '/auth/login',
                     {
                         username: form.username,
-                        email: form.email,
                         password: form.password,
                     },
                     {
                         headers: {
-                            Prefer: 'code=200, example=Usuário admin logado',
+                            //Prefer: 'code=200, example=Usuário admin logado',
                             //Prefer: 'code=200, example=Usuário logado',
                             //Prefer: 'code=401',
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
+                            //'Content-Type': 'application/json',
+                            //Accept: 'application/json',
                         },
                     }
                 );
@@ -117,8 +105,8 @@ export default function Entrar() {
                     window.scrollTo(0, 0);
                     if (err.response.status === 401)
                         return setMostrarAlertaErro401(true);
-                    if (err.response.status === 422)
-                        return setMostrarAlertaErro422(true);
+                    if (err.response.status === 404)
+                        return setMostrarAlertaErro404(true);
                 } else if (err.request) {
                     console.log(err.request);
                 } else {
@@ -163,7 +151,7 @@ export default function Entrar() {
                                 <DoorOpen className='bi me-2' />
                                 Entrar na conta
                             </h2>
-                            {mostrarAlertaErro422 && (
+                            {mostrarAlertaErro404 && (
                                 <Alert key='warning' variant='warning'>
                                     Não foi possível se conectar, tente na
                                     próxima rodada.
@@ -199,30 +187,6 @@ export default function Entrar() {
                                     />
                                     <Form.Control.Feedback type='invalid'>
                                         {erros.username}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                <Form.Group
-                                    className='mb-3'
-                                    controlId='formLoginEmail'
-                                >
-                                    <Form.Label>E-mail</Form.Label>
-                                    <Form.Control
-                                        size='lg'
-                                        type='email'
-                                        placeholder='Digite o seu email'
-                                        value={form.email}
-                                        onChange={(e) =>
-                                            lidarComAsMudancasNosCampos(
-                                                'email',
-                                                e.target.value
-                                            )
-                                        }
-                                        isInvalid={!!erros.email}
-                                        required
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
-                                        {erros.email}
                                     </Form.Control.Feedback>
                                 </Form.Group>
 

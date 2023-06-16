@@ -24,16 +24,16 @@ export default function Profile() {
 
     const id = useAppSelector((state) => state._id);
     const nome = useAppSelector((state) => state.username);
-    const email = useAppSelector((state) => state.email);
+    const emails = useAppSelector((state) => state.emails);
 
     const [form, setForm] = useState<CamposFormUsuario>({
         username: nome || '',
-        email: email || '',
+        emails: emails || '',
     });
 
     const [erros, setErros] = useState<ErrosFormUsuario>({
         username: null,
-        email: null,
+        emails: null,
     });
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
@@ -44,10 +44,10 @@ export default function Profile() {
     useEffect(() => {
         setForm({
             username: nome || '',
-            email: email || '',
+            emails: emails || '',
         });
         setEstaCarregando(false);
-    }, [nome, email]);
+    }, [nome, emails]);
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof ErrosFormUsuario,
@@ -67,11 +67,11 @@ export default function Profile() {
     };
 
     const validarForm = () => {
-        const { username, email }: CamposFormUsuario = form;
+        const { username, emails }: CamposFormUsuario = form;
         const novoErros = {} as CamposFormUsuario;
 
         const ehEmail = (email: string) =>
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emails);
 
         if (!username || username === '') {
             novoErros.username = 'Preencha o nome completo';
@@ -79,10 +79,10 @@ export default function Profile() {
             novoErros.username = 'O nome deve ter mais do que 3 caracteres';
         }
 
-        if (!email || email === '') {
-            novoErros.email = 'Preencha o e-mail';
-        } else if (!ehEmail(email)) {
-            novoErros.email = 'E-mail inválido';
+        if (!emails || emails === '') {
+            novoErros.emails = 'Preencha o e-mail';
+        } else if (!ehEmail(emails)) {
+            novoErros.emails = 'E-mail inválido';
         }
 
         return novoErros;
@@ -108,7 +108,7 @@ export default function Profile() {
                     `/users/${id}`,
                     {
                         username: form.username,
-                        email: form.email,
+                        emails: form.emails,
                     },
                     {
                         headers: {
@@ -226,18 +226,18 @@ export default function Profile() {
                                     size='lg'
                                     type='email'
                                     placeholder='Digite o seu email'
-                                    value={form.email}
+                                    value={form.emails}
                                     onChange={(e) =>
                                         lidarComAsMudancasNosCampos(
-                                            'email',
+                                            'emails',
                                             e.target.value
                                         )
                                     }
-                                    isInvalid={!!erros.email}
+                                    isInvalid={!!erros.emails}
                                     required
                                 />
                                 <Form.Control.Feedback type='invalid'>
-                                    {erros.email}
+                                    {erros.emails}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
