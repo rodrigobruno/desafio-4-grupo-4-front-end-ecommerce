@@ -20,7 +20,7 @@ import Profile from 'paginas/Profile';
 import PaginaAdmin from 'componentes/PaginaAdmin';
 import Admin from 'paginas/Admin';
 import AdminPedido from 'paginas/Admin/Pedido';
-import AdminProdutos from 'paginas/Admin/Produtos/CriarProduto';
+import AdminProdutos from 'paginas/Admin/Produtos';
 import AdminCriarProduto from 'paginas/Admin/Produtos/CriarProduto';
 import AdminEditarProduto from 'paginas/Admin/Produtos/EditarProduto';
 import AdminCategorias from 'paginas/Admin/Categorias';
@@ -89,25 +89,31 @@ export default function AppRoutes() {
 
             <Route path='/admin' element={<PaginaAdmin />}>
                 <Route index element={<Admin />} />
-                <Route path='pedido' element={<AdminPedido />} />
+                <Route path='pedidos' element={<AdminPedido />} />
 
                 <Route path='produtos' element={<AdminProdutos />} />
-                <Route path='novo-produto' element={<AdminCriarProduto />} />
-                <Route path='editar-produto' element={<AdminEditarProduto />} />
+                <Route path='produtos/criar' element={<AdminCriarProduto />} />
+                <Route
+                    path='produtos/editar'
+                    element={<AdminEditarProduto />}
+                />
 
                 <Route path='categorias' element={<AdminCategorias />} />
                 <Route
-                    path='nova-categoria'
+                    path='categorias/criar'
                     element={<AdminCriarCategoria />}
                 />
                 <Route
-                    path='editar-categoria'
+                    path='categorias/editar'
                     element={<AdminEditarCategoria />}
                 />
 
                 <Route path='usuarios' element={<AdminUsuarios />} />
-                <Route path='nova-usuario' element={<AdminCriarUsurario />} />
-                <Route path='editar-usuario' element={<AdminEditarUsuario />} />
+                <Route path='usuarios/criar' element={<AdminCriarUsurario />} />
+                <Route
+                    path='usuarios/editar'
+                    element={<AdminEditarUsuario />}
+                />
             </Route>
         </Routes>
     );

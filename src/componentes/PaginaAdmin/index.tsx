@@ -1,7 +1,8 @@
-import { Container } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks';
+import { Container } from './style';
+import MainAdmin from 'componentes/Admin/Main';
+import SidebarAdmin from 'componentes/Admin/Sidebar';
 
 export default function PaginaAdmin() {
     const ehAdmin = useAppSelector((state) => state?.isAdmin === true);
@@ -11,10 +12,9 @@ export default function PaginaAdmin() {
     }
 
     return (
-        <main>
-            <Container fluid='xl' className='py-5'>
-                <Outlet />
-            </Container>
-        </main>
+        <Container>
+            <SidebarAdmin />
+            <MainAdmin />
+        </Container>
     );
 }

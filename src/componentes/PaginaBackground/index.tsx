@@ -6,7 +6,7 @@ export default function PaginaBackground() {
     return (
         <>
             <Topo />
-            <main>
+            <main className='main'>
                 <Outlet />
             </main>
             <Rodape />

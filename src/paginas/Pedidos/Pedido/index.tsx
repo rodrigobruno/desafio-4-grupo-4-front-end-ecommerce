@@ -22,7 +22,7 @@ export default function Pedido() {
     useEffect(() => {
         const pegarPedidos = async () => {
             try {
-                const resposta = await api.get(`/orders/${id}`, {
+                const resposta = await api.get(`/orders/user/${id}`, {
                     headers: {
                         Prefer: 'code=200, example=200 - Pedido',
                         //Prefer: 'code=200, example=200 - Pedido vazio',

@@ -7,7 +7,7 @@ export default function PaginaPadrao() {
     return (
         <>
             <Topo />
-            <main>
+            <main className='main'>
                 <Container fluid='xl' className='py-5'>
                     <Outlet />
                 </Container>

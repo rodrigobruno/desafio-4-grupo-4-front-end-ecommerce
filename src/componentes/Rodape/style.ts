@@ -8,11 +8,7 @@ export const Footer = styled.footer`
     & a {
         color: var(--cor-preta-6);
         text-decoration: none;
-        transition: color 0.15s ease-in-out;
-
-        &:hover {
-            color: var(--cor-roxa-4);
-        }
+        transition: all 0.15s ease-in-out;
     }
 `;
 
@@ -32,10 +28,13 @@ export const NavLinkRodape = styled(NavLink)`
     margin-bottom: 2px;
     text-decoration: none;
     border-bottom: 3px solid transparent;
-    font-weight: 600;
-    transition: border 0.15s ease-in-out;
+    font-weight: var(--font-weight-bold);
+
+    &:hover {
+        border-bottom: 3px solid var(--cor-preta-6);
+    }
 
     &.active {
-        border-bottom: 3px solid var(--cor-roxa-4);
+        border-bottom: 3px solid var(--cor-preta-6);
     }
 `;

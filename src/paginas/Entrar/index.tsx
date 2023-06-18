@@ -90,7 +90,7 @@ export default function Entrar() {
                     },
                     {
                         headers: {
-                            //Prefer: 'code=200, example=Usuário admin logado',
+                            Prefer: 'code=200, example=Usuário admin logado',
                             //Prefer: 'code=200, example=Usuário logado',
                             //Prefer: 'code=401',
                             //'Content-Type': 'application/json',
