@@ -11,7 +11,11 @@ export default function ErroAtualizarPagina({ classes }: Props) {
 
     return (
         <div className={classes}>
-            <Alert key='erro-api-inicio' variant='warning'>
+            <Alert
+                key='erro-api-inicio'
+                variant='warning'
+                className='w-100 text-center'
+            >
                 <span className='me-2'>Algo deu errado</span>
                 <Button
                     className='d-inline-flex align-items-center'
