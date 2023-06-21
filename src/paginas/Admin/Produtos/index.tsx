@@ -54,26 +54,28 @@ export default function AdminProdutos() {
 
             <Row>
                 <Col>
-                    <Stack gap={4}>
-                        {produtos.map((produto) => (
-                            <CardProdutoAdmin
-                                key={produto._id}
-                                numero={produto._id}
-                                imagem={produto.img}
-                                nome={produto.title}
-                                preco={produto.price}
-                                pegarProdutos={pegarProdutos}
-                            />
-                        ))}
-                        {produtos.length === 0 && !ocorreuErroNaRespostaApi && (
-                            <p>
-                                Nenhum produto cadastrado.{' '}
-                                <Link to='/admin/produtos/criar'>
-                                    Criar novo produto
-                                </Link>
-                            </p>
-                        )}
-                    </Stack>
+                    {!ocorreuErroNaRespostaApi && (
+                        <Stack gap={4}>
+                            {produtos.map((produto) => (
+                                <CardProdutoAdmin
+                                    key={produto._id}
+                                    numero={produto._id}
+                                    imagem={produto.img}
+                                    nome={produto.title}
+                                    preco={produto.price}
+                                    pegarProdutos={pegarProdutos}
+                                />
+                            ))}
+                            {produtos.length === 0 && (
+                                <p>
+                                    Nenhum produto cadastrado.{' '}
+                                    <Link to='/admin/produtos/criar'>
+                                        Criar novo produto
+                                    </Link>
+                                </p>
+                            )}
+                        </Stack>
+                    )}
                 </Col>
             </Row>
 

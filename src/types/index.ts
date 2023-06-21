@@ -43,11 +43,10 @@ export type CardProdutoProps = {
 
 export interface UsuarioState {
     _id: number | null;
+    nameid: string | null;
     username: string | null;
     emails: string | null;
     isAdmin: boolean | null;
-    createdAt: string | null;
-    updatedAt: string | null;
     __v: number | null;
     accessToken: string | null;
     carregando: boolean;
@@ -55,11 +54,10 @@ export interface UsuarioState {
 
 export interface Usuario {
     _id: number;
+    nameid: string;
     username: string;
     emails: string;
     isAdmin: boolean;
-    createdAt: string;
-    updatedAt: string;
     __v: number;
     accessToken: string;
 }
@@ -71,11 +69,10 @@ export interface LoginResponse {
 export interface UserResponse {
     data: {
         _id: number;
+        nameid: string;
         username: string;
         emails: string;
         isAdmin: boolean;
-        createdAt: string;
-        updatedAt: string;
         __v: number;
     };
 }
@@ -87,18 +84,6 @@ export interface CamposFormLogin {
 
 export interface ErrosFormLogin {
     username: string | null;
-    password?: string | null;
-}
-
-export interface CamposFormUsuario {
-    username: string;
-    emails: string;
-    password?: string;
-}
-
-export interface ErrosFormUsuario {
-    username: string | null;
-    emails: string | null;
     password?: string | null;
 }
 

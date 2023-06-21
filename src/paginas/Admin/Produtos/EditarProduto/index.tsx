@@ -11,7 +11,7 @@ import NaoEncontrada from 'paginas/NaoEncontrada';
 
 export default function AdminEditarProduto() {
     const { id } = useParams();
-    const [produto, setPproduto] = useState<Produto>();
+    const [produto, setProduto] = useState<Produto>();
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
         useState(false);
@@ -26,7 +26,7 @@ export default function AdminEditarProduto() {
             try {
                 const resposta = await api.get(`/products/${id}`);
                 if (resposta.status === 200) {
-                    setPproduto(resposta.data);
+                    setProduto(resposta.data);
                 }
 
                 if (resposta.status === 204) {

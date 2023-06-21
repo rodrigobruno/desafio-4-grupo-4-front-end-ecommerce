@@ -13,25 +13,41 @@ import { api } from 'lib/axios';
 import { AxiosError } from 'axios';
 
 import { useAppSelector } from 'hooks';
-import { CamposFormUsuario, ErrosFormUsuario } from 'types';
 
 import { BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 
+export interface CamposFormUsuario {
+    nameid: string;
+    username: string;
+    emails: string;
+    password?: string;
+}
+
+export interface ErrosFormUsuario {
+    nameid: string | null;
+    username: string | null;
+    emails: string | null;
+    password?: string | null;
+}
+
 export default function Profile() {
     const [estaCarregando, setEstaCarregando] = useState(true);
 
     const id = useAppSelector((state) => state._id);
-    const nome = useAppSelector((state) => state.username);
+    const nome = useAppSelector((state) => state.nameid);
+    const username = useAppSelector((state) => state.username);
     const emails = useAppSelector((state) => state.emails);
 
     const [form, setForm] = useState<CamposFormUsuario>({
-        username: nome || '',
+        nameid: nome || '',
+        username: username || '',
         emails: emails || '',
     });
 
     const [erros, setErros] = useState<ErrosFormUsuario>({
+        nameid: null,
         username: null,
         emails: null,
     });
@@ -43,11 +59,12 @@ export default function Profile() {
 
     useEffect(() => {
         setForm({
-            username: nome || '',
+            nameid: nome || '',
+            username: username || '',
             emails: emails || '',
         });
         setEstaCarregando(false);
-    }, [nome, emails]);
+    }, [nome, username, emails]);
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof ErrosFormUsuario,
@@ -67,16 +84,22 @@ export default function Profile() {
     };
 
     const validarForm = () => {
-        const { username, emails }: CamposFormUsuario = form;
+        const { username, nameid, emails }: CamposFormUsuario = form;
         const novoErros = {} as CamposFormUsuario;
 
         const ehEmail = (email: string) =>
             /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emails);
 
         if (!username || username === '') {
-            novoErros.username = 'Preencha o nome completo';
+            novoErros.username = 'Preencha o nome de usuário';
         } else if (username.length < 3) {
             novoErros.username = 'O nome deve ter mais do que 3 caracteres';
+        }
+
+        if (!nameid || nameid === '') {
+            novoErros.nameid = 'Preencha o nome completo';
+        } else if (nameid.length < 3) {
+            novoErros.nameid = 'O nome deve ter mais do que 3 caracteres';
         }
 
         if (!emails || emails === '') {
@@ -104,21 +127,11 @@ export default function Profile() {
             setEnviadandoDados(true);
 
             try {
-                await api.put(
-                    `/users/${id}`,
-                    {
-                        username: form.username,
-                        emails: form.emails,
-                    },
-                    {
-                        headers: {
-                            Prefer: 'code=200, example=200',
-                            //Prefer: 'code=500, example=500',
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                        },
-                    }
-                );
+                await api.put(`/users/${id}`, {
+                    nameid: form.nameid,
+                    username: form.username,
+                    emails: form.emails,
+                });
 
                 window.scrollTo(0, 0);
                 return setMostrarAlertaSucesso200(true);
@@ -197,11 +210,11 @@ export default function Profile() {
                                 className='mb-3'
                                 controlId='formLoginUsername'
                             >
-                                <Form.Label>Nome completo</Form.Label>
+                                <Form.Label>Nome de usuário</Form.Label>
                                 <Form.Control
                                     size='lg'
                                     type='text'
-                                    placeholder='Digite o seu nome'
+                                    placeholder='Digite o seu nome de usuário'
                                     value={form.username}
                                     onChange={(e) =>
                                         lidarComAsMudancasNosCampos(
@@ -211,9 +224,34 @@ export default function Profile() {
                                     }
                                     isInvalid={!!erros.username}
                                     required
+                                    disabled
                                 />
                                 <Form.Control.Feedback type='invalid'>
                                     {erros.username}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group
+                                className='mb-3'
+                                controlId='formLoginNameid'
+                            >
+                                <Form.Label>Nome completo</Form.Label>
+                                <Form.Control
+                                    size='lg'
+                                    type='text'
+                                    placeholder='Digite o seu nome completo'
+                                    value={form.nameid}
+                                    onChange={(e) =>
+                                        lidarComAsMudancasNosCampos(
+                                            'nameid',
+                                            e.target.value
+                                        )
+                                    }
+                                    isInvalid={!!erros.nameid}
+                                    required
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {erros.nameid}
                                 </Form.Control.Feedback>
                             </Form.Group>
 

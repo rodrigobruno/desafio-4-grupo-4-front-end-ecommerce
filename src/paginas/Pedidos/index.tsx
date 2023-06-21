@@ -8,10 +8,12 @@ import { CardPedidosProps } from 'types';
 import CardPedido from 'componentes/CardPedido';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
+import { Link } from 'react-router-dom';
 
 export default function Pedidos() {
-    const nome = useAppSelector((state) => state.username);
+    const nome = useAppSelector((state) => state.nameid) || '';
     const id = useAppSelector((state) => state._id);
+    const accessToken = useAppSelector((state) => state.accessToken);
 
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
@@ -21,13 +23,10 @@ export default function Pedidos() {
     useEffect(() => {
         const pegarPedidos = async () => {
             setOcorreuErroNaRespostaApi(false);
+            setEstaCarregando(true);
 
             try {
-                const resposta = await api.get(`/orders/${id}`, {
-                    headers: {
-                        Prefer: 'code=200, example=200 - 10 produtos',
-                    },
-                });
+                const resposta = await api.get(`/orders/${id}`);
                 setPedidos(resposta.data);
             } catch (error) {
                 setOcorreuErroNaRespostaApi(true);
@@ -36,7 +35,7 @@ export default function Pedidos() {
             }
         };
         pegarPedidos();
-    }, [id]);
+    }, [id, accessToken]);
 
     return (
         <>
@@ -88,6 +87,14 @@ export default function Pedidos() {
                                         status={produto.status}
                                     />
                                 ))}
+                                {pedidos.length === 0 && (
+                                    <p>
+                                        Nenhum pedido realizado.{' '}
+                                        <Link to='/produtos'>
+                                            Veja nosso produtos
+                                        </Link>
+                                    </p>
+                                )}
                             </Stack>
                         )}
                     </Col>
