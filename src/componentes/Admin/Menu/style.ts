@@ -38,6 +38,32 @@ export const NavLinkMenu = styled(NavLink)`
     }
 `;
 
+export const NavButtonMenu = styled.button`
+    background-color: transparent;
+    text-align: start;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    text-decoration: none;
+    font-weight: var(--font-weight-light);
+    transition: all 0.15s ease-in-out;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+
+    &:hover {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    &.active {
+        color: var(--cor-preta-1);
+        & + a {
+            display: block;
+        }
+    }
+`;
+
 export const SubNavLinkMenu = styled(NavLinkMenu)`
     font-size: 1rem;
     margin-top: 0.5rem;

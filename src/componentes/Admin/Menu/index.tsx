@@ -1,18 +1,29 @@
 import {
     Archive,
+    BoxArrowLeft,
     CardText,
     CashStack,
     House,
     PersonSquare,
     Tags,
 } from 'react-bootstrap-icons';
-import { NavUl, NavLi, NavLinkMenu, SubNavLinkMenu, NavLabel } from './style';
+import {
+    NavUl,
+    NavLi,
+    NavLinkMenu,
+    NavButtonMenu,
+    SubNavLinkMenu,
+    NavLabel,
+} from './style';
+import { useAppDispatch } from 'hooks';
+import { logout } from 'store/modules/usuario';
 
 interface Props {
     active: boolean;
 }
 
 export default function MenuAdmin({ active }: Props) {
+    const dispatch = useAppDispatch();
     return (
         <nav>
             <NavUl>
@@ -68,6 +79,12 @@ export default function MenuAdmin({ active }: Props) {
                     <SubNavLinkMenu to='/admin/cupons/criar'>
                         <NavLabel active={active}>Criar Cupon</NavLabel>
                     </SubNavLinkMenu>
+                </NavLi>
+                <NavLi>
+                    <NavButtonMenu onClick={() => dispatch(logout())}>
+                        <BoxArrowLeft className='bi' />
+                        <NavLabel active={active}>Sair</NavLabel>
+                    </NavButtonMenu>
                 </NavLi>
             </NavUl>
         </nav>
