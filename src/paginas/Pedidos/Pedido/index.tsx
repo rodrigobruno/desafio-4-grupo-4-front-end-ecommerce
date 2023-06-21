@@ -38,15 +38,13 @@ export default function Pedido() {
                     setApiResposta204(true);
                 }
             } catch (error) {
-                console.log(ocorreuErroNaRespostaApi);
-
                 setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);
             }
         };
         pegarPedidos();
-    }, [id, ocorreuErroNaRespostaApi]);
+    }, [id]);
 
     if (ocorreuErroNaRespostaApi) {
         return (

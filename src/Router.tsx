@@ -94,7 +94,7 @@ export default function AppRoutes() {
                 <Route path='produtos' element={<AdminProdutos />} />
                 <Route path='produtos/criar' element={<AdminCriarProduto />} />
                 <Route
-                    path='produtos/editar'
+                    path='produtos/editar/:id'
                     element={<AdminEditarProduto />}
                 />
 
@@ -104,14 +104,14 @@ export default function AppRoutes() {
                     element={<AdminCriarCategoria />}
                 />
                 <Route
-                    path='categorias/editar'
+                    path='categorias/editar/:id'
                     element={<AdminEditarCategoria />}
                 />
 
                 <Route path='usuarios' element={<AdminUsuarios />} />
                 <Route path='usuarios/criar' element={<AdminCriarUsurario />} />
                 <Route
-                    path='usuarios/editar'
+                    path='usuarios/editar/:id'
                     element={<AdminEditarUsuario />}
                 />
             </Route>

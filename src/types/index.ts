@@ -101,3 +101,17 @@ export interface ErrosFormUsuario {
     emails: string | null;
     password?: string | null;
 }
+
+export interface Produto {
+    _id: string;
+    title: string;
+    desc: string;
+    img: string;
+    categories: string[];
+    price: number;
+}
+
+export interface Categorias {
+    _id: string;
+    title: string;
+}

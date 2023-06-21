@@ -14,6 +14,7 @@ import './styles/global.scss';
 
 import ScrollToTop from 'componentes/ScrollToTop';
 import App from 'App';
+import { TokenValido } from 'componentes/TokenValido';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -23,8 +24,10 @@ root.render(
         <HelmetProvider>
             <BrowserRouter>
                 <Provider store={store}>
-                    <ScrollToTop />
-                    <App />
+                    <TokenValido>
+                        <ScrollToTop />
+                        <App />
+                    </TokenValido>
                 </Provider>
             </BrowserRouter>
         </HelmetProvider>

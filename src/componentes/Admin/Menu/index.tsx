@@ -31,7 +31,7 @@ export default function MenuAdmin({ active }: Props) {
                 </NavLi>
 
                 <NavLi>
-                    <NavLinkMenu to='/admin/produtos/'>
+                    <NavLinkMenu to='/admin/produtos'>
                         <Archive className='bi' />
                         <NavLabel active={active}>Produtos</NavLabel>
                     </NavLinkMenu>

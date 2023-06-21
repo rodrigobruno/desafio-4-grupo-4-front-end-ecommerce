@@ -6,8 +6,9 @@ import SidebarAdmin from 'componentes/Admin/Sidebar';
 
 export default function PaginaAdmin() {
     const ehAdmin = useAppSelector((state) => state?.isAdmin === true);
+    const carregando = useAppSelector((state) => state.carregando);
 
-    if (!ehAdmin) {
+    if (!ehAdmin && !carregando) {
         return <Navigate to='/entrar' replace />;
     }
 

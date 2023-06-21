@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { ArrowBarLeft, ArrowBarRight } from 'react-bootstrap-icons';
+import { Scrollbar } from 'componentes/Scrollbar';
 import MenuAdmin from '../Menu';
 import TopoAdmin from '../Topo';
-import { Sidebar, Abrir } from './style';
+import { Sidebar, Abrir, Overlay } from './style';
 
 export default function SidebarAdmin() {
     const [abrirMenu, setAbrirMenu] = useState(false);
@@ -11,6 +12,7 @@ export default function SidebarAdmin() {
 
     return (
         <>
+            <Scrollbar visibilidade={abrirMenu} />
             <Sidebar active={abrirMenu}>
                 <Abrir>
                     {abrirMenu ? (
@@ -22,6 +24,7 @@ export default function SidebarAdmin() {
                 <TopoAdmin active={abrirMenu} />
                 <MenuAdmin active={abrirMenu} />
             </Sidebar>
+            <Overlay active={abrirMenu} onClick={lidarComFecharMenu} />
         </>
     );
 }

@@ -13,6 +13,8 @@ export const Sidebar = styled.div<Props>`
     overflow: auto;
     position: fixed;
     transition: width 0.15s ease-in-out;
+    z-index: 99;
+    box-shadow: 3px 0px 5px 0px var(--cor-preta-6);
 
     ${({ active }) =>
         active
@@ -27,9 +29,27 @@ export const Sidebar = styled.div<Props>`
 export const Abrir = styled.div`
     margin-bottom: 0.75rem;
     height: 30px;
-
+    cursor: pointer;
     display: block;
     @media (min-width: 768px) {
         display: none;
+    }
+`;
+
+export const Overlay = styled.div<Props>`
+    @media (max-width: 767.98px) {
+        background-color: var(--cor-preta-6);
+        opacity: 0.8;
+        position: fixed;
+        transition: width 0.15s ease-in-out;
+        height: 100vh;
+        ${({ active }) =>
+            active
+                ? `z-index: 98;
+            width: 100vw;
+            `
+                : `z-index: 0;
+            width: 0;
+        `}
     }
 `;

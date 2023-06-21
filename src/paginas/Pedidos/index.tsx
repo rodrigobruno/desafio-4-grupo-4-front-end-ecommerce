@@ -20,6 +20,8 @@ export default function Pedidos() {
 
     useEffect(() => {
         const pegarPedidos = async () => {
+            setOcorreuErroNaRespostaApi(false);
+
             try {
                 const resposta = await api.get(`/orders/${id}`, {
                     headers: {
