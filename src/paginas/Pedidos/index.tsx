@@ -55,28 +55,22 @@ export default function Pedidos() {
                 />
             </Helmet>
 
-            <CarregandoPagina visibilidade={estaCarregando} />
-
             <Container>
-                {!ocorreuErroNaRespostaApi && (
-                    <>
-                        <Row>
-                            <Col>
-                                <h1 className='mb-0 mb-md-3 mb-lg-4  text-uppercase'>
-                                    Olá, {nome}!
-                                </h1>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <h2 className='mt-5 mb-4 text-uppercase'>
-                                    <Box2Heart className='bi me-2' />
-                                    Seus pedidos
-                                </h2>
-                            </Col>
-                        </Row>
-                    </>
-                )}
+                <Row>
+                    <Col>
+                        <h1 className='mb-0 mb-md-3 mb-lg-4  text-uppercase'>
+                            Olá, {nome}!
+                        </h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <h2 className='mt-5 mb-4 text-uppercase'>
+                            <Box2Heart className='bi me-2' />
+                            Seus pedidos
+                        </h2>
+                    </Col>
+                </Row>
                 <Row>
                     <Col className='mb-5'>
                         {ocorreuErroNaRespostaApi && (
@@ -110,6 +104,8 @@ export default function Pedidos() {
                     </Col>
                 </Row>
             </Container>
+
+            <CarregandoPagina visibilidade={estaCarregando} />
         </>
     );
 }
