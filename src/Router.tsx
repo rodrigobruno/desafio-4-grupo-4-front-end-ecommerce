@@ -31,6 +31,7 @@ import AdminEditarCategoria from 'paginas/Admin/Categorias/EditarCategoria';
 import AdminUsuarios from 'paginas/Admin/Usuarios';
 import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
+import AdminCupons from 'paginas/Admin/Cupons';
 
 export default function AppRoutes() {
     return (
@@ -116,6 +117,8 @@ export default function AppRoutes() {
                     path='usuarios/editar/:id'
                     element={<AdminEditarUsuario />}
                 />
+
+                <Route path='cupons' element={<AdminCupons />} />
             </Route>
         </Routes>
     );
