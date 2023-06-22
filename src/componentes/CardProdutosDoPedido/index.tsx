@@ -29,7 +29,7 @@ export default function CardProdutosDoPedido({
         <Container>
             <ThumbnailDoProduto src={imagem} alt={nome} className='rounded' />
             <InformacoesDoProduto>
-                <h3 className='mb-3 text-uppercase'>{nome}</h3>
+                <h3 className='h4 mb-3 text-uppercase'>{nome}</h3>
                 <p className='mb-0'>
                     {quantidade} x {precoEmReais}
                 </p>

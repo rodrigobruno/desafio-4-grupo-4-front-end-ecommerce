@@ -86,7 +86,7 @@ export default function AdminEditarProduto() {
                 preco={produto.price.toString()}
                 imagem={produto.img}
                 descricao={produto.desc}
-                categoriasProp={produto.categories || []}
+                categoriasProp={produto.categories}
                 labelDoBotao='Atualizar produto'
             />
         </>

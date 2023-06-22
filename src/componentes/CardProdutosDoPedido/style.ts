@@ -2,23 +2,27 @@ import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const ThumbnailDoProduto = styled.img`
-    width: 100px;
+    width: 50px;
     aspect-ratio: 1 / 1;
     object-fit: contain;
     opacity: 0.8;
     transition: all 0.4s ease-in-out;
     grid-row: 1 / 2;
     grid-column: 1 / 2;
+    @media (min-width: 576px) {
+        width: 100px;
+    }
 `;
 
 export const Container = styled.div`
     border-radius: 6px;
-    padding: 2rem 2.5rem;
+    padding: 1rem 1.5rem;
     display: grid;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
     grid-auto-flow: column;
     grid-template-columns: auto 1fr;
+    height: 100%;
 
     background-image: linear-gradient(
         to bottom,
@@ -28,6 +32,11 @@ export const Container = styled.div`
     );
     background-size: 100% 200%;
     transition: all 0.4s ease-in-out;
+
+    @media (min-width: 576px) {
+        padding: 2rem 2.5rem;
+        gap: 1.5rem;
+    }
 
     &:hover {
         background-position: 0 100%;

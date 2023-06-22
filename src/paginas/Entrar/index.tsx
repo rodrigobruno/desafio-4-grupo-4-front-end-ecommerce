@@ -30,7 +30,7 @@ export default function Entrar() {
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
     const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
-    const [mostrarAlertaErro403, setMostrarAlertaErro403] = useState(false);
+    const [mostrarAlertaErro400, setMostrarAlertaErro400] = useState(false);
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof ErrosFormLogin,
@@ -70,7 +70,7 @@ export default function Entrar() {
         e.preventDefault();
 
         setMostrarAlertaErro404(false);
-        setMostrarAlertaErro403(false);
+        setMostrarAlertaErro400(false);
         setEnviadandoDados(false);
 
         const errosNoFormulario = validarForm();
@@ -95,8 +95,8 @@ export default function Entrar() {
 
                 if (err.response) {
                     window.scrollTo(0, 0);
-                    if (err.response.status === 403)
-                        return setMostrarAlertaErro403(true);
+                    if (err.response.status === 400)
+                        return setMostrarAlertaErro400(true);
                     if (err.response.status === 404)
                         return setMostrarAlertaErro404(true);
                 } else if (err.request) {
@@ -150,7 +150,7 @@ export default function Entrar() {
                                 </Alert>
                             )}
 
-                            {mostrarAlertaErro403 && (
+                            {mostrarAlertaErro400 && (
                                 <Alert key='danger' variant='danger'>
                                     E-mail ou senha incorretos, volte duas casas
                                     e tente novamente.

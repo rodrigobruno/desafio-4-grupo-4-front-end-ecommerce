@@ -12,8 +12,12 @@ import { Link } from 'react-router-dom';
 
 export default function Pedidos() {
     const nome = useAppSelector((state) => state.nameid) || '';
-    const id = useAppSelector((state) => state._id);
-    const accessToken = useAppSelector((state) => state.accessToken);
+    const id =
+        useAppSelector((state) => state._id) ||
+        localStorage.getItem('@autenticacao-react:userId');
+    const accessToken =
+        useAppSelector((state) => state.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
 
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
@@ -26,7 +30,11 @@ export default function Pedidos() {
             setEstaCarregando(true);
 
             try {
-                const resposta = await api.get(`/orders/${id}`);
+                const resposta = await api.get(`/orders/user/${id}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                });
                 setPedidos(resposta.data);
             } catch (error) {
                 setOcorreuErroNaRespostaApi(true);
@@ -75,7 +83,17 @@ export default function Pedidos() {
                             <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                         )}
 
-                        {!ocorreuErroNaRespostaApi && (
+                        {!ocorreuErroNaRespostaApi &&
+                            (pedidos === null || pedidos.length === 0) && (
+                                <p>
+                                    Nenhum pedido realizado.{' '}
+                                    <Link to='/produtos'>
+                                        Veja nosso produtos
+                                    </Link>
+                                </p>
+                            )}
+
+                        {!ocorreuErroNaRespostaApi && pedidos !== null && (
                             <Stack gap={4}>
                                 {pedidos.map((produto) => (
                                     <CardPedido
@@ -87,14 +105,6 @@ export default function Pedidos() {
                                         status={produto.status}
                                     />
                                 ))}
-                                {pedidos.length === 0 && (
-                                    <p>
-                                        Nenhum pedido realizado.{' '}
-                                        <Link to='/produtos'>
-                                            Veja nosso produtos
-                                        </Link>
-                                    </p>
-                                )}
                             </Stack>
                         )}
                     </Col>

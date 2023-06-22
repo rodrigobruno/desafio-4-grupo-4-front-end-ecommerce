@@ -18,7 +18,7 @@ interface Props {
     preco?: string | null;
     imagem?: string | null;
     descricao?: string | null;
-    categoriasProp: string[];
+    categoriasProp?: Categorias[] | null;
     labelDoBotao: string;
 }
 
@@ -56,6 +56,7 @@ export default function FormularioProduto({
         useState(false);
     const [mostrarAlertaErro500, setMostrarAlertaErro500] = useState(false);
     const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
+
     const onImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
         return ((e.target as HTMLImageElement).src = Placeholder);
     };
@@ -84,7 +85,9 @@ export default function FormularioProduto({
         imagem: imagem || '',
         descricao: descricao || '',
     });
-    const [categorias, setCategorias] = useState<string[]>(categoriasProp);
+    const [categorias, setCategorias] = useState<Categorias[]>(
+        categoriasProp || []
+    );
 
     const [erros, setErros] = useState<FormErros>({
         nome: null,
@@ -96,7 +99,7 @@ export default function FormularioProduto({
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof FormErros,
-        valor: any
+        valor: string
     ) => {
         setForm({
             ...form,
@@ -115,10 +118,14 @@ export default function FormularioProduto({
         e: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const selectedOptions = e.currentTarget.selectedOptions;
-
         const novasCategories = [];
+
         for (let i = 0; i < selectedOptions.length; i++) {
-            novasCategories.push(selectedOptions[i].value);
+            const obj = {
+                _id: selectedOptions[i].value,
+                title: selectedOptions[i].text,
+            };
+            novasCategories.push(obj);
         }
 
         setCategorias(novasCategories);
@@ -126,7 +133,7 @@ export default function FormularioProduto({
 
     const validarForm = () => {
         const { nome, preco, imagem, descricao }: FormCampos = form;
-        const categoria: string[] = categorias;
+        const categoria: Categorias[] = categorias;
         const novoErros = {} as FormErros;
 
         if (!nome || nome === '') {
@@ -309,7 +316,6 @@ export default function FormularioProduto({
                         >
                             <Form.Label>Endereço da imagem</Form.Label>
                             <InputGroup className='mb-3'>
-                                {/* {tipo === 'put' && ( */}
                                 <InputGroup.Text id='criarProduto.ControlInputThumb'>
                                     <ImagemPreview
                                         src={
@@ -321,7 +327,6 @@ export default function FormularioProduto({
                                         onError={onImageError}
                                     />
                                 </InputGroup.Text>
-                                {/* )} */}
                                 <Form.Control
                                     type='url'
                                     placeholder='https://www.example.com/imagem.png'
@@ -348,7 +353,9 @@ export default function FormularioProduto({
                             <Form.Select
                                 multiple
                                 required
-                                value={categorias}
+                                value={categorias.map(
+                                    (categoria) => categoria._id
+                                )}
                                 aria-label='Selecionar Categorias'
                                 onChange={lidarComAsMudancasSelect}
                                 isInvalid={!!erros.categorias}

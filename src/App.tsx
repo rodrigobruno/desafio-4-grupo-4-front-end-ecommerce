@@ -33,7 +33,12 @@ export default function App() {
                 (async () => {
                     try {
                         const responseData: LoginResponse = await api.get(
-                            `/users/${id}`
+                            `/users/${id}`,
+                            {
+                                headers: {
+                                    Authorization: 'Bearer ' + accessToken,
+                                },
+                            }
                         );
                         dispatch(setUsuario(responseData.data));
                     } catch (error) {

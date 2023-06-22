@@ -1,13 +1,13 @@
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import { api } from 'lib/axios';
+import { Col, Row } from 'react-bootstrap';
+import { Categorias } from 'types';
+import NaoEncontrada from 'paginas/NaoEncontrada';
 import FormularioCategoria from 'componentes/Admin/FormularioCategoria';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
-import { api } from 'lib/axios';
-import NaoEncontrada from 'paginas/NaoEncontrada';
-import { useEffect, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
-import { Categorias } from 'types';
 
 export default function AdminEditarCategoria() {
     const { id } = useParams();
@@ -26,7 +26,6 @@ export default function AdminEditarCategoria() {
             try {
                 const resposta = await api.get(`/categories/${id}`);
                 if (resposta.status === 200) {
-                    console.log(resposta.data);
                     setCategoria(resposta.data);
                 }
 

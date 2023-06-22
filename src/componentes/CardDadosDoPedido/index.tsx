@@ -6,17 +6,20 @@ interface Props {
     status: string;
     data: string;
     total: number;
-    endereco: string;
+    rua: string;
+    numero: string;
 }
 
 export default function CardDadosDoPedido({
     status,
     data,
-    endereco,
+    rua,
+    numero,
     total,
 }: Props) {
     const totalEmReais = precoFormatadoParaReal(total);
     const dataFormatada = dataFormatadaParaDDMMYY(data);
+    const endereco = `${rua}, ${numero}`;
 
     return (
         <Container>

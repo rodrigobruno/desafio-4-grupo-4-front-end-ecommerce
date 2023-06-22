@@ -1,17 +1,24 @@
 export const precoFormatadoParaReal = (preco: number): string => {
-    return preco.toLocaleString('pt-br', {
-        style: 'currency',
-        currency: 'BRL',
-    });
+    if (preco) {
+        return preco.toLocaleString('pt-br', {
+            style: 'currency',
+            currency: 'BRL',
+        });
+    }
+
+    return 'R$ 0,00';
 };
 
 export const dataFormatadaParaDDMMYY = (data: string): string => {
-    const dataISODataHora = new Date(data);
-    return dataISODataHora.toLocaleString('pt-BR', {
-        year: '2-digit',
-        month: 'numeric',
-        day: 'numeric',
-    });
+    if (data) {
+        const dataISODataHora = new Date(data);
+        return dataISODataHora.toLocaleString('pt-BR', {
+            year: '2-digit',
+            month: 'numeric',
+            day: 'numeric',
+        });
+    }
+    return '00/00/00';
 };
 
 export const ehUmaUrlValida = (url: string): boolean => {

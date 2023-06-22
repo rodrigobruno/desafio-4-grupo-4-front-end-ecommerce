@@ -3,9 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Usuario, UsuarioState } from 'types';
 
 const token = localStorage.getItem('@autenticacao-react:token') || null;
+const userId = localStorage.getItem('@autenticacao-react:userId') || null;
 
 const initialState: UsuarioState = {
-    _id: null,
+    _id: Number(userId),
     nameid: null,
     username: null,
     emails: null,
@@ -24,6 +25,10 @@ export const authSlice = createSlice({
                 '@autenticacao-react:token',
                 action.payload.accessToken
             );
+            localStorage.setItem(
+                '@autenticacao-react:userId',
+                action.payload._id.toString()
+            );
 
             state._id = action.payload._id;
             state.nameid = action.payload.nameid;
@@ -34,6 +39,7 @@ export const authSlice = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem('@autenticacao-react:token');
+            localStorage.removeItem('@autenticacao-react:userId');
 
             state._id = null;
             state.nameid = null;

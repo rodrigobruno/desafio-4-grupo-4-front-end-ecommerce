@@ -15,17 +15,23 @@ export type PedidoProps = {
     userId: string;
     products: [
         {
-            _id: string;
-            title: string;
-            //desc: string;
-            img: string;
-            //categories: [string];
-            price: number;
+            product: {
+                _id: string;
+                title: string;
+                //desc: string;
+                img: string;
+                //categories: [string];
+                price: number;
+            };
             quantity: number;
+            _id: string;
         }
     ];
     amount: number;
-    address: string;
+    address: {
+        rua: string;
+        numero: string;
+    };
     status: string;
     createdAt: string;
     //updatedAt: string;
@@ -87,16 +93,29 @@ export interface ErrosFormLogin {
     password?: string | null;
 }
 
+export interface Categorias {
+    _id: string;
+    title: string;
+}
+
 export interface Produto {
     _id: string;
     title: string;
     desc: string;
     img: string;
-    categories: string[];
+    categories: Categorias[];
     price: number;
 }
 
-export interface Categorias {
-    _id: string;
-    title: string;
+export interface Feedback {
+    currentPage: number;
+    totalItems: number;
+    totalPages: number;
+    ocorreuErroNaRespostaApi: boolean;
+}
+
+export interface ProdutosQuery {
+    pagina?: number;
+    limite?: number;
+    categoria?: string;
 }
