@@ -6,7 +6,7 @@ export const precoFormatadoParaReal = (preco: number): string => {
         });
     }
 
-    return 'R$ 0,00';
+    return 'R$ -';
 };
 
 export const dataFormatadaParaDDMMYY = (data: string): string => {
@@ -18,7 +18,7 @@ export const dataFormatadaParaDDMMYY = (data: string): string => {
             day: 'numeric',
         });
     }
-    return '00/00/00';
+    return '--/--/--';
 };
 
 export const ehUmaUrlValida = (url: string): boolean => {

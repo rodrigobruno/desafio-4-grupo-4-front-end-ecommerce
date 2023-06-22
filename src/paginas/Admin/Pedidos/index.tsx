@@ -8,7 +8,7 @@ import { Col, Row, Stack } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { CardPedidosProps, Feedback } from 'types';
 
-export default function Pedido() {
+export default function AdminPedidos() {
     const accessToken =
         useAppSelector((state) => state.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
@@ -44,7 +44,6 @@ export default function Pedido() {
                     totalPages: resposta.data.totalPages,
                     ocorreuErroNaRespostaApi: false,
                 });
-                console.log(resposta.data.orders);
             } catch (error) {
                 setFeedback((prevState) => {
                     return {

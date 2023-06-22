@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from 'hooks';
 import { useParams } from 'react-router-dom';
 import { api } from 'lib/axios';
-import { PedidoProps } from 'types';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Box2Heart, CardText } from 'react-bootstrap-icons';
+import { PedidoProps } from 'types';
 import NaoEncontrada from 'paginas/NaoEncontrada';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import CardDadosDoPedido from 'componentes/CardDadosDoPedido';
 import CardProdutosDoPedido from 'componentes/CardProdutosDoPedido';
-import { useAppSelector } from 'hooks';
 
-export default function Pedido() {
+export default function AdminPedido() {
     const { id } = useParams();
     const [pedido, setPedido] = useState<PedidoProps>();
     const [estaCarregando, setEstaCarregando] = useState(true);
@@ -33,7 +33,6 @@ export default function Pedido() {
                     },
                 });
                 setPedido(resposta.data);
-                console.log(resposta.data);
             } catch (error) {
                 setOcorreuErroNaRespostaApi(true);
             } finally {
@@ -62,14 +61,14 @@ export default function Pedido() {
                 <title>Gama Zone - Seu pedido</title>
                 <meta
                     name='description'
-                    content='Acompanhe seu pedido de board game na nossa loja. Entrega rápida, status atualizado e suporte dedicado para garantir sua satisfação.'
+                    content='Simplifique a gestão da sua loja de board games com nosso painel de administração. Controle estoque, pedidos e clientes de forma eficiente. Sucesso garantido!'
                 />
             </Helmet>
 
             <Container>
                 <Row>
                     <Col>
-                        <h1 className='mb-4 text-uppercase text-break'>
+                        <h1 className='mb-4 text-uppercase'>
                             Pedido {pedido._id}
                         </h1>
                     </Col>

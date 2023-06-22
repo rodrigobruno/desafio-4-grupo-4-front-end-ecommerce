@@ -17,9 +17,11 @@ import Entrar from 'paginas/Entrar';
 import Pedidos from 'paginas/Pedidos';
 import Pedido from 'paginas/Pedidos/Pedido';
 import Profile from 'paginas/Profile';
+import Categorias from 'paginas/Categorias';
 import PaginaAdmin from 'componentes/PaginaAdmin';
-import Admin from 'paginas/Admin';
-import AdminPedido from 'paginas/Admin/Pedido';
+import AdminInicio from 'paginas/Admin/Inicio';
+import AdminPedidos from 'paginas/Admin/Pedidos';
+import AdminPedido from 'paginas/Admin/Pedidos/Pedido';
 import AdminProdutos from 'paginas/Admin/Produtos';
 import AdminCriarProduto from 'paginas/Admin/Produtos/CriarProduto';
 import AdminEditarProduto from 'paginas/Admin/Produtos/EditarProduto';
@@ -29,7 +31,6 @@ import AdminEditarCategoria from 'paginas/Admin/Categorias/EditarCategoria';
 import AdminUsuarios from 'paginas/Admin/Usuarios';
 import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
-import Categorias from 'paginas/Categorias';
 
 export default function AppRoutes() {
     return (
@@ -88,8 +89,9 @@ export default function AppRoutes() {
             </Route>
 
             <Route path='/admin' element={<PaginaAdmin />}>
-                <Route index element={<Admin />} />
-                <Route path='pedidos' element={<AdminPedido />} />
+                <Route index element={<AdminInicio />} />
+                <Route path='pedidos' element={<AdminPedidos />} />
+                <Route path='pedidos/:id' element={<AdminPedido />} />
 
                 <Route path='produtos' element={<AdminProdutos />} />
                 <Route path='produtos/criar' element={<AdminCriarProduto />} />

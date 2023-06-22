@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-export default function Admin() {
+export default function AdminInicio() {
     return (
         <>
             <Helmet>

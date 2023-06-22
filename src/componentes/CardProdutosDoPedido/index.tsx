@@ -6,6 +6,8 @@ import {
     LinkProduto,
     InformacoesDoProduto,
 } from './style';
+import { SyntheticEvent } from 'react';
+import Placeholder from 'assets/placeholder.svg';
 
 interface Props {
     id: string;
@@ -24,10 +26,18 @@ export default function CardProdutosDoPedido({
 }: Props) {
     const precoEmReais = precoFormatadoParaReal(preco);
     const total = precoFormatadoParaReal(quantidade * preco);
+    const onImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+        return ((e.target as HTMLImageElement).src = Placeholder);
+    };
 
     return (
         <Container>
-            <ThumbnailDoProduto src={imagem} alt={nome} className='rounded' />
+            <ThumbnailDoProduto
+                src={imagem}
+                alt={nome}
+                onError={onImageError}
+                className='rounded'
+            />
             <InformacoesDoProduto>
                 <h3 className='h4 mb-3 text-uppercase'>{nome}</h3>
                 <p className='mb-0'>
@@ -35,9 +45,11 @@ export default function CardProdutosDoPedido({
                 </p>
                 <p className='mb-0'>Total {total}</p>
             </InformacoesDoProduto>
-            <LinkContainer to={`/produto/${id}`}>
-                <LinkProduto variant='secondary'>Ver produto</LinkProduto>
-            </LinkContainer>
+            {id !== undefined && (
+                <LinkContainer to={`/produto/${id}`}>
+                    <LinkProduto variant='secondary'>Ver produto</LinkProduto>
+                </LinkContainer>
+            )}
         </Container>
     );
 }
