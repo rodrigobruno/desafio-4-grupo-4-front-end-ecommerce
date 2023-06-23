@@ -39,14 +39,6 @@ export default function Pedidos() {
             setEstaCarregando(true);
 
             try {
-                // const resposta = await api.get(`/orders/user/${id}`, {
-                //     headers: {
-                //         Authorization: 'Bearer ' + accessToken,
-                //     },
-                // });
-
-                // setPedidos(resposta.data);
-
                 const resposta = await api.get(
                     `/orders/user/${id}?page=${paginaAtual}&limit=${limite}`,
                     {

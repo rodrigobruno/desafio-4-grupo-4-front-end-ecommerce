@@ -1,10 +1,10 @@
-import CardPedido from 'componentes/CardPedido';
+import CardPedidoAdmin from 'componentes/Admin/CardPedido';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import Paginacao from 'componentes/Paginacao';
 import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Col, Row, Stack } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { CardPedidosProps } from 'types';
@@ -26,33 +26,34 @@ export default function AdminPedidos() {
         setPaginaAtual(pagina);
     };
 
-    useEffect(() => {
-        const pegarPedidos = async () => {
-            setEstaCarregando(true);
-            setOcorreuErroNaRespostaApi(false);
+    const pegarPedidos = useCallback(async () => {
+        setEstaCarregando(true);
+        setOcorreuErroNaRespostaApi(false);
 
-            try {
-                const resposta = await api.get(
-                    `/orders/?page=${paginaAtual}&limit=${limite}`,
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + accessToken,
-                        },
-                    }
-                );
-                setPedidos(resposta.data.orders);
-                setPaginaAtual(Number(resposta.data.currentPage));
-                setPaginasTotais(Number(resposta.data.totalItems));
-                setItensTotais(Number(resposta.data.totalPages));
-                setOcorreuErroNaRespostaApi(false);
-            } catch (error) {
-                setOcorreuErroNaRespostaApi(true);
-            } finally {
-                setEstaCarregando(false);
-            }
-        };
-        pegarPedidos();
+        try {
+            const resposta = await api.get(
+                `/orders/?page=${paginaAtual}&limit=${limite}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                }
+            );
+            setPedidos(resposta.data.orders);
+            setPaginaAtual(Number(resposta.data.currentPage));
+            setPaginasTotais(Number(resposta.data.totalItems));
+            setItensTotais(Number(resposta.data.totalPages));
+            setOcorreuErroNaRespostaApi(false);
+        } catch (error) {
+            setOcorreuErroNaRespostaApi(true);
+        } finally {
+            setEstaCarregando(false);
+        }
     }, [accessToken, limite, paginaAtual]);
+
+    useEffect(() => {
+        pegarPedidos();
+    }, [pegarPedidos]);
 
     return (
         <>
@@ -84,13 +85,14 @@ export default function AdminPedidos() {
                     {!ocorreuErroNaRespostaApi && pedidos !== null && (
                         <Stack gap={4}>
                             {pedidos.map((produto) => (
-                                <CardPedido
+                                <CardPedidoAdmin
                                     key={produto._id}
                                     id={produto._id}
                                     numero={produto._id}
                                     data={produto.createdAt}
                                     total={produto.amount}
                                     status={produto.status}
+                                    pegarPedidos={pegarPedidos}
                                 />
                             ))}
                         </Stack>

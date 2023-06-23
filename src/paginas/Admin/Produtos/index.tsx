@@ -48,7 +48,7 @@ export default function AdminProdutos() {
 
     useEffect(() => {
         pegarProdutos();
-    }, [paginaAtual, pegarProdutos]);
+    }, [pegarProdutos]);
 
     return (
         <>

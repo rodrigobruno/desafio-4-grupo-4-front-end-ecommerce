@@ -21,8 +21,12 @@ export default function AdminInicio() {
                 </Col>
             </Row>
 
-            <Row>
-                <Col></Col>
+            <Row className='h-100'>
+                <Col>1</Col>
+                <Col>2</Col>
+                <Col>3</Col>
+                <Col>4</Col>
+                <Col>5</Col>
             </Row>
         </>
     );
