@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Col, Container, Row, Stack } from 'react-bootstrap';
 import { Box2Heart } from 'react-bootstrap-icons';
@@ -33,33 +33,34 @@ export default function Pedidos() {
         setPaginaAtual(pagina);
     };
 
-    useEffect(() => {
-        const pegarPedidos = async () => {
-            setOcorreuErroNaRespostaApi(false);
-            setEstaCarregando(true);
+    const pegarPedidos = useCallback(async () => {
+        setOcorreuErroNaRespostaApi(false);
+        setEstaCarregando(true);
 
-            try {
-                const resposta = await api.get(
-                    `/orders/user/${id}?page=${paginaAtual}&limit=${limite}`,
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + accessToken,
-                        },
-                    }
-                );
-                setPedidos(resposta.data);
-                setPaginaAtual(Number(resposta.data.currentPage));
-                setPaginasTotais(Number(resposta.data.totalItems));
-                setItensTotais(Number(resposta.data.totalPages));
-                setOcorreuErroNaRespostaApi(false);
-            } catch (error) {
-                setOcorreuErroNaRespostaApi(true);
-            } finally {
-                setEstaCarregando(false);
-            }
-        };
+        try {
+            const resposta = await api.get(
+                `/orders/user/${id}?page=${paginaAtual}&limit=${limite}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                }
+            );
+            setPedidos(resposta.data.orders);
+            setPaginaAtual(Number(resposta.data.currentPage));
+            setPaginasTotais(Number(resposta.data.totalItems));
+            setItensTotais(Number(resposta.data.totalPages));
+            setOcorreuErroNaRespostaApi(false);
+        } catch (error) {
+            setOcorreuErroNaRespostaApi(true);
+        } finally {
+            setEstaCarregando(false);
+        }
+    }, [accessToken, id, limite, paginaAtual]);
+
+    useEffect(() => {
         pegarPedidos();
-    }, [id, accessToken, paginaAtual, limite]);
+    }, [pegarPedidos]);
 
     return (
         <>
@@ -88,7 +89,7 @@ export default function Pedidos() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className='mb-5'>
+                    <Col>
                         {ocorreuErroNaRespostaApi && (
                             <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                         )}
@@ -131,6 +132,7 @@ export default function Pedidos() {
                         />
                     </Col>
                 </Row>
+                <div className='mb-5'></div>
             </Container>
 
             <CarregandoPagina visibilidade={estaCarregando} />
