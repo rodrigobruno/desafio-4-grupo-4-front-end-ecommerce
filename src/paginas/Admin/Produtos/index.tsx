@@ -1,66 +1,55 @@
 import { Helmet } from 'react-helmet-async';
 import { Col, Row, Stack } from 'react-bootstrap';
 import CardProdutoAdmin from 'componentes/Admin/CardProduto';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { api } from 'lib/axios';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import { Link } from 'react-router-dom';
-import { Feedback, Produto, ProdutosQuery } from 'types';
+import { Produto } from 'types';
+import Paginacao from 'componentes/Paginacao';
 
 export default function AdminProdutos() {
-    const [produtos, setProdutos] = useState<Produto[]>([]);
-    const [feedback, setFeedback] = useState<Feedback>({
-        currentPage: 0,
-        totalItems: 0,
-        totalPages: 0,
-        ocorreuErroNaRespostaApi: false,
-    });
-    const [query, setQuery] = useState<ProdutosQuery>({
-        pagina: 1,
-        limite: 9,
-    });
     const [estaCarregando, setEstaCarregando] = useState(true);
+    const [produtos, setProdutos] = useState<Produto[]>([]);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const [paginasTotais, setPaginasTotais] = useState(0);
+    const [itensTotais, setItensTotais] = useState(0);
+    const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
+        useState(false);
+    const [limite] = useState(10);
+    const [categoria] = useState();
 
-    const pegarProdutos = async () => {
+    const lidarComAPaginaAtual = (pagina: number) => {
+        setPaginaAtual(pagina);
+    };
+
+    const pegarProdutos = useCallback(async () => {
         setEstaCarregando(true);
-        setFeedback((prevState) => {
-            return {
-                ...prevState,
-                ocorreuErroNaRespostaApi: false,
-            };
-        });
+        setOcorreuErroNaRespostaApi(false);
 
-        const categoriaSelecionada = query.categoria
-            ? `&category=${query.categoria}`
-            : '';
+        const categoriaSelecionada = categoria ? `&category=${categoria}` : '';
 
         try {
             const resposta = await api.get(
-                `/products/?page=${query.pagina}&limit=${query.limite}${categoriaSelecionada}`
+                `/products/?page=${paginaAtual}&limit=${limite}${categoriaSelecionada}`
             );
             setProdutos(resposta.data.products);
-            setFeedback({
-                currentPage: resposta.data.currentPage,
-                totalItems: resposta.data.totalItems,
-                totalPages: resposta.data.totalPages,
-                ocorreuErroNaRespostaApi: false,
-            });
+            setPaginaAtual(Number(resposta.data.currentPage));
+            setItensTotais(Number(resposta.data.totalItems));
+            setPaginasTotais(Number(resposta.data.totalPages));
+            setOcorreuErroNaRespostaApi(false);
         } catch (error) {
-            setFeedback((prevState) => {
-                return {
-                    ...prevState,
-                    ocorreuErroNaRespostaApi: true,
-                };
-            });
+            setOcorreuErroNaRespostaApi(true);
         } finally {
             setEstaCarregando(false);
         }
-    };
+    }, [categoria, limite, paginaAtual]);
 
     useEffect(() => {
         pegarProdutos();
-    }, []);
+    }, [paginaAtual, pegarProdutos]);
+
     return (
         <>
             <Helmet>
@@ -79,41 +68,53 @@ export default function AdminProdutos() {
                 </Col>
             </Row>
 
-            {feedback.ocorreuErroNaRespostaApi && (
+            {ocorreuErroNaRespostaApi && (
                 <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
             )}
 
-            {!feedback.ocorreuErroNaRespostaApi &&
-                feedback.totalItems === 0 && (
-                    <p>Nenhum produto cadastrado na loja ainda.</p>
-                )}
+            {!ocorreuErroNaRespostaApi && itensTotais === 0 && (
+                <p>Nenhum produto cadastrado na loja ainda.</p>
+            )}
 
-            {!feedback.ocorreuErroNaRespostaApi && (
-                <Row>
-                    <Col>
-                        <Stack gap={4}>
-                            {produtos.length > 0 &&
-                                produtos.map((produto) => (
-                                    <CardProdutoAdmin
-                                        key={produto._id}
-                                        numero={produto._id}
-                                        imagem={produto.img}
-                                        nome={produto.title}
-                                        preco={produto.price}
-                                        pegarProdutos={pegarProdutos}
-                                    />
-                                ))}
-                            {produtos.length === 0 && (
-                                <p>
-                                    Nenhum produto cadastrado.{' '}
-                                    <Link to='/admin/produtos/criar'>
-                                        Criar novo produto
-                                    </Link>
-                                </p>
-                            )}
-                        </Stack>
-                    </Col>
-                </Row>
+            {!ocorreuErroNaRespostaApi && (
+                <>
+                    <Row>
+                        <Col>
+                            <Stack gap={4}>
+                                {produtos.length > 0 &&
+                                    produtos.map((produto) => (
+                                        <CardProdutoAdmin
+                                            key={produto._id}
+                                            numero={produto._id}
+                                            imagem={produto.img}
+                                            nome={produto.title}
+                                            preco={produto.price}
+                                            pegarProdutos={pegarProdutos}
+                                        />
+                                    ))}
+                                {produtos.length === 0 && (
+                                    <p>
+                                        Nenhum produto cadastrado.{' '}
+                                        <Link to='/admin/produtos/criar'>
+                                            Criar novo produto
+                                        </Link>
+                                    </p>
+                                )}
+                            </Stack>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Paginacao
+                                paginaAtual={paginaAtual}
+                                paginasTotais={paginasTotais}
+                                itensTotais={itensTotais}
+                                limite={limite}
+                                mudarDePagina={lidarComAPaginaAtual}
+                            />
+                        </Col>
+                    </Row>
+                </>
             )}
 
             <CarregandoPagina visibilidade={estaCarregando} />

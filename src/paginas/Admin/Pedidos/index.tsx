@@ -1,62 +1,58 @@
 import CardPedido from 'componentes/CardPedido';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import Paginacao from 'componentes/Paginacao';
 import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { Col, Row, Stack } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import { CardPedidosProps, Feedback } from 'types';
+import { CardPedidosProps } from 'types';
 
 export default function AdminPedidos() {
     const accessToken =
         useAppSelector((state) => state.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
-    const [feedback, setFeedback] = useState<Feedback>({
-        currentPage: 0,
-        totalItems: 0,
-        totalPages: 0,
-        ocorreuErroNaRespostaApi: false,
-    });
     const [estaCarregando, setEstaCarregando] = useState(true);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const [paginasTotais, setPaginasTotais] = useState(0);
+    const [itensTotais, setItensTotais] = useState(0);
+    const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
+        useState(false);
+    const [limite] = useState(10);
+
+    const lidarComAPaginaAtual = (pagina: number) => {
+        setPaginaAtual(pagina);
+    };
 
     useEffect(() => {
         const pegarPedidos = async () => {
             setEstaCarregando(true);
-            setFeedback((prevState) => {
-                return {
-                    ...prevState,
-                    ocorreuErroNaRespostaApi: false,
-                };
-            });
+            setOcorreuErroNaRespostaApi(false);
 
             try {
-                const resposta = await api.get(`/orders/?page=1&limit=9`, {
-                    headers: {
-                        Authorization: 'Bearer ' + accessToken,
-                    },
-                });
+                const resposta = await api.get(
+                    `/orders/?page=${paginaAtual}&limit=${limite}`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
+                    }
+                );
                 setPedidos(resposta.data.orders);
-                setFeedback({
-                    currentPage: resposta.data.currentPage,
-                    totalItems: resposta.data.totalItems,
-                    totalPages: resposta.data.totalPages,
-                    ocorreuErroNaRespostaApi: false,
-                });
+                setPaginaAtual(Number(resposta.data.currentPage));
+                setPaginasTotais(Number(resposta.data.totalItems));
+                setItensTotais(Number(resposta.data.totalPages));
+                setOcorreuErroNaRespostaApi(false);
             } catch (error) {
-                setFeedback((prevState) => {
-                    return {
-                        ...prevState,
-                        ocorreuErroNaRespostaApi: true,
-                    };
-                });
+                setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);
             }
         };
         pegarPedidos();
-    }, [accessToken]);
+    }, [accessToken, limite, paginaAtual]);
 
     return (
         <>
@@ -76,16 +72,16 @@ export default function AdminPedidos() {
 
             <Row>
                 <Col>
-                    {feedback.ocorreuErroNaRespostaApi && (
+                    {ocorreuErroNaRespostaApi && (
                         <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                     )}
 
-                    {!feedback.ocorreuErroNaRespostaApi &&
+                    {!ocorreuErroNaRespostaApi &&
                         (pedidos === null || pedidos.length === 0) && (
                             <p>Nenhum pedido realizado na loja.</p>
                         )}
 
-                    {!feedback.ocorreuErroNaRespostaApi && pedidos !== null && (
+                    {!ocorreuErroNaRespostaApi && pedidos !== null && (
                         <Stack gap={4}>
                             {pedidos.map((produto) => (
                                 <CardPedido
@@ -99,6 +95,18 @@ export default function AdminPedidos() {
                             ))}
                         </Stack>
                     )}
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <Paginacao
+                        paginaAtual={paginaAtual}
+                        paginasTotais={paginasTotais}
+                        itensTotais={itensTotais}
+                        limite={limite}
+                        mudarDePagina={lidarComAPaginaAtual}
+                    />
                 </Col>
             </Row>
 

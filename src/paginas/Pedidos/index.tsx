@@ -9,6 +9,7 @@ import CardPedido from 'componentes/CardPedido';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import { Link } from 'react-router-dom';
+import Paginacao from 'componentes/Paginacao';
 
 export default function Pedidos() {
     const nome = useAppSelector((state) => state.nameid) || '';
@@ -21,8 +22,16 @@ export default function Pedidos() {
 
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const [paginasTotais, setPaginasTotais] = useState(0);
+    const [itensTotais, setItensTotais] = useState(0);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
         useState(false);
+    const [limite] = useState(10);
+
+    const lidarComAPaginaAtual = (pagina: number) => {
+        setPaginaAtual(pagina);
+    };
 
     useEffect(() => {
         const pegarPedidos = async () => {
@@ -30,12 +39,27 @@ export default function Pedidos() {
             setEstaCarregando(true);
 
             try {
-                const resposta = await api.get(`/orders/user/${id}`, {
-                    headers: {
-                        Authorization: 'Bearer ' + accessToken,
-                    },
-                });
+                // const resposta = await api.get(`/orders/user/${id}`, {
+                //     headers: {
+                //         Authorization: 'Bearer ' + accessToken,
+                //     },
+                // });
+
+                // setPedidos(resposta.data);
+
+                const resposta = await api.get(
+                    `/orders/user/${id}?page=${paginaAtual}&limit=${limite}`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
+                    }
+                );
                 setPedidos(resposta.data);
+                setPaginaAtual(Number(resposta.data.currentPage));
+                setPaginasTotais(Number(resposta.data.totalItems));
+                setItensTotais(Number(resposta.data.totalPages));
+                setOcorreuErroNaRespostaApi(false);
             } catch (error) {
                 setOcorreuErroNaRespostaApi(true);
             } finally {
@@ -43,7 +67,7 @@ export default function Pedidos() {
             }
         };
         pegarPedidos();
-    }, [id, accessToken]);
+    }, [id, accessToken, paginaAtual, limite]);
 
     return (
         <>
@@ -101,6 +125,18 @@ export default function Pedidos() {
                                 ))}
                             </Stack>
                         )}
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
                     </Col>
                 </Row>
             </Container>
