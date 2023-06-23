@@ -22,11 +22,11 @@ export default function AdminInicio() {
             </Row>
 
             <Row className='h-100'>
-                <Col>1</Col>
-                <Col>2</Col>
-                <Col>3</Col>
-                <Col>4</Col>
-                <Col>5</Col>
+                <Col>Pedidos</Col>
+                <Col>Produtos</Col>
+                <Col>Usuários</Col>
+                <Col>Categorias</Col>
+                <Col>Cupons</Col>
             </Row>
         </>
     );

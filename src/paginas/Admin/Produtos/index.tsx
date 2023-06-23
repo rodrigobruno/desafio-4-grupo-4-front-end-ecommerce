@@ -103,6 +103,7 @@ export default function AdminProdutos() {
                             </Stack>
                         </Col>
                     </Row>
+
                     <Row>
                         <Col>
                             <Paginacao

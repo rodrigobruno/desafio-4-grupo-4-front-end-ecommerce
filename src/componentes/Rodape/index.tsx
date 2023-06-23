@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap-icons';
 import { ReactComponent as LogoGamaZoneLight } from '../../assets/logo-gama-zone-light.svg';
 import { Footer, Titulo, Ul, NavLinkRodape } from './style';
+import { anoAtual } from 'utils';
 
 export default function Rodape() {
     return (
@@ -172,7 +173,8 @@ export default function Rodape() {
                                 Gama Zone s.a. CNPJ: 63.886.070/0001-09.
                                 Inscrição Estadual: 770.046.511.030. Endereço:
                                 Avenida Vital Brasil, 460 - São Paulo, SP -
-                                05503-000. Telefone: (11) 91869-9562.
+                                05503-000. Telefone: (11) 91869-9562. Copyright
+                                © {anoAtual()} Grupo 04. Versão 1.0
                             </small>
                         </p>
                     </Col>
