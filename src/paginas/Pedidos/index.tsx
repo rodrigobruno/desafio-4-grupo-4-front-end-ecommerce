@@ -12,12 +12,12 @@ import { Link } from 'react-router-dom';
 import Paginacao from 'componentes/Paginacao';
 
 export default function Pedidos() {
-    const nome = useAppSelector((state) => state.nameid) || '';
+    const nome = useAppSelector((state) => state.authSlice.nameid) || '';
     const id =
-        useAppSelector((state) => state._id) ||
+        useAppSelector((state) => state.authSlice._id) ||
         localStorage.getItem('@autenticacao-react:userId');
     const accessToken =
-        useAppSelector((state) => state.accessToken) ||
+        useAppSelector((state) => state.authSlice.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
 
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);

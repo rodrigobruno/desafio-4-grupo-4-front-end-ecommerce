@@ -5,8 +5,10 @@ import MainAdmin from 'componentes/Admin/Main';
 import SidebarAdmin from 'componentes/Admin/Sidebar';
 
 export default function PaginaAdmin() {
-    const ehAdmin = useAppSelector((state) => state?.isAdmin === true);
-    const carregando = useAppSelector((state) => state.carregando);
+    const ehAdmin = useAppSelector(
+        (state) => state?.authSlice.isAdmin === true
+    );
+    const carregando = useAppSelector((state) => state.authSlice.carregando);
 
     if (!ehAdmin && !carregando) {
         return <Navigate to='/entrar' replace />;

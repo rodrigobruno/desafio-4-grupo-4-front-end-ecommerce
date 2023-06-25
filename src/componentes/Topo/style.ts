@@ -20,6 +20,10 @@ export const Header = styled.header`
         transform: translate(-20%, 120%);
     }
 
+    & #menu-carrinho:hover .badge {
+        background-color: #64d858 !important;
+    }
+
     @media (min-width: 992px) {
         & #menu-carrinho {
             order: 1;

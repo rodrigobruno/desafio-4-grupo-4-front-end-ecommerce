@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from 'hooks';
 import { ReactNode } from 'react';
@@ -8,11 +8,18 @@ interface LoginRouteProps {
 }
 
 export const LoginRoute = ({ children }: LoginRouteProps) => {
-    const usuario = useAppSelector((state) => state._id);
+    const usuario = useAppSelector((state) => state.authSlice._id);
+    const { search } = useLocation();
+    const queryOrigem = new URLSearchParams(search).get('origem');
+    const origemCarrinho = queryOrigem === 'carrinho';
 
-    if (usuario) {
-        return <Navigate to='/' replace />;
+    if (!usuario) {
+        return <>{children}</>;
     }
 
-    return <>{children}</>;
+    if (origemCarrinho) {
+        return <Navigate to='/carrinho' />;
+    }
+
+    return <Navigate to='/' />;
 };

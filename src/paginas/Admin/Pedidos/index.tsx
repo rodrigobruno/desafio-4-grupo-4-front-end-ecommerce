@@ -11,7 +11,7 @@ import { CardPedidosProps } from 'types';
 
 export default function AdminPedidos() {
     const accessToken =
-        useAppSelector((state) => state.accessToken) ||
+        useAppSelector((state) => state.authSlice.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);

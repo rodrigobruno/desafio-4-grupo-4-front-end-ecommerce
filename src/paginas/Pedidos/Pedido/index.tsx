@@ -18,7 +18,7 @@ export default function Pedido() {
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
         useState(false);
     const accessToken =
-        useAppSelector((state) => state.accessToken) ||
+        useAppSelector((state) => state.authSlice.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
 
     useEffect(() => {

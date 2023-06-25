@@ -1,15 +1,3 @@
-export type CardPedidosProps = {
-    _id: string;
-    //userId: string;
-    //products: [{ productId: string; quantity: number; _id: string }];
-    amount: number;
-    //address: string;
-    status: string;
-    createdAt: string;
-    //updatedAt: string;
-    //__v: number;
-};
-
 export type PedidoProps = {
     _id: string;
     userId: string;
@@ -38,14 +26,45 @@ export type PedidoProps = {
     //__v: number;
 };
 
-export type CardProdutoProps = {
-    _id?: number;
+export interface Categorias {
+    _id: string;
+    title: string;
+}
+
+export type CardPedidosProps = {
+    _id: string;
+    //userId: string;
+    //products: [{ productId: string; quantity: number; _id: string }];
+    amount: number;
+    //address: string;
+    status: string;
+    createdAt: string;
+    //updatedAt: string;
+    //__v: number;
+};
+
+// export type CardProdutoProps = {
+//     _id?: number;
+//     title: string;
+//     desc?: string;
+//     img: string;
+//     categories?: string;
+//     price: number;
+// };
+
+export interface Produto {
+    _id: string;
     title: string;
     desc?: string;
     img: string;
-    categories?: string;
+    categories?: Categorias[];
     price: number;
-};
+}
+
+export interface Produtos {
+    product: Produto;
+    quantity: number;
+}
 
 export interface UsuarioState {
     _id: number | null;
@@ -91,20 +110,6 @@ export interface CamposFormLogin {
 export interface ErrosFormLogin {
     username: string | null;
     password?: string | null;
-}
-
-export interface Categorias {
-    _id: string;
-    title: string;
-}
-
-export interface Produto {
-    _id: string;
-    title: string;
-    desc: string;
-    img: string;
-    categories: Categorias[];
-    price: number;
 }
 
 export interface Feedback {
