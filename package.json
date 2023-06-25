@@ -34,6 +34,9 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "rules": {
+      "react/react-in-jsx-scope": "off"
+     },
     "extends": [
       "react-app",
       "react-app/jest"
@@ -54,6 +57,10 @@
   "devDependencies": {
     "@types/react-router-bootstrap": "^0.26.0",
     "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.2",
     "styled-components": "^5.3.10"
   }
 }

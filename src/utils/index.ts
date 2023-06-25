@@ -33,3 +33,9 @@ export const ehUmaUrlValida = (url: string): boolean => {
     );
     return pattern.test(url);
 };
+
+export const anoAtual = (): number => {
+    const dataDeHoje = new Date();
+    const anoAtual = dataDeHoje.getFullYear();
+    return anoAtual;
+};

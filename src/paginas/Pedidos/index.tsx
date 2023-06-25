@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Col, Container, Row, Stack } from 'react-bootstrap';
 import { Box2Heart } from 'react-bootstrap-icons';
@@ -9,6 +9,7 @@ import CardPedido from 'componentes/CardPedido';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import { Link } from 'react-router-dom';
+import Paginacao from 'componentes/Paginacao';
 
 export default function Pedidos() {
     const nome = useAppSelector((state) => state.nameid) || '';
@@ -21,29 +22,45 @@ export default function Pedidos() {
 
     const [pedidos, setPedidos] = useState<CardPedidosProps[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const [paginasTotais, setPaginasTotais] = useState(0);
+    const [itensTotais, setItensTotais] = useState(0);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
         useState(false);
+    const [limite] = useState(10);
 
-    useEffect(() => {
-        const pegarPedidos = async () => {
-            setOcorreuErroNaRespostaApi(false);
-            setEstaCarregando(true);
+    const lidarComAPaginaAtual = (pagina: number) => {
+        setPaginaAtual(pagina);
+    };
 
-            try {
-                const resposta = await api.get(`/orders/user/${id}`, {
+    const pegarPedidos = useCallback(async () => {
+        setOcorreuErroNaRespostaApi(false);
+        setEstaCarregando(true);
+
+        try {
+            const resposta = await api.get(
+                `/orders/user/${id}?page=${paginaAtual}&limit=${limite}`,
+                {
                     headers: {
                         Authorization: 'Bearer ' + accessToken,
                     },
-                });
-                setPedidos(resposta.data);
-            } catch (error) {
-                setOcorreuErroNaRespostaApi(true);
-            } finally {
-                setEstaCarregando(false);
-            }
-        };
+                }
+            );
+            setPedidos(resposta.data.orders);
+            setPaginaAtual(Number(resposta.data.currentPage));
+            setPaginasTotais(Number(resposta.data.totalItems));
+            setItensTotais(Number(resposta.data.totalPages));
+            setOcorreuErroNaRespostaApi(false);
+        } catch (error) {
+            setOcorreuErroNaRespostaApi(true);
+        } finally {
+            setEstaCarregando(false);
+        }
+    }, [accessToken, id, limite, paginaAtual]);
+
+    useEffect(() => {
         pegarPedidos();
-    }, [id, accessToken]);
+    }, [pegarPedidos]);
 
     return (
         <>
@@ -72,7 +89,7 @@ export default function Pedidos() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className='mb-5'>
+                    <Col>
                         {ocorreuErroNaRespostaApi && (
                             <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                         )}
@@ -103,6 +120,19 @@ export default function Pedidos() {
                         )}
                     </Col>
                 </Row>
+
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
+                    </Col>
+                </Row>
+                <div className='mb-5'></div>
             </Container>
 
             <CarregandoPagina visibilidade={estaCarregando} />
