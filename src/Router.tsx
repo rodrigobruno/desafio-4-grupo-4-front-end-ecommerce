@@ -112,9 +112,7 @@ export default function AppRoutes() {
 
                 <Route path='usuarios' element={<AdminUsuarios />} />
                 <Route path='usuarios/criar' element={<AdminCriarUsurario />} />
-                <Route
-                    path='usuarios/editar/:id'
-                    element={<AdminEditarUsuario />}
+                <Route path='usuarios/editar/:id' element={<AdminEditarUsuario />}
                 />
             </Route>
         </Routes>

@@ -119,3 +119,7 @@ export interface ProdutosQuery {
     limite?: number;
     categoria?: string;
 }
+export interface UsuarioQuery{
+    pagina?: number;
+    limite?: number;
+}
