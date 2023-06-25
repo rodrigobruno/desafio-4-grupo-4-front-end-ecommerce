@@ -8,8 +8,8 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-    const usuario = useAppSelector((state) => state._id);
-    const carregando = useAppSelector((state) => state.carregando);
+    const usuario = useAppSelector((state) => state.authSlice._id);
+    const carregando = useAppSelector((state) => state.authSlice.carregando);
 
     if (!usuario && !carregando) {
         return <Navigate to='/' replace />;

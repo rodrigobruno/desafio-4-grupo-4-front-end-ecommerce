@@ -35,10 +35,10 @@ export interface ErrosFormUsuario {
 export default function Profile() {
     const [estaCarregando, setEstaCarregando] = useState(true);
 
-    const id = useAppSelector((state) => state._id);
-    const nome = useAppSelector((state) => state.nameid);
-    const username = useAppSelector((state) => state.username);
-    const emails = useAppSelector((state) => state.emails);
+    const id = useAppSelector((state) => state.authSlice._id);
+    const nome = useAppSelector((state) => state.authSlice.nameid);
+    const username = useAppSelector((state) => state.authSlice.username);
+    const emails = useAppSelector((state) => state.authSlice.emails);
 
     const [form, setForm] = useState<CamposFormUsuario>({
         nameid: nome || '',

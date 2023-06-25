@@ -6,13 +6,16 @@ $font-family-sans-serif: Barlow, -apple-system, system-ui, BlinkMacSystemFont, "
 $primary: $cor-verde-1;
 $secondary: $cor-roxa-3;
 $dark: $cor-preta-6;
+$light: $cor-preta-0;
 
 $headings-font-weight: $font-weight-preta;
 
 $btn-font-weight: var(--font-weight-regular);
 $btn-font-size-lg: 1.5rem;
 $btn-border-radius: 0.25rem;
-$btn-border-radius-lg:  0.25rem;
+$btn-border-radius-lg: 0.25rem;
+$btn-active-bg-shade-amount: 50%;
+$btn-active-bg-tint-amount:  50%;
 
 $nav-link-font-size: 1.25rem;
 $nav-link-font-weight: $font-weight-light;

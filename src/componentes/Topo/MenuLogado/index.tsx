@@ -4,7 +4,9 @@ import { logout } from 'store/modules/usuario';
 import Nav from 'react-bootstrap/Nav';
 
 export default function MenuLogado() {
-    const ehAdmin = useAppSelector((state) => state?.isAdmin === true);
+    const ehAdmin = useAppSelector(
+        (state) => state?.authSlice.isAdmin === true
+    );
     const dispatch = useAppDispatch();
 
     return (

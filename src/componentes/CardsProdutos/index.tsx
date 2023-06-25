@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from 'lib/axios';
-import { CardProdutoProps, Feedback, ProdutosQuery } from 'types/';
+import { Produto, Feedback, ProdutosQuery } from 'types/';
 import CardProduto from 'componentes/CardsProdutos/CardProduto';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
@@ -12,7 +12,7 @@ export default function CardsProdutos({
     limite = 9,
     categoria,
 }: ProdutosQuery) {
-    const [produtos, setProdutos] = useState<CardProdutoProps[]>([]);
+    const [produtos, setProdutos] = useState<Produto[]>([]);
     const [feedback, setFeedback] = useState<Feedback>({
         currentPage: 0,
         totalItems: 0,
@@ -76,6 +76,7 @@ export default function CardsProdutos({
                     {produtos.map((produto) => (
                         <CardProduto
                             key={produto._id}
+                            _id={produto._id}
                             title={produto.title}
                             price={produto.price}
                             img={produto.img}

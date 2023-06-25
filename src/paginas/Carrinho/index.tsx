@@ -4,7 +4,7 @@ export default function Carrinho() {
     return (
         <>
             <Helmet>
-                <title>Criar cadastro - Gama Zone</title>
+                <title>Carrinho - Gama Zone</title>
                 <meta
                     name='description'
                     content='Finalize sua compra com facilidade e segurança no carrinho da nossa loja de board games. Aproveite ofertas especiais e garanta diversão para toda a família.'

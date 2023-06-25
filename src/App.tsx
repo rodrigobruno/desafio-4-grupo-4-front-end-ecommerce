@@ -18,7 +18,9 @@ interface RespostaDecode {
 
 export default function App() {
     const dispatch = useAppDispatch();
-    const { _id, accessToken, carregando } = useAppSelector((state) => state);
+    const { _id, accessToken, carregando } = useAppSelector(
+        (state) => state.authSlice
+    );
 
     useEffect(() => {
         if (accessToken) {

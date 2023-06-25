@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useAppSelector } from 'hooks';
 
 export default function AdminInicio() {
-    const nome = useAppSelector((state) => state.nameid) || '';
+    const nome = useAppSelector((state) => state.authSlice.nameid) || '';
 
     return (
         <>
