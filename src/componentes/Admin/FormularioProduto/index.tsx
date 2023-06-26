@@ -68,8 +68,8 @@ export default function FormularioProduto({
             setMostrarAlertaSucesso200(false);
 
             try {
-                const resposta = await api.get(`/categories/`);
-                setListaDeCategorias(resposta.data);
+                const resposta = await api.get(`/categories/?page=1&limit=100`);
+                setListaDeCategorias(resposta.data.categories);
             } catch (error) {
                 setMostrarAlertaErro404(true);
             } finally {

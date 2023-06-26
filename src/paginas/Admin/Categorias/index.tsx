@@ -16,7 +16,7 @@ export default function AdminCategorias() {
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [paginasTotais, setPaginasTotais] = useState(0);
     const [itensTotais, setItensTotais] = useState(0);
-    const [limite] = useState(2);
+    const [limite] = useState(10);
 
     const lidarComAPaginaAtual = (pagina: number) => {
         setPaginaAtual(pagina);
