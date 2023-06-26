@@ -8,8 +8,12 @@ import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import { Link } from 'react-router-dom';
 import { Produto } from 'types';
 import Paginacao from 'componentes/Paginacao';
+import { useAppSelector } from 'hooks';
 
 export default function AdminProdutos() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [paginaAtual, setPaginaAtual] = useState(1);
@@ -32,7 +36,12 @@ export default function AdminProdutos() {
 
         try {
             const resposta = await api.get(
-                `/products/?page=${paginaAtual}&limit=${limite}${categoriaSelecionada}`
+                `/products/?page=${paginaAtual}&limit=${limite}${categoriaSelecionada}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                }
             );
             setProdutos(resposta.data.products);
             setPaginaAtual(Number(resposta.data.currentPage));
@@ -46,7 +55,7 @@ export default function AdminProdutos() {
         } finally {
             setEstaCarregando(false);
         }
-    }, [categoria, limite, paginaAtual]);
+    }, [accessToken, categoria, limite, paginaAtual]);
 
     useEffect(() => {
         pegarProdutos();

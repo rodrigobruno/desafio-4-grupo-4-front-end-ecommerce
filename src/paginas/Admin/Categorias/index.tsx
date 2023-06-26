@@ -8,8 +8,12 @@ import { Link } from 'react-router-dom';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import Paginacao from 'componentes/Paginacao';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import { useAppSelector } from 'hooks';
 
 export default function AdminCategorias() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [categorias, setCategorias] = useState<Categorias[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
@@ -28,7 +32,12 @@ export default function AdminCategorias() {
 
         try {
             const resposta = await api.get(
-                `/categories/?page=${paginaAtual}&limit=${limite}`
+                `/categories/?page=${paginaAtual}&limit=${limite}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                }
             );
             setCategorias(resposta.data.categories);
             setPaginaAtual(Number(resposta.data.currentPage));
@@ -42,7 +51,7 @@ export default function AdminCategorias() {
         } finally {
             setEstaCarregando(false);
         }
-    }, [limite, paginaAtual]);
+    }, [accessToken, limite, paginaAtual]);
 
     useEffect(() => {
         pegarCategorias();

@@ -10,7 +10,7 @@ import Inicio from './paginas/Inicio';
 import NaoEncontrada from './paginas/NaoEncontrada';
 import Produtos from './paginas/Produtos';
 import Produto from 'paginas/Produtos/Produto';
-import Carrinho from 'paginas/Carrinho';
+import Checkout from 'paginas/Checkout';
 import Sucesso from 'paginas/Sucesso';
 import Cadastrar from 'paginas/Cadastrar';
 import Entrar from 'paginas/Entrar';
@@ -41,8 +41,16 @@ export default function AppRoutes() {
                 <Route path='produtos' element={<Produtos />} />
                 <Route path='produto' element={<Produto />} />
                 <Route path='categorias' element={<Categorias />} />
-                <Route path='carrinho' element={<Carrinho />} />
                 <Route path='sucesso' element={<Sucesso />} />
+
+                <Route
+                    path='finalizar-compra'
+                    element={
+                        <PrivateRoute>
+                            <Checkout />
+                        </PrivateRoute>
+                    }
+                />
                 <Route
                     path='cadastrar'
                     element={
@@ -113,7 +121,9 @@ export default function AppRoutes() {
 
                 <Route path='usuarios' element={<AdminUsuarios />} />
                 <Route path='usuarios/criar' element={<AdminCriarUsurario />} />
-                <Route path='usuarios/editar/:id' element={<AdminEditarUsuario />}
+                <Route
+                    path='usuarios/editar/:id'
+                    element={<AdminEditarUsuario />}
                 />
 
                 <Route path='cupons' element={<AdminCupons />} />

@@ -124,7 +124,68 @@ export interface ProdutosQuery {
     limite?: number;
     categoria?: string;
 }
-export interface UsuarioQuery{
+export interface UsuarioQuery {
     pagina?: number;
     limite?: number;
+}
+
+// export interface Estados {
+//     estado:
+//         | 'AC'
+//         | 'AL'
+//         | 'AP'
+//         | 'AM'
+//         | 'BA'
+//         | 'CE'
+//         | 'DF'
+//         | 'ES'
+//         | 'GO'
+//         | 'MA'
+//         | 'MT'
+//         | 'MS'
+//         | 'MG'
+//         | 'PA'
+//         | 'PB'
+//         | 'PR'
+//         | 'PE'
+//         | 'PI'
+//         | 'RJ'
+//         | 'RN'
+//         | 'RS'
+//         | 'RO'
+//         | 'RR'
+//         | 'SC'
+//         | 'SP'
+//         | 'SE'
+//         | 'TO';
+// }
+
+export enum Estados {
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO',
 }

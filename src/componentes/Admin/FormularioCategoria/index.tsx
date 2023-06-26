@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import Carregando from 'componentes/Carregando';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { FormEvent, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
@@ -27,6 +28,9 @@ export default function FormularioCategoria({
     nome,
     labelDoBotao,
 }: Props) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [enviadandoDados, setEnviadandoDados] = useState(false);
     const [mostrarAlertaSucesso200, setMostrarAlertaSucesso200] =
         useState(false);
@@ -86,9 +90,17 @@ export default function FormularioCategoria({
 
             try {
                 if (tipo === 'post') {
-                    await api.post('/categories', {
-                        title: form.nome,
-                    });
+                    await api.post(
+                        '/categories',
+                        {
+                            title: form.nome,
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
 
                     setForm({
                         nome: '',
@@ -96,9 +108,17 @@ export default function FormularioCategoria({
                 }
 
                 if (tipo === 'put') {
-                    await api.put(`/categories/${id}`, {
-                        title: form.nome,
-                    });
+                    await api.put(
+                        `/categories/${id}`,
+                        {
+                            title: form.nome,
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
                 }
 
                 window.scrollTo(0, 0);

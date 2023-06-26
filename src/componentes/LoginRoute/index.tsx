@@ -18,7 +18,7 @@ export const LoginRoute = ({ children }: LoginRouteProps) => {
     }
 
     if (origemCarrinho) {
-        return <Navigate to='/carrinho' />;
+        return <Navigate to='/finalizar-compra' />;
     }
 
     return <Navigate to='/' />;

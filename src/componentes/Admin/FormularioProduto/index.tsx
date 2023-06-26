@@ -10,6 +10,7 @@ import { ehUmaUrlValida } from 'utils';
 import { ImagemPreview } from './style';
 import Placeholder from 'assets/placeholder.svg';
 import { Categorias } from 'types';
+import { useAppSelector } from 'hooks';
 
 interface Props {
     tipo: 'post' | 'put';
@@ -47,6 +48,9 @@ export default function FormularioProduto({
     categoriasProp,
     labelDoBotao,
 }: Props) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [listaDeCategorias, setListaDeCategorias] = useState<Categorias[]>(
         []
     );
@@ -179,13 +183,21 @@ export default function FormularioProduto({
 
             try {
                 if (tipo === 'post') {
-                    await api.post('/products', {
-                        title: form.nome,
-                        desc: form.descricao,
-                        img: form.imagem,
-                        categories: categorias,
-                        price: Number(form.preco),
-                    });
+                    await api.post(
+                        '/products',
+                        {
+                            title: form.nome,
+                            desc: form.descricao,
+                            img: form.imagem,
+                            categories: categorias,
+                            price: Number(form.preco),
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
 
                     setForm({
                         nome: '',
@@ -197,13 +209,21 @@ export default function FormularioProduto({
                 }
 
                 if (tipo === 'put') {
-                    await api.put(`/products/${id}`, {
-                        title: form.nome,
-                        desc: form.descricao,
-                        img: form.imagem,
-                        categories: categorias,
-                        price: Number(form.preco),
-                    });
+                    await api.put(
+                        `/products/${id}`,
+                        {
+                            title: form.nome,
+                            desc: form.descricao,
+                            img: form.imagem,
+                            categories: categorias,
+                            price: Number(form.preco),
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
                 }
 
                 window.scrollTo(0, 0);
