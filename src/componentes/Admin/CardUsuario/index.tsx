@@ -41,7 +41,7 @@ export default function CardUsuarioAdmin({
         //await new Promise((res) => setTimeout(res, 3000));
 
         try {
-            await api.delete(`/products/${id}`);
+            await api.delete(`/users/${id}`);
             pegarUsuario();
         } catch (error) {
             setMostrarToast(true);
