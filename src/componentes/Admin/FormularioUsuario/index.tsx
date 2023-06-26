@@ -3,6 +3,7 @@ import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import { api } from 'lib/axios';
+import { type } from 'os';
 import { FormEvent, useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { CheckCircleFill } from 'react-bootstrap-icons';
@@ -72,6 +73,8 @@ export default function FormularioUsuario ({
         setEstaCarregando(false);
         
         setadminPut(tipo === 'put');
+
+
         
     }, []);
 
@@ -91,9 +94,11 @@ export default function FormularioUsuario ({
             novoErros.email = 'Preencha um e-mail válido';
         }
 
-        if (!senha || senha === '') {
-            novoErros.senha = 'Preencha uma senha';
-        }
+      
+            if ((tipo=='post')&&(!senha || senha === '')) {
+                novoErros.senha = 'Preencha uma senha';
+            }
+        
 
         return novoErros;
     };
@@ -135,11 +140,10 @@ export default function FormularioUsuario ({
                 }
 
                 if (tipo === 'put') {
-                    await api.put(`/auth/register/${id}`, {
+                    await api.put(`/users/${id}`, {
                         nameid: form.nome,
                         username: form.usuario,
                         emails: form.email,
-                        password: form.senha,
                         isAdmin: form.admin,
                     });
                 }
@@ -294,6 +298,7 @@ export default function FormularioUsuario ({
                         <Form.Group
                             className='mb-3'
                             controlId='criarUsuario.ControlInputSenha'
+                            style={{ display: adminPut ? 'none' : 'block'}}
                         >
                             <Form.Label>Senha</Form.Label>
                             <Form.Control
