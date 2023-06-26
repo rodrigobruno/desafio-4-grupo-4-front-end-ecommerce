@@ -70,6 +70,10 @@ export default function FormularioUsuario({
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(e.target.value === 'true');
     };
+    const validarSenha = (senha: string) => {
+        const regex: RegExp = /^(?=.*[A-Z])(?=.*\d{2})(?=.*[a-z])[A-Za-z0-9]{6,10}$/;
+        return regex.test(senha);
+      };
 
     useEffect(() => {
         setEstaCarregando(false);
@@ -96,6 +100,10 @@ export default function FormularioUsuario({
 
         if (tipo === 'post' && (!senha || senha === '')) {
             novoErros.senha = 'Preencha uma senha';
+        }
+
+        if(tipo === 'post' && !validarSenha(senha)){
+            novoErros.senha = 'A senha deve conter no mínimo 6 e no máximo 10 caracteres, sendo 1 letra maiúscula, sendo no mínimo 2 números e o restante letras minuscúlas.';
         }
 
         return novoErros;
@@ -269,7 +277,7 @@ export default function FormularioUsuario({
                         >
                             <Form.Label>E-mail</Form.Label>
                             <Form.Control
-                                type='text'
+                                type='email'
                                 placeholder='Digite seu e-mail'
                                 required
                                 value={form.email}
@@ -293,7 +301,7 @@ export default function FormularioUsuario({
                             >
                                 <Form.Label>Senha</Form.Label>
                                 <Form.Control
-                                    type='text'
+                                    type='password'
                                     placeholder='Digite uma senha'
                                     required
                                     value={form.senha}
