@@ -69,11 +69,16 @@ export default function FormularioUsuario ({
     const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
     const [adminPut,setadminPut] = useState(false);
 
+    const [selectedOption, setSelectedOption] = useState(false);
+    const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedOption(e.target.value === 'true');
+    }
+    
     useEffect(() => {
         setEstaCarregando(false);
         
         setadminPut(tipo === 'put');
-
+        setSelectedOption(admin==true);
 
         
     }, []);
@@ -144,7 +149,7 @@ export default function FormularioUsuario ({
                         nameid: form.nome,
                         username: form.usuario,
                         emails: form.email,
-                        isAdmin: form.admin,
+                        isAdmin: selectedOption,
                     });
                 }
 
@@ -325,15 +330,20 @@ export default function FormularioUsuario ({
                             style={{ display: adminPut ? 'block' : 'none'}}
                         >
                         <Form.Label>Admin</Form.Label>
-                            <Form.Select
-                                multiple
-                                isInvalid={!!erros.admin}
-                                style={{ height: '54px' }}
-                            >
-                                    <option value="sim" key={"sim"}>Sim</option>
-                                    <option value="nao" key={"nao"} selected >Não</option>
-                                
-                            </Form.Select>
+            <Form.Check
+            type="radio"
+            label="Sim"
+            value="true"
+            checked={selectedOption === true}
+            onChange={handleOptionChange}
+          />
+          <Form.Check
+            type="radio"
+            label="Não"
+            value="false"
+            checked={selectedOption === false}
+            onChange={handleOptionChange}
+          />
                             <Form.Control.Feedback type='invalid'>
                                 {erros.admin}
                             </Form.Control.Feedback>
