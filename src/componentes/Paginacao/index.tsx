@@ -23,7 +23,6 @@ export default function Paginacao({
     ultimo = true,
     ellipsis = 5,
 }: PaginationControlProps) {
-    //const paginasTotais = Math.ceil(itensTotais / limite);
     entre = entre < 1 ? 1 : entre;
     paginaAtual =
         paginaAtual < 1

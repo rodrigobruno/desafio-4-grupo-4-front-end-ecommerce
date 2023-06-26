@@ -7,7 +7,7 @@ import { Container, Botoes, ToastBodyColor } from './style';
 import UsuarioInformacao from './UsuarioInformacao';
 
 interface Users {
-    id:string;
+    id: string;
     nome: string;
     usuario: string;
     email: string;
@@ -21,7 +21,7 @@ export default function CardUsuarioAdmin({
     usuario,
     email,
     admin,
-    pegarUsuario
+    pegarUsuario,
 }: Users) {
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
@@ -38,8 +38,6 @@ export default function CardUsuarioAdmin({
         setMostrarToast(false);
         setMostrarModal(false);
 
-        //await new Promise((res) => setTimeout(res, 3000));
-
         try {
             await api.delete(`/users/${id}`);
             pegarUsuario();
@@ -53,11 +51,13 @@ export default function CardUsuarioAdmin({
     return (
         <>
             <Container>
-                <UsuarioInformacao titulo="ID" descricao={id} />
-                <UsuarioInformacao titulo='NOME' descricao={nome} />
-                <UsuarioInformacao titulo='USUÁRIO' descricao={usuario} />
-                <UsuarioInformacao titulo='E-MAIL' descricao={email} />
-                <UsuarioInformacao titulo='ADMINISTRADOR' descricao={admin? "Sim" : "Não"} />
+                <UsuarioInformacao
+                    titulo='Admin'
+                    descricao={admin ? 'Sim' : 'Não'}
+                />
+                <UsuarioInformacao titulo={id} descricao={nome} />
+                {/* <UsuarioInformacao titulo='Usuário' descricao={usuario} /> */}
+                <UsuarioInformacao titulo='E-mail' descricao={email} />
 
                 <Botoes>
                     <LinkContainer to={`/admin/usuarios/editar/${id}`}>
@@ -117,7 +117,7 @@ export default function CardUsuarioAdmin({
                     </Button>
                     <Button
                         variant='primary'
-                        onClick={(e) => excluirUsuario(e,id)}
+                        onClick={(e) => excluirUsuario(e, id)}
                     >
                         Sim, excluir!
                     </Button>

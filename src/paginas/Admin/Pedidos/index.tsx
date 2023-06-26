@@ -44,7 +44,9 @@ export default function AdminPedidos() {
             setPaginasTotais(Number(resposta.data.totalItems));
             setItensTotais(Number(resposta.data.totalPages));
             setOcorreuErroNaRespostaApi(false);
+            window.scrollTo(0, 0);
         } catch (error) {
+            window.scrollTo(0, 0);
             setOcorreuErroNaRespostaApi(true);
         } finally {
             setEstaCarregando(false);
@@ -73,16 +75,16 @@ export default function AdminPedidos() {
 
             <Row>
                 <Col>
-                    {ocorreuErroNaRespostaApi && (
+                    {(ocorreuErroNaRespostaApi || !Array.isArray(pedidos)) && (
                         <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
                     )}
 
-                    {!ocorreuErroNaRespostaApi &&
-                        (pedidos === null || pedidos.length === 0) && (
+                    {(pedidos === null || pedidos.length === 0) &&
+                        !ocorreuErroNaRespostaApi && (
                             <p>Nenhum pedido realizado na loja.</p>
                         )}
 
-                    {!ocorreuErroNaRespostaApi && pedidos !== null && (
+                    {Array.isArray(pedidos) && !ocorreuErroNaRespostaApi && (
                         <Stack gap={4}>
                             {pedidos.map((produto) => (
                                 <CardPedidoAdmin
@@ -100,17 +102,19 @@ export default function AdminPedidos() {
                 </Col>
             </Row>
 
-            <Row>
-                <Col>
-                    <Paginacao
-                        paginaAtual={paginaAtual}
-                        paginasTotais={paginasTotais}
-                        itensTotais={itensTotais}
-                        limite={limite}
-                        mudarDePagina={lidarComAPaginaAtual}
-                    />
-                </Col>
-            </Row>
+            {Array.isArray(pedidos) && !ocorreuErroNaRespostaApi && (
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
+                    </Col>
+                </Row>
+            )}
 
             <CarregandoPagina visibilidade={estaCarregando} />
         </>

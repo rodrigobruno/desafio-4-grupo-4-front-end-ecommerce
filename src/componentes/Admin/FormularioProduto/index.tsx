@@ -71,6 +71,7 @@ export default function FormularioProduto({
                 const resposta = await api.get(`/categories/?page=1&limit=100`);
                 setListaDeCategorias(resposta.data.categories);
             } catch (error) {
+                window.scrollTo(0, 0);
                 setMostrarAlertaErro404(true);
             } finally {
                 setEstaCarregando(false);

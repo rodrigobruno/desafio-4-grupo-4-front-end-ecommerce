@@ -39,7 +39,9 @@ export default function AdminProdutos() {
             setItensTotais(Number(resposta.data.totalItems));
             setPaginasTotais(Number(resposta.data.totalPages));
             setOcorreuErroNaRespostaApi(false);
+            window.scrollTo(0, 0);
         } catch (error) {
+            window.scrollTo(0, 0);
             setOcorreuErroNaRespostaApi(true);
         } finally {
             setEstaCarregando(false);
@@ -68,54 +70,52 @@ export default function AdminProdutos() {
                 </Col>
             </Row>
 
-            {ocorreuErroNaRespostaApi && (
-                <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
-            )}
+            <Row>
+                <Col>
+                    <Stack gap={4}>
+                        {(ocorreuErroNaRespostaApi ||
+                            !Array.isArray(produtos)) && (
+                            <ErroAtualizarPagina classes='w-100 d-flex' />
+                        )}
 
-            {!ocorreuErroNaRespostaApi && itensTotais === 0 && (
-                <p>Nenhum produto cadastrado na loja ainda.</p>
-            )}
+                        {(produtos === null || produtos.length === 0) &&
+                            !ocorreuErroNaRespostaApi && (
+                                <p>
+                                    Nenhum produto cadastrado.{' '}
+                                    <Link to='/admin/produtos/criar'>
+                                        Criar novo produto
+                                    </Link>
+                                </p>
+                            )}
 
-            {!ocorreuErroNaRespostaApi && (
-                <>
-                    <Row>
-                        <Col>
-                            <Stack gap={4}>
-                                {produtos.length > 0 &&
-                                    produtos.map((produto) => (
-                                        <CardProdutoAdmin
-                                            key={produto._id}
-                                            numero={produto._id}
-                                            imagem={produto.img}
-                                            nome={produto.title}
-                                            preco={produto.price}
-                                            pegarProdutos={pegarProdutos}
-                                        />
-                                    ))}
-                                {produtos.length === 0 && (
-                                    <p>
-                                        Nenhum produto cadastrado.{' '}
-                                        <Link to='/admin/produtos/criar'>
-                                            Criar novo produto
-                                        </Link>
-                                    </p>
-                                )}
-                            </Stack>
-                        </Col>
-                    </Row>
+                        {Array.isArray(produtos) &&
+                            !ocorreuErroNaRespostaApi &&
+                            produtos.map((produto) => (
+                                <CardProdutoAdmin
+                                    key={produto._id}
+                                    numero={produto._id}
+                                    imagem={produto.img}
+                                    nome={produto.title}
+                                    preco={produto.price}
+                                    pegarProdutos={pegarProdutos}
+                                />
+                            ))}
+                    </Stack>
+                </Col>
+            </Row>
 
-                    <Row>
-                        <Col>
-                            <Paginacao
-                                paginaAtual={paginaAtual}
-                                paginasTotais={paginasTotais}
-                                itensTotais={itensTotais}
-                                limite={limite}
-                                mudarDePagina={lidarComAPaginaAtual}
-                            />
-                        </Col>
-                    </Row>
-                </>
+            {Array.isArray(produtos) && !ocorreuErroNaRespostaApi && (
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
+                    </Col>
+                </Row>
             )}
 
             <CarregandoPagina visibilidade={estaCarregando} />

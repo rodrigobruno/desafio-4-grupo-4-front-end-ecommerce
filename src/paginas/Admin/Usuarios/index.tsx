@@ -1,61 +1,54 @@
 import { Helmet } from 'react-helmet-async';
 import { Col, Row, Stack } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { api } from 'lib/axios';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import { Link } from 'react-router-dom';
-import { Feedback,Usuario, UsuarioQuery } from 'types';
+import { Usuario } from 'types';
 import CardUsuarioAdmin from 'componentes/Admin/CardUsuario';
+import Paginacao from 'componentes/Paginacao';
 
 export default function AdminUsuarios() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-    const [feedback, setFeedback] = useState<Feedback>({
-        currentPage: 0,
-        totalItems: 0,
-        totalPages: 0,
-        ocorreuErroNaRespostaApi: false,
-    });
-    const [query, setQuery] = useState<UsuarioQuery>({
-        pagina: 1,
-        limite: 20,
-    });
     const [estaCarregando, setEstaCarregando] = useState(true);
+    const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
+        useState(false);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const [paginasTotais, setPaginasTotais] = useState(0);
+    const [itensTotais, setItensTotais] = useState(0);
+    const [limite] = useState(10);
 
-    const pegarUsuario = async () => {
+    const lidarComAPaginaAtual = (pagina: number) => {
+        setPaginaAtual(pagina);
+    };
+
+    const pegarUsuario = useCallback(async () => {
         setEstaCarregando(true);
-        setFeedback((prevState) => {
-            return {
-                ...prevState,
-                ocorreuErroNaRespostaApi: false,
-            };
-        });
+        setOcorreuErroNaRespostaApi(false);
+        setOcorreuErroNaRespostaApi(false);
+
         try {
             const resposta = await api.get(
-                `/users/?page=${query.pagina}&limit=${query.limite}`
+                `/users/?page=${paginaAtual}&limit=${limite}`
             );
             setUsuarios(resposta.data.users);
-            setFeedback({
-                currentPage: resposta.data.currentPage,
-                totalItems: resposta.data.totalItems,
-                totalPages: resposta.data.totalPages,
-                ocorreuErroNaRespostaApi: false,
-            });
+            setPaginaAtual(Number(resposta.data.currentPage));
+            setItensTotais(Number(resposta.data.totalItems));
+            setPaginasTotais(Number(resposta.data.totalPages));
+            setOcorreuErroNaRespostaApi(false);
+            window.scrollTo(0, 0);
         } catch (error) {
-            setFeedback((prevState) => {
-                return {
-                    ...prevState,
-                    ocorreuErroNaRespostaApi: true,
-                };
-            });
+            window.scrollTo(0, 0);
+            setOcorreuErroNaRespostaApi(true);
         } finally {
             setEstaCarregando(false);
         }
-    };
+    }, [limite, paginaAtual]);
 
     useEffect(() => {
         pegarUsuario();
-    }, []);
+    }, [pegarUsuario]);
 
     return (
         <>
@@ -69,52 +62,61 @@ export default function AdminUsuarios() {
             <Row>
                 <Col>
                     <h1 className='mb-4 text-uppercase'>
-                        Produtos cadastrados
+                        Usuários cadastrados
                     </h1>
                 </Col>
             </Row>
 
-            {feedback.ocorreuErroNaRespostaApi && (
-                <ErroAtualizarPagina classes='w-100 d-flex justify-content-center' />
-            )}
+            <Row>
+                <Col>
+                    <Stack gap={4}>
+                        {(ocorreuErroNaRespostaApi ||
+                            !Array.isArray(usuarios)) && (
+                            <ErroAtualizarPagina classes='w-100 d-flex' />
+                        )}
 
-            {!feedback.ocorreuErroNaRespostaApi &&
-                feedback.totalItems === 0 && (
-                    <p>Nenhum usuário cadastrado.</p>
-                )}
-
-            {!feedback.ocorreuErroNaRespostaApi && (
-                <Row>
-                    <Col>
-                        <Stack gap={4}>
-                            {usuarios.length > 0 &&
-                                usuarios.map((usuario) => (
-                                    <CardUsuarioAdmin
-
-                                        key={usuario._id}
-                                        id={usuario._id.toString()}
-                                        nome={usuario.nameid}
-                                        usuario={usuario.username}
-                                        email={usuario.emails}
-                                        admin={usuario.isAdmin}
-                                        pegarUsuario={pegarUsuario}
-                                    />
-                                ))}
-                            {usuarios.length === 0 && (
+                        {(usuarios === null || usuarios.length === 0) &&
+                            !ocorreuErroNaRespostaApi && (
                                 <p>
                                     Nenhum usuário cadastrado.{' '}
-                                    <Link to='/admin/usuarios/criarusuario'>
+                                    <Link to='/admin/usuarios/criar'>
                                         Criar usuário.
                                     </Link>
                                 </p>
                             )}
-                        </Stack>
+
+                        {Array.isArray(usuarios) &&
+                            !ocorreuErroNaRespostaApi &&
+                            usuarios.map((usuario) => (
+                                <CardUsuarioAdmin
+                                    key={usuario._id}
+                                    id={usuario._id.toString()}
+                                    nome={usuario.nameid}
+                                    usuario={usuario.username}
+                                    email={usuario.emails}
+                                    admin={usuario.isAdmin}
+                                    pegarUsuario={pegarUsuario}
+                                />
+                            ))}
+                    </Stack>
+                </Col>
+            </Row>
+
+            {Array.isArray(usuarios) && !ocorreuErroNaRespostaApi && (
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
                     </Col>
                 </Row>
             )}
 
             <CarregandoPagina visibilidade={estaCarregando} />
         </>
-        
     );
-    }
+}

@@ -33,6 +33,7 @@ export default function AdminEditarCategoria() {
                     setApiResposta204(true);
                 }
             } catch (error) {
+                window.scrollTo(0, 0);
                 setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);

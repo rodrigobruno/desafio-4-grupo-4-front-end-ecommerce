@@ -3,21 +3,19 @@ import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import { api } from 'lib/axios';
-import { type } from 'os';
 import { FormEvent, useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 import { CheckCircleFill } from 'react-bootstrap-icons';
 
 interface Users {
     tipo: 'post' | 'put';
-    id?:string;
-    nome?: string|null;
-    usuario?: string|null;
-    email?: string|null;
-    senha?: string|null;
+    id?: string;
+    nome?: string | null;
+    usuario?: string | null;
+    email?: string | null;
+    senha?: string | null;
     admin?: boolean;
     labelDoBotao: string;
-   
 }
 
 interface FormCampos {
@@ -25,7 +23,7 @@ interface FormCampos {
     usuario: string;
     email: string;
     senha: string;
-    admin: boolean,
+    admin: boolean;
 }
 
 interface FormErros {
@@ -33,9 +31,9 @@ interface FormErros {
     usuario: string | null;
     email: string | null;
     senha: string | null;
-    admin:boolean;
+    admin: boolean;
 }
-export default function FormularioUsuario ({
+export default function FormularioUsuario({
     tipo,
     id,
     nome,
@@ -44,8 +42,7 @@ export default function FormularioUsuario ({
     senha,
     admin,
     labelDoBotao,
-}: Users){
-
+}: Users) {
     const [form, setForm] = useState<FormCampos>({
         nome: nome || '',
         usuario: usuario || '',
@@ -67,31 +64,29 @@ export default function FormularioUsuario ({
         useState(false);
     const [mostrarAlertaErro500, setMostrarAlertaErro500] = useState(false);
     const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
-    const [adminPut,setadminPut] = useState(false);
+    const [adminPut, setadminPut] = useState(false);
 
     const [selectedOption, setSelectedOption] = useState(false);
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(e.target.value === 'true');
-    }
-    
+    };
+
     useEffect(() => {
         setEstaCarregando(false);
-        
-        setadminPut(tipo === 'put');
-        setSelectedOption(admin==true);
 
-        
-    }, []);
+        setadminPut(tipo === 'put');
+        setSelectedOption(admin === true);
+    }, [admin, tipo]);
 
     const validarForm = () => {
-        const { nome, usuario, email, senha, admin }: FormCampos = form;
+        const { nome, usuario, email, senha }: FormCampos = form;
         const novoErros = {} as FormErros;
 
         if (!nome || nome === '') {
             novoErros.nome = 'Preencha seu nome completo';
         }
 
-        if (!usuario|| usuario === '') {
+        if (!usuario || usuario === '') {
             novoErros.usuario = 'Preencha o nome do seu usuário';
         }
 
@@ -99,16 +94,12 @@ export default function FormularioUsuario ({
             novoErros.email = 'Preencha um e-mail válido';
         }
 
-      
-            if ((tipo=='post')&&(!senha || senha === '')) {
-                novoErros.senha = 'Preencha uma senha';
-            }
-        
+        if (tipo === 'post' && (!senha || senha === '')) {
+            novoErros.senha = 'Preencha uma senha';
+        }
 
         return novoErros;
     };
-
-
 
     const lidarComEnvio = async (e: FormEvent) => {
         e.preventDefault();
@@ -132,7 +123,7 @@ export default function FormularioUsuario ({
                         username: form.usuario,
                         emails: form.email,
                         password: form.senha,
-                        isAdmin:form.admin
+                        isAdmin: form.admin,
                     });
 
                     setForm({
@@ -140,7 +131,7 @@ export default function FormularioUsuario ({
                         usuario: '',
                         email: '',
                         senha: '',
-                        admin:false,
+                        admin: false,
                     });
                 }
 
@@ -173,8 +164,6 @@ export default function FormularioUsuario ({
             }
         }
     };
-  
-    
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof FormErros,
@@ -193,41 +182,41 @@ export default function FormularioUsuario ({
         }
     };
 
-    const options=['Sim','Não'];
+    //const options = ['Sim', 'Não'];
 
     return (
         <>
-        {mostrarAlertaErro500 && (
-            <Alert
-                key='alerta-erro-salvar-dados'
-                variant='warning'
-                className='mb-4'
-            >
-                Ocorreu um erro, tente novamente na próxima rodada.
-            </Alert>
-        )}
+            {mostrarAlertaErro500 && (
+                <Alert
+                    key='alerta-erro-salvar-dados'
+                    variant='warning'
+                    className='mb-4'
+                >
+                    Ocorreu um erro, tente novamente na próxima rodada.
+                </Alert>
+            )}
 
-        {mostrarAlertaErro404 && (
-            <ErroAtualizarPagina classes='w-100 d-flex' />
-        )}
+            {mostrarAlertaErro404 && (
+                <ErroAtualizarPagina classes='w-100 d-flex' />
+            )}
 
-        {mostrarAlertaSucesso200 && (
+            {mostrarAlertaSucesso200 && (
+                <Row>
+                    <Col>
+                        <Alert
+                            key='alerta-sucesso-salvar-dados'
+                            variant='success'
+                            className='mb-4'
+                            onClose={() => setMostrarAlertaSucesso200(false)}
+                            dismissible
+                        >
+                            <CheckCircleFill className='bi me-2' />
+                            Deu tudo certo!
+                        </Alert>
+                    </Col>
+                </Row>
+            )}
             <Row>
-                <Col>
-                    <Alert
-                        key='alerta-sucesso-salvar-dados'
-                        variant='success'
-                        className='mb-4'
-                        onClose={() => setMostrarAlertaSucesso200(false)}
-                        dismissible
-                    >
-                        <CheckCircleFill className='bi me-2' />
-                        Deu tudo certo!
-                    </Alert>
-                </Col>
-            </Row>
-        )}
- <Row>
                 <Col>
                     <Form noValidate onSubmit={lidarComEnvio}>
                         <Form.Group
@@ -296,60 +285,62 @@ export default function FormularioUsuario ({
                                 {erros.email}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group
-                            className='mb-3'
-                            controlId='criarUsuario.ControlInputAdmin'
-                        >
-                        <Form.Group
-                            className='mb-3'
-                            controlId='criarUsuario.ControlInputSenha'
-                            style={{ display: adminPut ? 'none' : 'block'}}
-                        >
-                            <Form.Label>Senha</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder='Digite uma senha'
-                                required
-                                value={form.senha}
-                                onChange={(e) =>
-                                    lidarComAsMudancasNosCampos(
-                                        'senha',
-                                        e.target.value
-                                    )
-                                }
-                                isInvalid={!!erros.senha}
-                            />
-                            <Form.Control.Feedback type='invalid'>
-                                {erros.senha}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        
-                        <Form.Group
-                            className='mb-3'
-                            controlId='criarUsuario.ControlInputAdmin'
-                            style={{ display: adminPut ? 'block' : 'none'}}
-                        >
-                        <Form.Label>Admin</Form.Label>
-            <Form.Check
-            type="radio"
-            label="Sim"
-            value="true"
-            checked={selectedOption === true}
-            onChange={handleOptionChange}
-          />
-          <Form.Check
-            type="radio"
-            label="Não"
-            value="false"
-            checked={selectedOption === false}
-            onChange={handleOptionChange}
-          />
-                            <Form.Control.Feedback type='invalid'>
-                                {erros.admin}
-                            </Form.Control.Feedback>
+
+                        {!adminPut && (
+                            <Form.Group
+                                className='mb-3'
+                                controlId='criarUsuario.ControlInputSenha'
+                            >
+                                <Form.Label>Senha</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Digite uma senha'
+                                    required
+                                    value={form.senha}
+                                    onChange={(e) =>
+                                        lidarComAsMudancasNosCampos(
+                                            'senha',
+                                            e.target.value
+                                        )
+                                    }
+                                    isInvalid={!!erros.senha}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {erros.senha}
+                                </Form.Control.Feedback>
                             </Form.Group>
-                        </Form.Group>
-                        
+                        )}
+
+                        {adminPut && (
+                            <Form.Group
+                                controlId='criarUsuario.ControlInputAdmin'
+                                className='mb-3'
+                            >
+                                <Form.Label>Administrador</Form.Label>
+                                <Form.Check
+                                    id='AdminSim'
+                                    name='AdminSim'
+                                    type='radio'
+                                    label='Sim'
+                                    value='true'
+                                    checked={selectedOption === true}
+                                    onChange={handleOptionChange}
+                                />
+                                <Form.Check
+                                    id='AdminNao'
+                                    name='AdminNao'
+                                    type='radio'
+                                    label='Não'
+                                    value='false'
+                                    checked={selectedOption === false}
+                                    onChange={handleOptionChange}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {erros.admin}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        )}
+
                         <Button
                             variant='primary'
                             type='submit'
@@ -363,15 +354,13 @@ export default function FormularioUsuario ({
                                     className='me-2'
                                 />
                             )}
-                            
+
                             {labelDoBotao}
                         </Button>
                     </Form>
                 </Col>
             </Row>
             <CarregandoPagina visibilidade={estaCarregando} />
-
-        
-</>
+        </>
     );
 }

@@ -7,6 +7,7 @@ import CardCategoriaAdmin from 'componentes/Admin/CardCategoria';
 import { Link } from 'react-router-dom';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import Paginacao from 'componentes/Paginacao';
+import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 
 export default function AdminCategorias() {
     const [categorias, setCategorias] = useState<Categorias[]>([]);
@@ -34,7 +35,9 @@ export default function AdminCategorias() {
             setItensTotais(Number(resposta.data.totalItems));
             setPaginasTotais(Number(resposta.data.totalPages));
             setOcorreuErroNaRespostaApi(false);
+            window.scrollTo(0, 0);
         } catch (error) {
+            window.scrollTo(0, 0);
             setOcorreuErroNaRespostaApi(true);
         } finally {
             setEstaCarregando(false);
@@ -64,16 +67,12 @@ export default function AdminCategorias() {
             <Row>
                 <Col>
                     <Stack gap={4}>
-                        {categorias.map((categoria) => (
-                            <CardCategoriaAdmin
-                                key={categoria._id}
-                                id={categoria._id}
-                                nome={categoria.title}
-                                pegarCategorias={pegarCategorias}
-                            />
-                        ))}
+                        {(ocorreuErroNaRespostaApi ||
+                            !Array.isArray(categorias)) && (
+                            <ErroAtualizarPagina classes='w-100 d-flex' />
+                        )}
 
-                        {categorias.length === 0 &&
+                        {(categorias === null || categorias.length === 0) &&
                             !ocorreuErroNaRespostaApi && (
                                 <p>
                                     Nenhuma categoria cadastrada.{' '}
@@ -82,21 +81,34 @@ export default function AdminCategorias() {
                                     </Link>
                                 </p>
                             )}
+
+                        {Array.isArray(categorias) &&
+                            !ocorreuErroNaRespostaApi &&
+                            categorias.map((categoria) => (
+                                <CardCategoriaAdmin
+                                    key={categoria._id}
+                                    id={categoria._id}
+                                    nome={categoria.title}
+                                    pegarCategorias={pegarCategorias}
+                                />
+                            ))}
                     </Stack>
                 </Col>
             </Row>
 
-            <Row>
-                <Col>
-                    <Paginacao
-                        paginaAtual={paginaAtual}
-                        paginasTotais={paginasTotais}
-                        itensTotais={itensTotais}
-                        limite={limite}
-                        mudarDePagina={lidarComAPaginaAtual}
-                    />
-                </Col>
-            </Row>
+            {Array.isArray(categorias) && !ocorreuErroNaRespostaApi && (
+                <Row>
+                    <Col>
+                        <Paginacao
+                            paginaAtual={paginaAtual}
+                            paginasTotais={paginasTotais}
+                            itensTotais={itensTotais}
+                            limite={limite}
+                            mudarDePagina={lidarComAPaginaAtual}
+                        />
+                    </Col>
+                </Row>
+            )}
 
             <CarregandoPagina visibilidade={estaCarregando} />
         </>

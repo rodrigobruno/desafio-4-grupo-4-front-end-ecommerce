@@ -51,6 +51,7 @@ export default function Pedidos() {
             setPaginasTotais(Number(resposta.data.totalItems));
             setItensTotais(Number(resposta.data.totalPages));
             setOcorreuErroNaRespostaApi(false);
+            window.scrollTo(0, 0);
         } catch (error) {
             setOcorreuErroNaRespostaApi(true);
         } finally {

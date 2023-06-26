@@ -34,6 +34,7 @@ export default function AdminPedido() {
                 });
                 setPedido(resposta.data);
             } catch (error) {
+                window.scrollTo(0, 0);
                 setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);
