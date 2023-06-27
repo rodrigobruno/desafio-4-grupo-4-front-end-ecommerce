@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { FormEvent, useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
@@ -43,6 +44,9 @@ export default function FormularioUsuario({
     admin,
     labelDoBotao,
 }: Users) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [form, setForm] = useState<FormCampos>({
         nome: nome || '',
         usuario: usuario || '',
@@ -126,13 +130,21 @@ export default function FormularioUsuario({
 
             try {
                 if (tipo === 'post') {
-                    await api.post('/auth/register', {
-                        nameid: form.nome,
-                        username: form.usuario,
-                        emails: form.email,
-                        password: form.senha,
-                        isAdmin: form.admin,
-                    });
+                    await api.post(
+                        '/auth/register',
+                        {
+                            nameid: form.nome,
+                            username: form.usuario,
+                            emails: form.email,
+                            password: form.senha,
+                            isAdmin: form.admin,
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
 
                     setForm({
                         nome: '',
@@ -144,12 +156,20 @@ export default function FormularioUsuario({
                 }
 
                 if (tipo === 'put') {
-                    await api.put(`/users/${id}`, {
-                        nameid: form.nome,
-                        username: form.usuario,
-                        emails: form.email,
-                        isAdmin: selectedOption,
-                    });
+                    await api.put(
+                        `/users/${id}`,
+                        {
+                            nameid: form.nome,
+                            username: form.usuario,
+                            emails: form.email,
+                            isAdmin: selectedOption,
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                        }
+                    );
                 }
 
                 window.scrollTo(0, 0);

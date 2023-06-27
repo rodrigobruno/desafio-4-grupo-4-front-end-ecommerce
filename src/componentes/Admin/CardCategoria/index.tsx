@@ -5,6 +5,7 @@ import PedidoInformacao from './CategoriaInformacao';
 import { useState } from 'react';
 import { api } from 'lib/axios';
 import { Container, Botoes, ToastBodyColor } from './style';
+import { useAppSelector } from 'hooks';
 
 interface Props {
     id: string;
@@ -17,6 +18,9 @@ export default function CardCategoriaAdmin({
     nome,
     pegarCategorias,
 }: Props) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
     const [mostrarToast, setMostrarToast] = useState(false);
@@ -33,7 +37,11 @@ export default function CardCategoriaAdmin({
         setMostrarModal(false);
 
         try {
-            await api.delete(`/categories/${id}`);
+            await api.delete(`/categories/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            });
             pegarCategorias();
         } catch (error) {
             setMostrarToast(true);

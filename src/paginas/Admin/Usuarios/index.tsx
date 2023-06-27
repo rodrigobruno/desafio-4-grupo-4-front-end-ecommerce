@@ -8,8 +8,12 @@ import { Link } from 'react-router-dom';
 import { Usuario } from 'types';
 import CardUsuarioAdmin from 'componentes/Admin/CardUsuario';
 import Paginacao from 'componentes/Paginacao';
+import { useAppSelector } from 'hooks';
 
 export default function AdminUsuarios() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
@@ -30,7 +34,12 @@ export default function AdminUsuarios() {
 
         try {
             const resposta = await api.get(
-                `/users/?page=${paginaAtual}&limit=${limite}`
+                `/users/?page=${paginaAtual}&limit=${limite}`,
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                }
             );
             setUsuarios(resposta.data.users);
             setPaginaAtual(Number(resposta.data.currentPage));
@@ -44,7 +53,7 @@ export default function AdminUsuarios() {
         } finally {
             setEstaCarregando(false);
         }
-    }, [limite, paginaAtual]);
+    }, [accessToken, limite, paginaAtual]);
 
     useEffect(() => {
         pegarUsuario();

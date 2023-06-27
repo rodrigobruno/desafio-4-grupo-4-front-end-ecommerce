@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { api } from 'lib/axios';
 import { Container, Botoes, ToastBodyColor } from './style';
 import UsuarioInformacao from './UsuarioInformacao';
+import { useAppSelector } from 'hooks';
 
 interface Users {
     id: string;
@@ -23,6 +24,9 @@ export default function CardUsuarioAdmin({
     admin,
     pegarUsuario,
 }: Users) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
     const [mostrarToast, setMostrarToast] = useState(false);
@@ -39,7 +43,11 @@ export default function CardUsuarioAdmin({
         setMostrarModal(false);
 
         try {
-            await api.delete(`/users/${id}`);
+            await api.delete(`/users/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            });
             pegarUsuario();
         } catch (error) {
             setMostrarToast(true);

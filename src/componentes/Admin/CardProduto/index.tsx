@@ -6,6 +6,7 @@ import PedidoInformacao from './ProdutoInformacao';
 import { useState } from 'react';
 import { api } from 'lib/axios';
 import { Container, Imagem, Botoes, ToastBodyColor } from './style';
+import { useAppSelector } from 'hooks';
 
 interface Props {
     numero: string;
@@ -22,6 +23,9 @@ export default function CardProdutoAdmin({
     preco,
     pegarProdutos,
 }: Props) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const precoEmReais = precoFormatadoParaReal(preco);
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
@@ -38,10 +42,12 @@ export default function CardProdutoAdmin({
         setMostrarToast(false);
         setMostrarModal(false);
 
-        //await new Promise((res) => setTimeout(res, 3000));
-
         try {
-            await api.delete(`/products/${id}`);
+            await api.delete(`/products/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            });
             pegarProdutos();
         } catch (error) {
             setMostrarToast(true);

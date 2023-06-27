@@ -8,8 +8,12 @@ import NaoEncontrada from 'paginas/NaoEncontrada';
 import FormularioCategoria from 'componentes/Admin/FormularioCategoria';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
+import { useAppSelector } from 'hooks';
 
 export default function AdminEditarCategoria() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const { id } = useParams();
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [categoria, setCategoria] = useState<Categorias>();
@@ -24,7 +28,11 @@ export default function AdminEditarCategoria() {
             setOcorreuErroNaRespostaApi(false);
 
             try {
-                const resposta = await api.get(`/categories/${id}`);
+                const resposta = await api.get(`/categories/${id}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                });
                 if (resposta.status === 200) {
                     setCategoria(resposta.data);
                 }

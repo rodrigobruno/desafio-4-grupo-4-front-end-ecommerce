@@ -33,6 +33,9 @@ export interface ErrosFormUsuario {
 }
 
 export default function Profile() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [estaCarregando, setEstaCarregando] = useState(true);
 
     const id = useAppSelector((state) => state.authSlice._id);
@@ -127,11 +130,19 @@ export default function Profile() {
             setEnviadandoDados(true);
 
             try {
-                await api.put(`/users/${id}`, {
-                    nameid: form.nameid,
-                    username: form.username,
-                    emails: form.emails,
-                });
+                await api.put(
+                    `/users/${id}`,
+                    {
+                        nameid: form.nameid,
+                        username: form.username,
+                        emails: form.emails,
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
+                    }
+                );
 
                 window.scrollTo(0, 0);
                 return setMostrarAlertaSucesso200(true);

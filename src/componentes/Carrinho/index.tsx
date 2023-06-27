@@ -81,14 +81,14 @@ export default function CarrinhoOffcanvas() {
                             <Link
                                 to={
                                     estaLogado
-                                        ? '/carrinho'
+                                        ? '/finalizar-compra'
                                         : '/entrar?origem=carrinho'
                                 }
                             >
                                 <FinalizarCompra
                                     onClick={() => dispatch(esconder())}
                                 >
-                                    Finalizar comprar
+                                    Finalizar compra
                                 </FinalizarCompra>
                             </Link>
                             <Button
