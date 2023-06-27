@@ -48,7 +48,7 @@ export default function AdminEditarCategoria() {
             }
         };
         pegarCategoria();
-    }, [id]);
+    }, [accessToken, id]);
 
     if (ocorreuErroNaRespostaApi) {
         return (
