@@ -32,14 +32,17 @@ import AdminUsuarios from 'paginas/Admin/Usuarios';
 import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
 import AdminCupons from 'paginas/Admin/Cupons';
+import PaginaInicio from 'componentes/PaginaInicio';
 
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path='/' element={<PaginaPadrao />}>
+            <Route path='/' element={<PaginaInicio />}>
                 <Route index element={<Inicio />} />
+            </Route>
+            <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
-                <Route path='produto' element={<Produto />} />
+                <Route path='produtos/:id' element={<Produto />} />
                 <Route path='categorias' element={<Categorias />} />
 
                 <Route
