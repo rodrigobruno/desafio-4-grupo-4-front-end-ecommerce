@@ -41,7 +41,15 @@ export default function AppRoutes() {
                 <Route path='produtos' element={<Produtos />} />
                 <Route path='produto' element={<Produto />} />
                 <Route path='categorias' element={<Categorias />} />
-                <Route path='sucesso' element={<Sucesso />} />
+
+                <Route
+                    path='sucesso/:id'
+                    element={
+                        <PrivateRoute>
+                            <Sucesso />
+                        </PrivateRoute>
+                    }
+                />
 
                 <Route
                     path='finalizar-compra'
