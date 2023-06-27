@@ -72,7 +72,14 @@ export default function FormularioProduto({
             setMostrarAlertaSucesso200(false);
 
             try {
-                const resposta = await api.get(`/categories/?page=1&limit=100`);
+                const resposta = await api.get(
+                    `/categories/?page=1&limit=100`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
+                    }
+                );
                 setListaDeCategorias(resposta.data.categories);
             } catch (error) {
                 window.scrollTo(0, 0);
@@ -82,7 +89,7 @@ export default function FormularioProduto({
             }
         };
         pegarCategorias();
-    }, []);
+    }, [accessToken]);
 
     const [form, setForm] = useState<FormCampos>({
         nome: nome || '',

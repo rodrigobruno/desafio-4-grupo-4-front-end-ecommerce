@@ -8,8 +8,12 @@ import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import FormularioProduto from 'componentes/Admin/FormularioProduto';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import NaoEncontrada from 'paginas/NaoEncontrada';
+import { useAppSelector } from 'hooks';
 
 export default function AdminEditarProduto() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const { id } = useParams();
     const [produto, setProduto] = useState<Produto>();
     const [estaCarregando, setEstaCarregando] = useState(true);
@@ -24,7 +28,11 @@ export default function AdminEditarProduto() {
             setOcorreuErroNaRespostaApi(false);
 
             try {
-                const resposta = await api.get(`/products/${id}`);
+                const resposta = await api.get(`/products/${id}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                });
                 if (resposta.status === 200) {
                     setProduto(resposta.data);
                 }
@@ -39,7 +47,7 @@ export default function AdminEditarProduto() {
             }
         };
         pegarProduto();
-    }, [id]);
+    }, [accessToken, id]);
 
     if (ocorreuErroNaRespostaApi) {
         return (

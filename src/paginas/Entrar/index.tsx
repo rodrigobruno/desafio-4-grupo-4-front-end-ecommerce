@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { api } from 'lib/axios';
 import { AxiosError } from 'axios';
 
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { login } from 'store/modules/usuario';
 import { LoginResponse, CamposFormLogin, ErrosFormLogin } from 'types';
 
@@ -16,6 +16,9 @@ import Carregando from 'componentes/Carregando';
 import { DoorOpen, PersonVcard } from 'react-bootstrap-icons';
 
 export default function Entrar() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const dispatch = useAppDispatch();
 
     const [form, setForm] = useState<CamposFormLogin>({
@@ -87,6 +90,11 @@ export default function Entrar() {
                     {
                         username: form.username,
                         password: form.password,
+                    },
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
                     }
                 );
                 dispatch(login(responseData.data));

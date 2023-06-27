@@ -6,6 +6,7 @@ import { Container, Botoes, ToastBodyColor } from './style';
 import PedidoInformacao from './PedidoInformacao';
 import { api } from 'lib/axios';
 import { useState } from 'react';
+import { useAppSelector } from 'hooks';
 
 interface Props {
     id: string;
@@ -24,6 +25,9 @@ export default function CardPedidoAdmin({
     status,
     pegarPedidos,
 }: Props) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const totalEmReais = precoFormatadoParaReal(total);
     const dataFormatada = dataFormatadaParaDDMMYY(data);
 
@@ -43,7 +47,11 @@ export default function CardPedidoAdmin({
         setMostrarModal(false);
 
         try {
-            await api.delete(`/orders/${id}`);
+            await api.delete(`/orders/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            });
             pegarPedidos();
         } catch (error) {
             setMostrarToast(true);

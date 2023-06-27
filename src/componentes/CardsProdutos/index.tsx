@@ -6,12 +6,16 @@ import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import { Col, Row } from 'react-bootstrap';
 import BotaoMais from 'componentes/BotaoMais';
+import { useAppSelector } from 'hooks';
 
 export default function CardsProdutos({
     pagina = 1,
     limite = 9,
     categoria,
 }: ProdutosQuery) {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [feedback, setFeedback] = useState<Feedback>({
         currentPage: 0,
@@ -37,7 +41,12 @@ export default function CardsProdutos({
 
             try {
                 const resposta = await api.get(
-                    `/products/?page=${pagina}&limit=${limite}${categoriaSelecionada}`
+                    `/products/?page=${pagina}&limit=${limite}${categoriaSelecionada}`,
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + accessToken,
+                        },
+                    }
                 );
                 setProdutos(resposta.data.products);
                 setFeedback({
@@ -58,7 +67,7 @@ export default function CardsProdutos({
             }
         };
         pegarProdutos();
-    }, [pagina, limite, categoria]);
+    }, [pagina, limite, categoria, accessToken]);
 
     return (
         <>

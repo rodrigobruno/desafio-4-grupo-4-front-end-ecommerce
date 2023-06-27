@@ -107,7 +107,7 @@ export default function Pedido() {
                         return (
                             <Col className='mb-4' key={produto._id}>
                                 <CardProdutosDoPedido
-                                    id={produto.product._id}
+                                    id={produto.product._id || ''}
                                     imagem={produto.product.img || '#'}
                                     nome={produto.product.title || '-'}
                                     quantidade={produto.quantity || 0}

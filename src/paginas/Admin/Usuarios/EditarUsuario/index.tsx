@@ -3,13 +3,17 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { api } from 'lib/axios';
-import {Usuario} from 'types';
+import { Usuario } from 'types';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import NaoEncontrada from 'paginas/NaoEncontrada';
 import FormularioUsuario from 'componentes/Admin/FormularioUsuario';
+import { useAppSelector } from 'hooks';
 
 export default function AdminEditarUsuario() {
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const { id } = useParams();
     const [usuario, setUsuarios] = useState<Usuario>();
     const [estaCarregando, setEstaCarregando] = useState(true);
@@ -24,7 +28,11 @@ export default function AdminEditarUsuario() {
             setOcorreuErroNaRespostaApi(false);
 
             try {
-                const resposta = await api.get(`/users/${id}`);
+                const resposta = await api.get(`/users/${id}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + accessToken,
+                    },
+                });
                 if (resposta.status === 200) {
                     setUsuarios(resposta.data);
                 }
@@ -39,7 +47,7 @@ export default function AdminEditarUsuario() {
             }
         };
         pegarUsuario();
-    }, [id]);
+    }, [accessToken, id]);
 
     if (ocorreuErroNaRespostaApi) {
         return (
@@ -91,4 +99,3 @@ export default function AdminEditarUsuario() {
         </>
     );
 }
-
