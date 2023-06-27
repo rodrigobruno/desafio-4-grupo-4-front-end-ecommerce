@@ -1,3 +1,13 @@
+export interface Endereco {
+    cep: string;
+    rua: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+}
+
 export type PedidoProps = {
     _id: string;
     userId: string;
@@ -16,10 +26,7 @@ export type PedidoProps = {
         }
     ];
     amount: number;
-    address: {
-        rua: string;
-        numero: string;
-    };
+    address: Endereco;
     status: string;
     createdAt: string;
     //updatedAt: string;

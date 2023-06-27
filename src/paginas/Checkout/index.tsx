@@ -371,7 +371,6 @@ export default function Checkout() {
                         },
                     }
                 );
-                console.log(resposta.data);
 
                 dispatch(esvaziarCarrinho());
                 navigate(`/sucesso/${resposta.data._id}`);

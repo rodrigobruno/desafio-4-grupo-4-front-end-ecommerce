@@ -1,19 +1,19 @@
-import { Helmet } from 'react-helmet-async';
-import { useEffect, useState } from 'react';
+import CardDadosDoPedido from 'componentes/CardDadosDoPedido';
+import CardEnderecoDoPedido from 'componentes/CardEnderecoDoPedido';
+import CardProdutosDoPedido from 'componentes/CardProdutosDoPedido';
+import CarregandoPagina from 'componentes/CarregandoPagina';
 import { useAppSelector } from 'hooks';
-import { useParams } from 'react-router-dom';
 import { api } from 'lib/axios';
+import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Box2Heart } from 'react-bootstrap-icons';
 import { PedidoProps } from 'types';
-import NaoEncontrada from 'paginas/NaoEncontrada';
-import CarregandoPagina from 'componentes/CarregandoPagina';
-import CardDadosDoPedido from 'componentes/CardDadosDoPedido';
-import CardProdutosDoPedido from 'componentes/CardProdutosDoPedido';
-import CardEnderecoDoPedido from 'componentes/CardEnderecoDoPedido';
 
-export default function AdminPedido() {
-    const { id } = useParams();
+interface Props {
+    pedidoId: string;
+}
+
+export default function PedidoInformacoes({ pedidoId }: Props) {
     const [pedido, setPedido] = useState<PedidoProps>();
     const [estaCarregando, setEstaCarregando] = useState(true);
     const [ocorreuErroNaRespostaApi, setOcorreuErroNaRespostaApi] =
@@ -28,21 +28,20 @@ export default function AdminPedido() {
             setEstaCarregando(true);
 
             try {
-                const resposta = await api.get(`/orders/${id}`, {
+                const resposta = await api.get(`/orders/${pedidoId}`, {
                     headers: {
                         Authorization: 'Bearer ' + accessToken,
                     },
                 });
                 setPedido(resposta.data);
             } catch (error) {
-                window.scrollTo(0, 0);
                 setOcorreuErroNaRespostaApi(true);
             } finally {
                 setEstaCarregando(false);
             }
         };
         pegarPedidos();
-    }, [id, accessToken]);
+    }, [accessToken, pedidoId]);
 
     if (
         ocorreuErroNaRespostaApi ||
@@ -52,30 +51,20 @@ export default function AdminPedido() {
         return (
             <>
                 <CarregandoPagina visibilidade={estaCarregando} />
-                <NaoEncontrada />
+                <Container>
+                    <Row>
+                        <Col>
+                            <h3 className='mb-3'>Pedido não encontado.</h3>
+                        </Col>
+                    </Row>
+                </Container>
             </>
         );
     }
 
     return (
         <>
-            <Helmet>
-                <title>Gama Zone - Seu pedido</title>
-                <meta
-                    name='description'
-                    content='Simplifique a gestão da sua loja de board games com nosso painel de administração. Controle estoque, pedidos e clientes de forma eficiente. Sucesso garantido!'
-                />
-            </Helmet>
-
             <Container>
-                <Row>
-                    <Col>
-                        <h1 className='mb-4 text-uppercase'>
-                            Pedido {pedido._id}
-                        </h1>
-                    </Col>
-                </Row>
-
                 <Row>
                     <Col xs={12} md={6} className='mb-4 mb-md-0'>
                         <CardDadosDoPedido
@@ -109,7 +98,7 @@ export default function AdminPedido() {
                         return (
                             <Col className='mb-4' key={produto._id}>
                                 <CardProdutosDoPedido
-                                    id={produto.product._id}
+                                    id={produto.product._id || ''}
                                     imagem={produto.product.img || '#'}
                                     nome={produto.product.title || '-'}
                                     quantidade={produto.quantity || 0}
