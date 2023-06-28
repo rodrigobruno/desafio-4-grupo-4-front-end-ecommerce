@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, Col, Toast, ToastContainer } from 'react-bootstrap';
 import { Produto } from 'types';
 import { precoFormatadoParaReal } from 'utils';

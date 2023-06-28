@@ -25,6 +25,8 @@ export default function CardsProdutos({
     });
     const [estaCarregando, setEstaCarregando] = useState(true);
 
+    const categoriaUrl = categoria ? categoria : '';
+
     useEffect(() => {
         const pegarProdutos = async () => {
             setEstaCarregando(true);
@@ -99,7 +101,7 @@ export default function CardsProdutos({
                     <Col>
                         <BotaoMais
                             classes='d-flex justify-content-center my-5'
-                            para='produtos'
+                            para={'/produtos/' + categoriaUrl}
                             variacao='secondary'
                             tamanho='lg'
                         />
