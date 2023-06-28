@@ -1,12 +1,14 @@
-import { Button, Card, ToastBody } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Button, Card, ToastBody } from 'react-bootstrap';
+import Imagem from 'componentes/Imagem';
 
-export const CardImagem = styled(Card.Img)`
+export const CardImagem = styled(Imagem)`
     aspect-ratio: 1 / 1;
     object-fit: contain;
     padding: 2.625rem 1.5rem 3rem 1.5rem;
     opacity: 0.8;
     transition: all 0.4s ease-in-out;
+    width: 100%;
 `;
 
 export const CardContainer = styled(Card)`

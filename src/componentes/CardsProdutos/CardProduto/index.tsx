@@ -1,8 +1,8 @@
-import { SyntheticEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Col, Toast, ToastContainer } from 'react-bootstrap';
 import { Produto } from 'types';
 import { precoFormatadoParaReal } from 'utils';
-import Placeholder from 'assets/placeholder.svg';
+// import Placeholder from 'assets/placeholder.svg';
 import {
     CardContainer,
     CardImagem,
@@ -37,8 +37,10 @@ export default function CardProduto({ _id, title, price, img }: Produto) {
         setMostrarToast(true);
     };
 
-    const onImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-        return ((e.target as HTMLImageElement).src = Placeholder);
+    const lidarComPlaceholder = (img = '') => {
+        const url = img.split('.webp');
+        const novaUrl = `${url[0]}-placeholder.webp`;
+        return novaUrl;
     };
 
     return (
@@ -46,9 +48,9 @@ export default function CardProduto({ _id, title, price, img }: Produto) {
             <Col>
                 <CardContainer className='text-center'>
                     <CardImagem
-                        variant='top'
                         src={img}
-                        onError={onImageError}
+                        placeholderSrc={lidarComPlaceholder(img)}
+                        alt={title}
                     />
                     <Card.Body>
                         <CardTitulo>{title}</CardTitulo>
