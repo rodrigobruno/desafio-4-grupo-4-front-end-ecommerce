@@ -18,7 +18,7 @@ export default function Paginacao({
     entre = 1,
     itensTotais,
     limite,
-    mudarDePagina = (paginaAtual) => console.log(paginaAtual),
+    mudarDePagina = (paginaAtual) => paginaAtual,
     proximo = true,
     ultimo = true,
     ellipsis = 5,

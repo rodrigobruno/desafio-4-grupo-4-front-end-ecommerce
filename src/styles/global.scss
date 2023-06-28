@@ -1,3 +1,11 @@
+@import './variaveis.scss';
+
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: auto;
+    }
+}
+
 .main{
     min-height: calc(100svh - 74px);
 
@@ -8,4 +16,11 @@
 
 .bi{
     vertical-align: -.125em;
+}
+
+.Toastify__toast{
+    background: $cor-verde-1!important;
+    color: $cor-preta-6!important;
+    font-family: $font-barlow!important;
+    font-weight: $font-weight-regular!important;
 }

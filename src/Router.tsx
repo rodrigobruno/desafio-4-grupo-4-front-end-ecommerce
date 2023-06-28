@@ -42,7 +42,7 @@ export default function AppRoutes() {
             </Route>
             <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
-                <Route path='produtos/:id' element={<Produto />} />
+                <Route path='produto/:id' element={<Produto />} />
                 <Route path='categorias' element={<Categorias />} />
 
                 <Route

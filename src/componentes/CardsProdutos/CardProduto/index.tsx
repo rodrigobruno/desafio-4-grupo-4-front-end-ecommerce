@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import { Card, Col, Toast, ToastContainer } from 'react-bootstrap';
-import { Produto } from 'types';
+import { Card, Col } from 'react-bootstrap';
+import { Categorias } from 'types';
 import { precoFormatadoParaReal } from 'utils';
-// import Placeholder from 'assets/placeholder.svg';
 import {
     CardContainer,
     CardImagem,
@@ -10,17 +8,28 @@ import {
     CardSubTitulo,
     CardButton,
     CardFooter,
-    ToastBodyColor,
 } from './style';
-import { useAppDispatch } from 'hooks';
-import { adicionarProduto } from 'store/modules/carrinho';
 import { Produtos } from 'types';
-import { Box2Heart, CheckCircle } from 'react-bootstrap-icons';
+import { Box2Heart } from 'react-bootstrap-icons';
 
-export default function CardProduto({ _id, title, price, img }: Produto) {
-    const dispatch = useAppDispatch();
+interface Props {
+    _id: string;
+    title: string;
+    desc?: string;
+    img: string;
+    categories?: Categorias[];
+    price: number;
+    lidarComAdicionarProduto: any;
+}
+
+export default function CardProduto({
+    _id,
+    title,
+    price,
+    img,
+    lidarComAdicionarProduto,
+}: Props) {
     const preco = precoFormatadoParaReal(price);
-    const [mostrarToast, setMostrarToast] = useState(false);
 
     const produto: Produtos = {
         product: {
@@ -30,11 +39,6 @@ export default function CardProduto({ _id, title, price, img }: Produto) {
             price: price,
         },
         quantity: 1,
-    };
-
-    const lidarComAdicionarProduto = (produto: Produtos) => {
-        dispatch(adicionarProduto(produto));
-        setMostrarToast(true);
     };
 
     const lidarComPlaceholder = (img = '') => {
@@ -59,7 +63,9 @@ export default function CardProduto({ _id, title, price, img }: Produto) {
                     <CardFooter>
                         <CardButton
                             variant='primary'
-                            onClick={() => lidarComAdicionarProduto(produto)}
+                            onClick={() =>
+                                lidarComAdicionarProduto(produto, true)
+                            }
                         >
                             <Box2Heart className='bi me-2' />
                             Adicionar a caixinha
@@ -67,23 +73,6 @@ export default function CardProduto({ _id, title, price, img }: Produto) {
                     </CardFooter>
                 </CardContainer>
             </Col>
-            <ToastContainer
-                position='top-center'
-                className='position-fixed mt-3'
-            >
-                <Toast
-                    bg='success'
-                    onClose={() => setMostrarToast(false)}
-                    show={mostrarToast}
-                    delay={3000}
-                    autohide
-                >
-                    <ToastBodyColor>
-                        <CheckCircle className='bi me-2' />
-                        Produto adicionado a sua box!
-                    </ToastBodyColor>
-                </Toast>
-            </ToastContainer>
         </>
     );
 }
