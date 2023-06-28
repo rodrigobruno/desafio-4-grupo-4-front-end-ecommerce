@@ -27,6 +27,7 @@ export default function CardsProdutos({
     pagina = 1,
     limite = 9,
     categoria,
+    mostrarFiltro = false,
     verMais = true,
 }: ProdutosQuery) {
     const accessToken =
@@ -153,72 +154,77 @@ export default function CardsProdutos({
 
             {!ocorreuErroNaRespostaApi && itensTotais > 0 && (
                 <>
-                    <StickyTop>
-                        <Col>
-                            <Stack gap={3} direction='horizontal'>
-                                <FiltroTitulo>Filtrar por</FiltroTitulo>
+                    {mostrarFiltro && (
+                        <StickyTop>
+                            <Col>
+                                <Stack gap={3} direction='horizontal'>
+                                    <FiltroTitulo>Filtrar por</FiltroTitulo>
 
-                                <DropdownButton
-                                    as={ButtonGroup}
-                                    id='dropdown-filtro-categoria'
-                                    variant='primary'
-                                    size='sm'
-                                    title={categoriaSelecionada}
-                                >
-                                    {listaDeCategorias.map((categoria) => (
-                                        <Dropdown.Item
-                                            key={categoria._id}
-                                            eventKey={categoria._id}
-                                            active={
-                                                filtrarCategoria ===
-                                                categoria._id
-                                                    ? true
-                                                    : false
-                                            }
-                                            onClick={(e) =>
-                                                lidarComMudancaFiltro(
-                                                    categoria._id,
-                                                    categoria.title
-                                                )
-                                            }
-                                        >
-                                            {categoria.title}
-                                        </Dropdown.Item>
-                                    ))}
-                                    {categoriaSelecionada !== 'selecionar' ? (
-                                        <>
-                                            <Dropdown.Divider />
+                                    <DropdownButton
+                                        as={ButtonGroup}
+                                        id='dropdown-filtro-categoria'
+                                        variant='primary'
+                                        size='sm'
+                                        title={categoriaSelecionada}
+                                    >
+                                        {listaDeCategorias.map((categoria) => (
                                             <Dropdown.Item
-                                                eventKey='limpar'
-                                                disabled={estaCarregando}
-                                                onClick={limparFiltrarCategoria}
+                                                key={categoria._id}
+                                                eventKey={categoria._id}
+                                                active={
+                                                    filtrarCategoria ===
+                                                    categoria._id
+                                                        ? true
+                                                        : false
+                                                }
+                                                onClick={(e) =>
+                                                    lidarComMudancaFiltro(
+                                                        categoria._id,
+                                                        categoria.title
+                                                    )
+                                                }
                                             >
-                                                Limpar
+                                                {categoria.title}
                                             </Dropdown.Item>
-                                        </>
+                                        ))}
+                                        {categoriaSelecionada !==
+                                        'selecionar' ? (
+                                            <>
+                                                <Dropdown.Divider />
+                                                <Dropdown.Item
+                                                    eventKey='limpar'
+                                                    disabled={estaCarregando}
+                                                    onClick={
+                                                        limparFiltrarCategoria
+                                                    }
+                                                >
+                                                    Limpar
+                                                </Dropdown.Item>
+                                            </>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </DropdownButton>
+
+                                    {categoriaSelecionada !== 'selecionar' ? (
+                                        <Button
+                                            type='button'
+                                            className='btn-close'
+                                            aria-label='Close'
+                                            disabled={estaCarregando}
+                                            onClick={limparFiltrarCategoria}
+                                        >
+                                            <span className='visually-hidden'>
+                                                Limpar categoria selecionada
+                                            </span>
+                                        </Button>
                                     ) : (
                                         ''
                                     )}
-                                </DropdownButton>
-
-                                {categoriaSelecionada !== 'selecionar' ? (
-                                    <Button
-                                        type='button'
-                                        className='btn-close'
-                                        aria-label='Close'
-                                        disabled={estaCarregando}
-                                        onClick={limparFiltrarCategoria}
-                                    >
-                                        <span className='visually-hidden'>
-                                            Limpar categoria selecionada
-                                        </span>
-                                    </Button>
-                                ) : (
-                                    ''
-                                )}
-                            </Stack>
-                        </Col>
-                    </StickyTop>
+                                </Stack>
+                            </Col>
+                        </StickyTop>
+                    )}
 
                     <Row
                         xs={1}

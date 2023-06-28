@@ -130,6 +130,7 @@ export interface ProdutosQuery {
     pagina?: number;
     limite?: number;
     categoria?: string;
+    mostrarFiltro?: boolean;
     verMais?: boolean;
 }
 export interface UsuarioQuery {

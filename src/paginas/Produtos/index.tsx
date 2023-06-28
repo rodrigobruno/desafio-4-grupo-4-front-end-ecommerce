@@ -12,7 +12,7 @@ export default function Produtos() {
                 />
             </Helmet>
 
-            <CardsProdutos verMais={false} />
+            <CardsProdutos mostrarFiltro={true} verMais={false} />
         </>
     );
 }
