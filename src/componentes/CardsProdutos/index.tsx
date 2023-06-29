@@ -72,10 +72,13 @@ export default function CardsProdutos({
 
     const lidarComAdicionarProduto = (produto: Produtos, mostrar: boolean) => {
         dispatch(adicionarProduto(produto));
+        console.log('toast');
+
         toast.success('Produto adicionado a sua box!', {
             position: toast.POSITION.TOP_RIGHT,
+            closeOnClick: true,
             theme: 'colored',
-            autoClose: 3000,
+            autoClose: 13000,
         });
     };
 
@@ -87,7 +90,6 @@ export default function CardsProdutos({
             const categoriaSelecionada = filtrarCategoria
                 ? `&category=${filtrarCategoria}`
                 : '';
-            console.log(categoriaSelecionada);
 
             try {
                 const resposta = await api.get(

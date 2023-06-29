@@ -41,7 +41,6 @@ export default function Banner() {
                         Authorization: 'Bearer ' + accessToken,
                     },
                 });
-                console.log(resposta.data);
                 setBanner(resposta.data);
             } catch (error) {
                 setOcorreuErro(true);

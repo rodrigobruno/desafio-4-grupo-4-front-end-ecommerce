@@ -19,7 +19,7 @@ interface Props {
     img: string;
     categories?: Categorias[];
     price: number;
-    lidarComAdicionarProduto: any;
+    lidarComAdicionarProduto: (produto: Produtos, mostrar: boolean) => void;
 }
 
 export default function CardProduto({

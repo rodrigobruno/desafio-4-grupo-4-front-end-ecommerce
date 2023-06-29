@@ -47,7 +47,7 @@ export default function FormularioCategoria({
 
     const lidarComAsMudancasNosCampos = (
         campo: keyof FormErros,
-        valor: any
+        valor: string
     ) => {
         setForm({
             ...form,
