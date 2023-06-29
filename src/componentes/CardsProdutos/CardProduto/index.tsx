@@ -1,4 +1,4 @@
-import { Card, Col } from 'react-bootstrap';
+import { Button, Card, Col } from 'react-bootstrap';
 import { Categorias } from 'types';
 import { precoFormatadoParaReal } from 'utils';
 import {
@@ -8,9 +8,12 @@ import {
     CardSubTitulo,
     CardButton,
     CardFooter,
+    CardOverlay,
+    ImagemContainer,
 } from './style';
 import { Produtos } from 'types';
 import { Box2Heart } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     _id: string;
@@ -30,6 +33,7 @@ export default function CardProduto({
     lidarComAdicionarProduto,
 }: Props) {
     const preco = precoFormatadoParaReal(price);
+    const navigate = useNavigate();
 
     const produto: Produtos = {
         product: {
@@ -51,11 +55,22 @@ export default function CardProduto({
         <>
             <Col>
                 <CardContainer className='text-center'>
-                    <CardImagem
-                        src={img}
-                        placeholderSrc={lidarComPlaceholder(img)}
-                        alt={title}
-                    />
+                    <ImagemContainer>
+                        <CardOverlay>
+                            <Button
+                                variant='dark'
+                                onClick={() => navigate(`/produto/${_id}`)}
+                            >
+                                Ver detalhes
+                            </Button>
+                        </CardOverlay>
+                        <CardImagem
+                            src={img}
+                            placeholderSrc={lidarComPlaceholder(img)}
+                            alt={title}
+                            effect='opacity'
+                        />
+                    </ImagemContainer>
                     <Card.Body>
                         <CardTitulo>{title}</CardTitulo>
                         <CardSubTitulo>{preco}</CardSubTitulo>

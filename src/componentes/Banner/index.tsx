@@ -67,9 +67,7 @@ export default function Banner() {
                                 <Botao
                                     size='lg'
                                     onClick={() =>
-                                        navigate(
-                                            `/produtos/${banner.idproduto}`
-                                        )
+                                        navigate(`/produto/${banner.idproduto}`)
                                     }
                                 >
                                     Adquira já

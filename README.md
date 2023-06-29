@@ -1,23 +1,19 @@
 # Para instalar as dependências
 
 ```
-npm install`
+npm install
 ```
 
 # .env
 
-Crie um arquivo na raiz do projeto com nome `.env.development.local` com as variaveis de ambiente:
+1. Renomei arquivo na raiz do projeto com nome `.env.exemple` para `.env`.
 
-```
-REACT_APP_API_BASE_URL=https://grupo04-xp49-production.up.railway.app/api
-```
-
-No lugar de `https://grupo04-xp49-production.up.railway.app/api` coloque a URL da API local (não esquecer de colocar `/api`), se quiser testar localmente.
+2. No lugar de `http://www.url.com.br/api` coloque a URL da API local (não esquecer de colocar `/api`), se quiser testar localmente. Ou a url de produção `https://grupo04-xp49-production.up.railway.app/api`.
 
 # Para rodar o projejo
 
 ```
-npm start`
+npm start
 ```
 
 # Projeto on-line

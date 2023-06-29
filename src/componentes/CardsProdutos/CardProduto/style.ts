@@ -2,12 +2,53 @@ import styled from 'styled-components';
 import { Button, Card, ToastBody } from 'react-bootstrap';
 import Imagem from 'componentes/Imagem';
 
-export const CardImagem = styled(Imagem)`
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
+export const CardOverlay = styled.div`
+    visibility: hidden;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    z-index: 10;
+    border-radius: 6px;
+    background: var(--cor-preta-6);
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        var(--cor-preta-6) 100%
+    );
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.4s ease-in-out;
+`;
+
+export const ImagemContainer = styled.div`
     padding: 2.625rem 1.5rem 3rem 1.5rem;
     opacity: 0.8;
     transition: all 0.4s ease-in-out;
+    position: relative;
+
+    &:hover {
+        ${CardOverlay} {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    & .lazy-load-image-background {
+        width: 100%;
+        height: 100%;
+    }
+`;
+
+export const CardImagem = styled(Imagem)`
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
     width: 100%;
 `;
 
@@ -24,7 +65,7 @@ export const CardContainer = styled(Card)`
     &:hover {
         background-position: 0 100%;
 
-        & ${CardImagem} {
+        & ${ImagemContainer} {
             opacity: 1;
         }
     }

@@ -19,7 +19,7 @@ import Paginacao from 'componentes/Paginacao';
 import { adicionarProduto } from 'store/modules/carrinho';
 import { useAppDispatch } from 'hooks';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiltroTitulo, StickyTop } from './style';
 
@@ -72,13 +72,12 @@ export default function CardsProdutos({
 
     const lidarComAdicionarProduto = (produto: Produtos, mostrar: boolean) => {
         dispatch(adicionarProduto(produto));
-        console.log('toast');
 
         toast.success('Produto adicionado a sua box!', {
             position: toast.POSITION.TOP_RIGHT,
             closeOnClick: true,
             theme: 'colored',
-            autoClose: 13000,
+            autoClose: 2000,
         });
     };
 
@@ -159,7 +158,11 @@ export default function CardsProdutos({
                     {mostrarFiltro && (
                         <StickyTop>
                             <Col>
-                                <Stack gap={3} direction='horizontal'>
+                                <Stack
+                                    gap={3}
+                                    direction='horizontal'
+                                    className='justify-content-center'
+                                >
                                     <FiltroTitulo>Filtrar por</FiltroTitulo>
 
                                     <DropdownButton
@@ -208,21 +211,23 @@ export default function CardsProdutos({
                                         )}
                                     </DropdownButton>
 
-                                    {categoriaSelecionada !== 'selecionar' ? (
-                                        <Button
-                                            type='button'
-                                            className='btn-close'
-                                            aria-label='Close'
-                                            disabled={estaCarregando}
-                                            onClick={limparFiltrarCategoria}
-                                        >
-                                            <span className='visually-hidden'>
-                                                Limpar categoria selecionada
-                                            </span>
-                                        </Button>
-                                    ) : (
-                                        ''
-                                    )}
+                                    <Button
+                                        type='button'
+                                        className='btn-close'
+                                        aria-label='Close'
+                                        disabled={
+                                            estaCarregando ||
+                                            categoriaSelecionada ===
+                                                'selecionar'
+                                                ? true
+                                                : false
+                                        }
+                                        onClick={limparFiltrarCategoria}
+                                    >
+                                        <span className='visually-hidden'>
+                                            Limpar categoria selecionada
+                                        </span>
+                                    </Button>
                                 </Stack>
                             </Col>
                         </StickyTop>
@@ -280,7 +285,7 @@ export default function CardsProdutos({
                 </Row>
             )}
 
-            <ToastContainer />
+            <ToastContainer transition={Slide} />
 
             <CarregandoPagina visibilidade={estaCarregando} />
         </>

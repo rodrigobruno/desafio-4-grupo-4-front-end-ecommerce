@@ -94,12 +94,13 @@ export default function FormularioCategoria({
                         '/categories',
                         {
                             title: form.nome,
-                        },
-                        {
-                            headers: {
-                                Authorization: 'Bearer ' + accessToken,
-                            },
                         }
+                        // },
+                        // {
+                        //     headers: {
+                        //         Authorization: 'Bearer ' + accessToken,
+                        //     },
+                        // }
                     );
 
                     setForm({

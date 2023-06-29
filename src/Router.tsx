@@ -33,6 +33,7 @@ import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
 import AdminCupons from 'paginas/Admin/Cupons';
 import PaginaInicio from 'componentes/PaginaInicio';
+import ProdutosCategoria from 'paginas/Produtos/ProdutosCategoria';
 
 export default function AppRoutes() {
     return (
@@ -42,6 +43,7 @@ export default function AppRoutes() {
             </Route>
             <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
+                <Route path='produtos/:id' element={<ProdutosCategoria />} />
                 <Route path='produto/:id' element={<Produto />} />
                 <Route path='categorias' element={<Categorias />} />
 
