@@ -74,10 +74,12 @@ export default function FormularioUsuario({
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(e.target.value === 'true');
     };
+
     const validarSenha = (senha: string) => {
-        const regex: RegExp = /^(?=.*[A-Z])(?=.*\d{2})(?=.*[a-z])[A-Za-z0-9]{6,10}$/;
+        const regex: RegExp =
+            /^(?=.*[A-Z]{1,})(?=.*\d{1,})(?=.*[a-z]{1,})[A-Za-z0-9]{6,}$/;
         return regex.test(senha);
-      };
+    };
 
     useEffect(() => {
         setEstaCarregando(false);
@@ -106,8 +108,9 @@ export default function FormularioUsuario({
             novoErros.senha = 'Preencha uma senha';
         }
 
-        if(tipo === 'post' && !validarSenha(senha)){
-            novoErros.senha = 'A senha deve conter no mínimo 6 e no máximo 10 caracteres, sendo 1 letra maiúscula, sendo no mínimo 2 números e o restante letras minuscúlas.';
+        if (tipo === 'post' && !validarSenha(senha)) {
+            novoErros.senha =
+                'Pelo menos 6 caracteres, 1 letra minúscula, 1 letra maiúscula e 1 número';
         }
 
         return novoErros;
@@ -336,6 +339,13 @@ export default function FormularioUsuario({
                                 <Form.Control.Feedback type='invalid'>
                                     {erros.senha}
                                 </Form.Control.Feedback>
+
+                                {!erros.senha && (
+                                    <Form.Text className='text-muted'>
+                                        Pelo menos 6 caracteres, 1 letra
+                                        minúscula, 1 letra maiúscula e 1 número
+                                    </Form.Text>
+                                )}
                             </Form.Group>
                         )}
 

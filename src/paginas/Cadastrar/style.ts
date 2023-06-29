@@ -1,11 +1,11 @@
 import { Button, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import Sombra from './images/sombra.webp';
-import BgImage1 from './images/bg-login-1.webp';
+import BgImage1 from './images/bg-cadastro-1.webp';
 
 export const BgForm = styled(Col)`
-    background-color: var(--cor-preta-5);
     border-radius: 6px;
+    background-color: var(--cor-preta-5);
     transition: all 0.4s ease-in-out;
 `;
 

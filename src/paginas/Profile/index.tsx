@@ -17,6 +17,7 @@ import { useAppSelector } from 'hooks';
 import { BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
+import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 
 export interface CamposFormUsuario {
     nameid: string;
@@ -57,6 +58,7 @@ export default function Profile() {
 
     const [enviadandoDados, setEnviadandoDados] = useState(false);
     const [mostrarAlertaErro500, setMostrarAlertaErro500] = useState(false);
+    const [mostrarAlertaErro404, setMostrarAlertaErro404] = useState(false);
     const [mostrarAlertaSucesso200, setMostrarAlertaSucesso200] =
         useState(false);
 
@@ -118,6 +120,7 @@ export default function Profile() {
         e.preventDefault();
 
         setMostrarAlertaErro500(false);
+        setMostrarAlertaErro404(false);
         setMostrarAlertaSucesso200(false);
         setEnviadandoDados(false);
 
@@ -152,6 +155,8 @@ export default function Profile() {
                     window.scrollTo(0, 0);
                     if (err.response.status === 500)
                         return setMostrarAlertaErro500(true);
+                    if (err.response.status === 404)
+                        return setMostrarAlertaErro404(true);
                 } else if (err.request) {
                     console.log(err.request);
                 } else {
@@ -200,9 +205,12 @@ export default function Profile() {
                                 variant='warning'
                                 className='mb-4'
                             >
-                                Ocorreu um erro, tente novamente na próxima
-                                rodada.
+                                Nome, usuário ou e-mail já cadastrado.
                             </Alert>
+                        )}
+
+                        {mostrarAlertaErro404 && (
+                            <ErroAtualizarPagina classes='w-100 d-flex' />
                         )}
 
                         {mostrarAlertaSucesso200 && (
@@ -235,7 +243,6 @@ export default function Profile() {
                                     }
                                     isInvalid={!!erros.username}
                                     required
-                                    disabled
                                 />
                                 <Form.Control.Feedback type='invalid'>
                                     {erros.username}

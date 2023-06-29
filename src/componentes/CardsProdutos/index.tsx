@@ -75,7 +75,8 @@ export default function CardsProdutos({
 
         toast.success('Produto adicionado a sua box!', {
             position: toast.POSITION.TOP_RIGHT,
-            closeOnClick: true,
+            closeOnClick: false,
+            pauseOnHover: false,
             theme: 'colored',
             autoClose: 2000,
         });

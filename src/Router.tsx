@@ -32,14 +32,23 @@ import AdminUsuarios from 'paginas/Admin/Usuarios';
 import AdminCriarUsurario from 'paginas/Admin/Usuarios/CriarUsuario';
 import AdminEditarUsuario from 'paginas/Admin/Usuarios/EditarUsuario';
 import AdminCupons from 'paginas/Admin/Cupons';
-import PaginaInicio from 'componentes/PaginaInicio';
+import PaginaFullWidth from 'componentes/PaginaFullWidth';
 import ProdutosCategoria from 'paginas/Produtos/ProdutosCategoria';
+import AlterarSenha from 'paginas/Profile/AlterarSenha';
 
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path='/' element={<PaginaInicio />}>
+            <Route path='/' element={<PaginaFullWidth />}>
                 <Route index element={<Inicio />} />
+                <Route
+                    path='cadastrar'
+                    element={
+                        <LoginRoute>
+                            <Cadastrar />
+                        </LoginRoute>
+                    }
+                />
             </Route>
             <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
@@ -64,14 +73,7 @@ export default function AppRoutes() {
                         </PrivateRoute>
                     }
                 />
-                <Route
-                    path='cadastrar'
-                    element={
-                        <LoginRoute>
-                            <Cadastrar />
-                        </LoginRoute>
-                    }
-                />
+
                 <Route
                     path='pedidos'
                     element={
@@ -93,6 +95,14 @@ export default function AppRoutes() {
                     element={
                         <PrivateRoute>
                             <Profile />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='senha'
+                    element={
+                        <PrivateRoute>
+                            <AlterarSenha />
                         </PrivateRoute>
                     }
                 />
