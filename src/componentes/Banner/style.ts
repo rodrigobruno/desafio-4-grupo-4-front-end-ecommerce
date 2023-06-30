@@ -1,5 +1,5 @@
-import { Button, Carousel, CarouselItem } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Carousel, CarouselItem } from 'react-bootstrap';
 import overlay from 'assets/overlay.png';
 import degrade from 'assets/degrade.png';
 
@@ -59,13 +59,5 @@ export const Descricao = styled.p`
 
     @media (max-width: 575.98px) {
         font-size: 1rem;
-    }
-`;
-
-export const Botao = styled(Button)`
-    padding: 1rem 2rem;
-
-    @media (max-width: 575.98px) {
-        padding: 0.5rem 1rem;
     }
 `;

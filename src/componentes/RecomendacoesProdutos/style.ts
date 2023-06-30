@@ -1,15 +1,12 @@
 import styled from 'styled-components';
-import { Button, Card, ToastBody } from 'react-bootstrap';
 
 export const CardOverlay = styled.div`
     visibility: hidden;
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    width: calc(100% - 2rem);
-    height: calc(100% - 2rem);
+    top: -0.5rem;
+    left: -0.5rem;
+    width: calc(100% + 1rem);
+    height: calc(100% + 1rem);
     z-index: 10;
     border-radius: 6px;
     background: var(--cor-preta-6);
@@ -27,7 +24,7 @@ export const CardOverlay = styled.div`
 `;
 
 export const ImagemContainer = styled.div`
-    padding: 2.625rem 1.5rem 3rem 1.5rem;
+    padding: 1rem;
     opacity: 0.8;
     transition: all 0.4s ease-in-out;
     position: relative;
@@ -41,7 +38,12 @@ export const ImagemContainer = styled.div`
     }
 `;
 
-export const CardContainer = styled(Card)`
+export const CardContainer = styled.div`
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
     background-image: linear-gradient(
         to bottom,
         var(--cor-preta-6),
@@ -49,6 +51,8 @@ export const CardContainer = styled(Card)`
         var(--cor-preta-5)
     );
     background-size: 100% 200%;
+    height: 100%;
+    padding: 1.5rem;
     transition: all 0.4s ease-in-out;
 
     &:hover {
@@ -60,29 +64,9 @@ export const CardContainer = styled(Card)`
     }
 `;
 
-export const CardTitulo = styled(Card.Title)`
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-weight: var(--font-weight-preta);
-`;
-
-export const CardSubTitulo = styled(Card.Title)`
-    margin-bottom: 2rem;
+export const CardTitulo = styled.h3`
+    margin: 0;
     font-size: 1.5rem;
     text-transform: uppercase;
-    font-weight: var(--font-weight-regular);
-`;
-
-export const CardButton = styled(Button)`
-    font-weight: var(--font-weight-bold);
-`;
-
-export const CardFooter = styled.footer`
-    padding-bottom: 2.625rem;
-`;
-
-export const ToastBodyColor = styled(ToastBody)`
-    color: var(--cor-preta-6);
-    font-weight: var(--font-weight-regular);
+    font-weight: var(--font-weight-preta);
 `;

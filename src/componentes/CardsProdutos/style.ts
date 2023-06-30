@@ -2,19 +2,20 @@ import { Row } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const StickyTop = styled(Row)`
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
+    margin-top: -1.5rem;
     position: sticky;
-    top: 0;
-    padding-block: 1rem;
+    top: 10px;
+    padding: 1rem;
+    width: fit-content;
+    margin-inline: auto;
     z-index: 1020;
-    background: var(--cor-preta-6);
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0) 0%,
-        var(--cor-preta-6) 50%,
-        var(--cor-preta-6) 100%,
-        var(--cor-preta-6) 100%
-    );
+    background-color: var(--cor-preta-5);
+    border-radius: 6px;
+
+    @media (max-width: 350px) {
+        padding-inline: 0;
+    }
 
     & .dropdown.btn-group {
         min-width: 145px;

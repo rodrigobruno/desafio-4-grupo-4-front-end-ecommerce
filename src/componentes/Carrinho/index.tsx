@@ -26,6 +26,13 @@ export default function CarrinhoOffcanvas() {
         return valorTotalDoPedidoEmReais;
     };
 
+    const lidarComEvaziarCarrinho = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+        dispatch(esvaziarCarrinho());
+    };
+
     return (
         <Offcanvas
             show={menuState}
@@ -71,7 +78,7 @@ export default function CarrinhoOffcanvas() {
                                     as='a'
                                     variant='link'
                                     className='link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
-                                    onClick={() => dispatch(esvaziarCarrinho())}
+                                    onClick={(e) => lidarComEvaziarCarrinho(e)}
                                 >
                                     <small className='text-right'>
                                         Esvaziar caixinha

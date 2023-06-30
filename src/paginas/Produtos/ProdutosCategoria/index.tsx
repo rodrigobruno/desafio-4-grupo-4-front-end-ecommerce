@@ -43,7 +43,13 @@ export default function ProdutosCategoria() {
     return (
         <>
             <Helmet>
-                <title>Nossos produtos - Gama Zone</title>
+                <title>
+                    {listaDeCategorias
+                        .filter((categoria) => categoria._id === id)
+                        .map((titulo) => titulo.title)
+                        .toString()}{' '}
+                    - Gama Zone
+                </title>
                 <meta
                     name='description'
                     content='Encontre os melhores board games na nossa loja online. Uma variedade incrível de jogos de tabuleiro para todos os gostos. Compre agora e mergulhe na diversão!'
@@ -51,7 +57,7 @@ export default function ProdutosCategoria() {
             </Helmet>
 
             {(!ocorreuErroNaRespostaApi || listaDeCategorias.length > 0) && (
-                <Col className='mt-2'>
+                <Col>
                     <TituloSecoes>
                         {listaDeCategorias
                             .filter((categoria) => categoria._id === id)

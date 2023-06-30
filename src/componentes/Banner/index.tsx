@@ -5,13 +5,13 @@ import {
     CarouselItemS,
     Descricao,
     Titulo,
-    Botao,
     CarouselS,
 } from './style';
 import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { useNavigate } from 'react-router-dom';
 import CarregandoPagina from 'componentes/CarregandoPagina';
+import BotaoXl from 'componentes/BotaoXl';
 
 interface BannersProps {
     _id: string;
@@ -64,14 +64,13 @@ export default function Banner() {
                             <Carousel.Caption>
                                 <Titulo>{banner.title}</Titulo>
                                 <Descricao>{banner.desc}</Descricao>
-                                <Botao
-                                    size='lg'
+                                <BotaoXl
                                     onClick={() =>
                                         navigate(`/produto/${banner.idproduto}`)
                                     }
                                 >
                                     Adquira já
-                                </Botao>
+                                </BotaoXl>
                             </Carousel.Caption>
                         </CarouselCaption>
                     </CarouselItemS>

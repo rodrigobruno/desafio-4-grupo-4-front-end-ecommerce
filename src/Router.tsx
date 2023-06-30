@@ -9,7 +9,6 @@ import PaginaPadrao from 'componentes/PaginaPadrao';
 import Inicio from './paginas/Inicio';
 import NaoEncontrada from './paginas/NaoEncontrada';
 import Produtos from './paginas/Produtos';
-import Produto from 'paginas/Produtos/Produto';
 import Checkout from 'paginas/Checkout';
 import Sucesso from 'paginas/Sucesso';
 import Cadastrar from 'paginas/Cadastrar';
@@ -35,6 +34,7 @@ import AdminCupons from 'paginas/Admin/Cupons';
 import PaginaFullWidth from 'componentes/PaginaFullWidth';
 import ProdutosCategoria from 'paginas/Produtos/ProdutosCategoria';
 import AlterarSenha from 'paginas/Profile/AlterarSenha';
+import PaginaDeProduto from 'paginas/Produtos/Produto';
 
 export default function AppRoutes() {
     return (
@@ -53,7 +53,7 @@ export default function AppRoutes() {
             <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
                 <Route path='produtos/:id' element={<ProdutosCategoria />} />
-                <Route path='produto/:id' element={<Produto />} />
+                <Route path='produto/:id' element={<PaginaDeProduto />} />
                 <Route path='categorias' element={<Categorias />} />
 
                 <Route

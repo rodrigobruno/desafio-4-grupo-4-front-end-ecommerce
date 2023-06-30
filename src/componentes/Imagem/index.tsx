@@ -1,7 +1,7 @@
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import Placeholder from 'assets/placeholder.svg';
 import { SyntheticEvent } from 'react';
+import { ImagemContainer, ImagemQuadrada } from './style';
 type Effect = 'blur' | 'black-and-white' | 'opacity';
 
 interface Props {
@@ -28,15 +28,17 @@ export default function Imagem({
     };
 
     return (
-        <LazyLoadImage
-            src={src}
-            width={width}
-            height={height}
-            placeholderSrc={placeholderSrc}
-            alt={alt}
-            effect={effect}
-            className={className}
-            onError={onImageError}
-        />
+        <ImagemContainer>
+            <ImagemQuadrada
+                src={src}
+                width={width}
+                height={height}
+                placeholderSrc={placeholderSrc}
+                alt={alt}
+                effect={effect}
+                className={className}
+                onError={onImageError}
+            />
+        </ImagemContainer>
     );
 }

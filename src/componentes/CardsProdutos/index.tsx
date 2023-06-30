@@ -76,7 +76,9 @@ export default function CardsProdutos({
         toast.success('Produto adicionado a sua box!', {
             position: toast.POSITION.TOP_RIGHT,
             closeOnClick: false,
+            closeButton: false,
             pauseOnHover: false,
+            draggable: false,
             theme: 'colored',
             autoClose: 2000,
         });
@@ -151,140 +153,148 @@ export default function CardsProdutos({
             )}
 
             {!ocorreuErroNaRespostaApi && itensTotais === 0 && (
-                <p>Nenhum produto cadastrado na loja ainda.</p>
+                <p className='text-center'>Nenhum produto cadastrado ainda.</p>
             )}
 
-            {!ocorreuErroNaRespostaApi && itensTotais > 0 && (
-                <>
-                    {mostrarFiltro && (
-                        <StickyTop>
-                            <Col>
-                                <Stack
-                                    gap={3}
-                                    direction='horizontal'
-                                    className='justify-content-center'
-                                >
-                                    <FiltroTitulo>Filtrar por</FiltroTitulo>
-
-                                    <DropdownButton
-                                        as={ButtonGroup}
-                                        id='dropdown-filtro-categoria'
-                                        variant='primary'
-                                        size='sm'
-                                        title={categoriaSelecionada}
+            <div className='mb-5'>
+                {!ocorreuErroNaRespostaApi && itensTotais > 0 && (
+                    <>
+                        {mostrarFiltro && (
+                            <StickyTop>
+                                <Col className='m-0'>
+                                    <Stack
+                                        gap={3}
+                                        direction='horizontal'
+                                        className='justify-content-center'
                                     >
-                                        {listaDeCategorias.map((categoria) => (
-                                            <Dropdown.Item
-                                                key={categoria._id}
-                                                eventKey={categoria._id}
-                                                active={
-                                                    filtrarCategoria ===
-                                                    categoria._id
-                                                        ? true
-                                                        : false
-                                                }
-                                                onClick={(e) =>
-                                                    lidarComMudancaFiltro(
-                                                        categoria._id,
-                                                        categoria.title
-                                                    )
-                                                }
-                                            >
-                                                {categoria.title}
-                                            </Dropdown.Item>
-                                        ))}
-                                        {categoriaSelecionada !==
-                                        'selecionar' ? (
-                                            <>
-                                                <Dropdown.Divider />
-                                                <Dropdown.Item
-                                                    eventKey='limpar'
-                                                    disabled={estaCarregando}
-                                                    onClick={
-                                                        limparFiltrarCategoria
-                                                    }
-                                                >
-                                                    Limpar
-                                                </Dropdown.Item>
-                                            </>
-                                        ) : (
-                                            ''
-                                        )}
-                                    </DropdownButton>
+                                        <FiltroTitulo>Filtrar</FiltroTitulo>
 
-                                    <Button
-                                        type='button'
-                                        className='btn-close'
-                                        aria-label='Close'
-                                        disabled={
-                                            estaCarregando ||
-                                            categoriaSelecionada ===
-                                                'selecionar'
-                                                ? true
-                                                : false
-                                        }
-                                        onClick={limparFiltrarCategoria}
-                                    >
-                                        <span className='visually-hidden'>
-                                            Limpar categoria selecionada
-                                        </span>
-                                    </Button>
-                                </Stack>
-                            </Col>
-                        </StickyTop>
-                    )}
+                                        <DropdownButton
+                                            as={ButtonGroup}
+                                            id='dropdown-filtro-categoria'
+                                            variant='primary'
+                                            size='sm'
+                                            title={categoriaSelecionada}
+                                        >
+                                            {listaDeCategorias.map(
+                                                (categoria) => (
+                                                    <Dropdown.Item
+                                                        key={categoria._id}
+                                                        eventKey={categoria._id}
+                                                        active={
+                                                            filtrarCategoria ===
+                                                            categoria._id
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        onClick={(e) =>
+                                                            lidarComMudancaFiltro(
+                                                                categoria._id,
+                                                                categoria.title
+                                                            )
+                                                        }
+                                                    >
+                                                        {categoria.title}
+                                                    </Dropdown.Item>
+                                                )
+                                            )}
+                                            {categoriaSelecionada !==
+                                            'selecionar' ? (
+                                                <>
+                                                    <Dropdown.Divider />
+                                                    <Dropdown.Item
+                                                        eventKey='limpar'
+                                                        disabled={
+                                                            estaCarregando
+                                                        }
+                                                        onClick={
+                                                            limparFiltrarCategoria
+                                                        }
+                                                    >
+                                                        Limpar
+                                                    </Dropdown.Item>
+                                                </>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </DropdownButton>
 
-                    <Row
-                        xs={1}
-                        sm={2}
-                        md={3}
-                        lg={3}
-                        xl={3}
-                        xxl={3}
-                        className='g-4'
-                    >
-                        {produtos.map((produto) => (
-                            <CardProduto
-                                key={produto._id}
-                                _id={produto._id}
-                                title={produto.title}
-                                price={produto.price}
-                                img={produto.img}
-                                lidarComAdicionarProduto={
-                                    lidarComAdicionarProduto
-                                }
+                                        <Button
+                                            type='button'
+                                            className='btn-close'
+                                            aria-label='Close'
+                                            disabled={
+                                                estaCarregando ||
+                                                categoriaSelecionada ===
+                                                    'selecionar'
+                                                    ? true
+                                                    : false
+                                            }
+                                            onClick={limparFiltrarCategoria}
+                                        >
+                                            <span className='visually-hidden'>
+                                                Limpar categoria selecionada
+                                            </span>
+                                        </Button>
+                                    </Stack>
+                                </Col>
+                            </StickyTop>
+                        )}
+
+                        <Row
+                            xs={1}
+                            sm={2}
+                            md={3}
+                            lg={3}
+                            xl={3}
+                            xxl={3}
+                            className='g-4'
+                        >
+                            {produtos.map((produto) => (
+                                <CardProduto
+                                    key={produto._id}
+                                    _id={produto._id}
+                                    title={produto.title}
+                                    price={produto.price}
+                                    img={produto.img}
+                                    lidarComAdicionarProduto={
+                                        lidarComAdicionarProduto
+                                    }
+                                />
+                            ))}
+                        </Row>
+                    </>
+                )}
+
+                {verMais && !ocorreuErroNaRespostaApi && itensTotais > 3 && (
+                    <Row>
+                        <Col>
+                            <BotaoMais
+                                classes='d-flex justify-content-center my-5'
+                                para={'/produtos/' + categoriaUrl}
+                                variacao='secondary'
+                                tamanho='lg'
                             />
-                        ))}
+                        </Col>
                     </Row>
-                </>
-            )}
+                )}
 
-            {verMais && !ocorreuErroNaRespostaApi && itensTotais > 3 && (
-                <Row>
-                    <Col>
-                        <BotaoMais
-                            classes='d-flex justify-content-center my-5'
-                            para={'/produtos/' + categoriaUrl}
-                            variacao='secondary'
-                            tamanho='lg'
-                        />
-                    </Col>
-                </Row>
-            )}
-
-            {!verMais && !ocorreuErroNaRespostaApi && itensTotais > limite && (
-                <Row>
-                    <Col>
-                        <Paginacao
-                            paginaAtual={paginaAtual}
-                            paginasTotais={paginasTotais}
-                            itensTotais={itensTotais}
-                            limite={limiteItens}
-                            mudarDePagina={lidarComAPaginaAtual}
-                        />
-                    </Col>
-                </Row>
-            )}
+                {!verMais &&
+                    !ocorreuErroNaRespostaApi &&
+                    itensTotais > limite && (
+                        <Row>
+                            <Col>
+                                <Paginacao
+                                    paginaAtual={paginaAtual}
+                                    paginasTotais={paginasTotais}
+                                    itensTotais={itensTotais}
+                                    limite={limiteItens}
+                                    mudarDePagina={lidarComAPaginaAtual}
+                                />
+                            </Col>
+                        </Row>
+                    )}
+            </div>
 
             <ToastContainer transition={Slide} />
 

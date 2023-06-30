@@ -3,7 +3,6 @@ import { Categorias } from 'types';
 import { precoFormatadoParaReal } from 'utils';
 import {
     CardContainer,
-    CardImagem,
     CardTitulo,
     CardSubTitulo,
     CardButton,
@@ -14,6 +13,7 @@ import {
 import { Produtos } from 'types';
 import { Box2Heart } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import { ImagemQuadrada } from 'componentes/Imagem/style';
 
 interface Props {
     _id: string;
@@ -55,7 +55,9 @@ export default function CardProduto({
         <>
             <Col>
                 <CardContainer className='text-center'>
-                    <ImagemContainer>
+                    <ImagemContainer
+                        onClick={() => navigate(`/produto/${_id}`)}
+                    >
                         <CardOverlay>
                             <Button
                                 variant='dark'
@@ -64,7 +66,7 @@ export default function CardProduto({
                                 Ver detalhes
                             </Button>
                         </CardOverlay>
-                        <CardImagem
+                        <ImagemQuadrada
                             src={img}
                             placeholderSrc={lidarComPlaceholder(img)}
                             alt={title}

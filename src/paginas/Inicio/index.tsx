@@ -28,7 +28,7 @@ export default function Inicio() {
                 </Col>
                 <CardsProdutos
                     limite={3}
-                    categoria='649460563ec28ae97e06171a'
+                    categoria='649460523ec28ae97e061718'
                 />
 
                 <Col className='mt-5'>

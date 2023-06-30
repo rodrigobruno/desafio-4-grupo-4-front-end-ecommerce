@@ -17,6 +17,7 @@ import {
     removerQuantidade,
 } from 'store/modules/carrinho';
 import Placeholder from 'assets/placeholder.svg';
+import AdicionarRemoverQuatidade from 'componentes/Quantidade';
 
 export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
     const dispatch = useAppDispatch();
@@ -32,10 +33,18 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
             img: product.img,
             price: product.price,
         },
-        quantity: 1,
+        quantity: quantity,
     };
 
     const subTotal = precoFormatadoParaReal(product.price * quantity);
+
+    const lidarComAdicionarQuantidadeProduto = () => {
+        dispatch(adicionarQuantidade(produto));
+    };
+
+    const lidarComRemoverQuantidadeProduto = () => {
+        dispatch(removerQuantidade(produto));
+    };
 
     return (
         <>
@@ -52,8 +61,14 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
                     <div className='d-flex'>
                         <Preco>{subTotal}</Preco>
 
-                        <div className='d-flex align-items-center'>
-                            <BotaoQuantidades
+                        <AdicionarRemoverQuatidade
+                            nome={product.title}
+                            quntidade={quantity}
+                            adicionar={lidarComAdicionarQuantidadeProduto}
+                            remover={lidarComRemoverQuantidadeProduto}
+                        />
+
+                        {/* <BotaoQuantidades
                                 variant='outline-light'
                                 size='sm'
                                 onClick={() =>
@@ -85,8 +100,7 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
                                 <span className='visually-hidden'>
                                     Adicionar mais um {product.title}
                                 </span>
-                            </BotaoQuantidades>
-                        </div>
+                            </BotaoQuantidades> */}
                     </div>
                 </div>
 

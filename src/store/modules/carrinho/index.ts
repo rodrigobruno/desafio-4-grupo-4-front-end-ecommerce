@@ -32,7 +32,8 @@ export const carrinhoSlice = createSlice({
                 const posicao = carrinho.findIndex(
                     (item) => item.product._id === _id
                 );
-                carrinho[posicao].quantity++;
+                carrinho[posicao].quantity =
+                    carrinho[posicao].quantity + action.payload.quantity;
             } else {
                 state.carrinho = [...carrinho, action.payload];
             }
