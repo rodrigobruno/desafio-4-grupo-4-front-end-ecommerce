@@ -146,7 +146,7 @@ export default function PaginaDeProduto() {
     return (
         <>
             <Helmet>
-                <title>Produto - Gama Zone</title>
+                <title>{produto.product.title} - Gama Zone</title>
                 <meta
                     name='description'
                     content='Descubra o jogo de tabuleiro perfeito na nossa loja. Descrição detalhada, avaliações de clientes e entrega rápida. A diversão está a apenas um clique de distância!'

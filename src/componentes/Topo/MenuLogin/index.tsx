@@ -11,7 +11,12 @@ export default function MenuLogin() {
                 Cadastrar
             </NavLink>
 
-            <Button onClick={() => navigate('/entrar')}>Entrar</Button>
+            <Button
+                variant='outline-primary'
+                onClick={() => navigate('/entrar')}
+            >
+                Entrar
+            </Button>
         </div>
     );
 }

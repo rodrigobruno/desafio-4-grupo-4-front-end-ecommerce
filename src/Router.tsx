@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from 'componentes/PrivateRoute';
 import { LoginRoute } from 'componentes/LoginRoute';
 
-import PaginaBackground from 'componentes/PaginaBackground';
 import PaginaPadrao from 'componentes/PaginaPadrao';
 
 import Inicio from './paginas/Inicio';
@@ -35,6 +34,7 @@ import PaginaFullWidth from 'componentes/PaginaFullWidth';
 import ProdutosCategoria from 'paginas/Produtos/ProdutosCategoria';
 import AlterarSenha from 'paginas/Profile/AlterarSenha';
 import PaginaDeProduto from 'paginas/Produtos/Produto';
+import PaginaSemRodape from 'componentes/PaginaSemRodape';
 
 export default function AppRoutes() {
     return (
@@ -49,7 +49,28 @@ export default function AppRoutes() {
                         </LoginRoute>
                     }
                 />
+                <Route
+                    path='/entrar'
+                    element={
+                        <LoginRoute>
+                            <Entrar />
+                        </LoginRoute>
+                    }
+                />
             </Route>
+
+            <Route path='/' element={<PaginaSemRodape />}>
+                <Route
+                    path='finalizar-compra'
+                    element={
+                        <PrivateRoute>
+                            <Checkout />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path='*' element={<NaoEncontrada />} />
+            </Route>
+
             <Route path='/' element={<PaginaPadrao />}>
                 <Route path='produtos' element={<Produtos />} />
                 <Route path='produtos/:id' element={<ProdutosCategoria />} />
@@ -61,15 +82,6 @@ export default function AppRoutes() {
                     element={
                         <PrivateRoute>
                             <Sucesso />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path='finalizar-compra'
-                    element={
-                        <PrivateRoute>
-                            <Checkout />
                         </PrivateRoute>
                     }
                 />
@@ -104,18 +116,6 @@ export default function AppRoutes() {
                         <PrivateRoute>
                             <AlterarSenha />
                         </PrivateRoute>
-                    }
-                />
-                <Route path='*' element={<NaoEncontrada />} />
-            </Route>
-
-            <Route path='/' element={<PaginaBackground />}>
-                <Route
-                    path='/entrar'
-                    element={
-                        <LoginRoute>
-                            <Entrar />
-                        </LoginRoute>
                     }
                 />
             </Route>

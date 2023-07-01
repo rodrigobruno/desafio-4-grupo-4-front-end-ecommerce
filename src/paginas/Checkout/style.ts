@@ -1,13 +1,13 @@
-import { Button, Col } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Button, Col } from 'react-bootstrap';
 
 interface MostrarResumo {
     mostrarResumo: boolean;
 }
 
 export const CheckoutPassos = styled.div`
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
+    padding-top: 2rem;
+    margin-top: 2rem;
     border-top: 1px solid var(--cor-preta-4-5);
 `;
 

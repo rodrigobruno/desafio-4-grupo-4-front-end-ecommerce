@@ -414,7 +414,7 @@ export default function Checkout() {
                 />
             </Helmet>
 
-            <Container fluid='xxl'>
+            <Container fluid='xxl' className='my-5'>
                 <Row>
                     <Col>
                         <h1 className='mb-0 mb-md-3 mb-lg-4  text-uppercase'>
