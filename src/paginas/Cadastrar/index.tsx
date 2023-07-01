@@ -177,7 +177,7 @@ export default function Cadastrar() {
             setEnviadandoDados(true);
 
             try {
-                await api.post(`/auth/registe`, {
+                await api.post(`/auth/register`, {
                     nameid: form.nameid,
                     username: form.username,
                     emails: form.emails,
