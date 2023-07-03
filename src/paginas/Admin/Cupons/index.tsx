@@ -19,7 +19,7 @@ export default function AdminCupons() {
             </Row>
 
             <Row>
-                <Col></Col>
+                <Col>Em construção</Col>
             </Row>
         </>
     );

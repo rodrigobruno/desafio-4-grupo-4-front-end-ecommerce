@@ -111,7 +111,7 @@ export default function Cadastrar() {
         const novoErros = {} as CamposFormUsuario;
 
         const ehEmail = (email: string) =>
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emails);
+            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
         const validarSenha = (senha: string) => {
             const regex: RegExp =
@@ -127,7 +127,7 @@ export default function Cadastrar() {
         if (!username || username === '') {
             novoErros.username = 'Preencha o nome de usuário';
         } else if (username.length < 3) {
-            novoErros.username = 'O nome deve ter mais do que 3 caracteres';
+            novoErros.username = 'O usuário deve ter mais do que 3 caracteres';
         } else if (!validarUsername(username)) {
             novoErros.username = `Não é permitido espaços, letras maiúsculas e @!#$%^\u00B4\u0060&*?/|,:"<'([{-+\u005C`;
         }
@@ -337,6 +337,7 @@ export default function Cadastrar() {
                                     controlId='formLoginSenha'
                                 >
                                     <Form.Label>Senha</Form.Label>
+
                                     <InputGroup hasValidation>
                                         <Form.Control
                                             size='lg'
@@ -354,6 +355,7 @@ export default function Cadastrar() {
                                             isInvalid={!!erros.password}
                                             required
                                         />
+
                                         <Button
                                             tabIndex={-1}
                                             variant='outline-light'
@@ -401,6 +403,7 @@ export default function Cadastrar() {
                                     controlId='formLoginSenha'
                                 >
                                     <Form.Label>Confirmar senha</Form.Label>
+
                                     <InputGroup hasValidation>
                                         <Form.Control
                                             size='lg'

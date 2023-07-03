@@ -2,11 +2,11 @@ import { AxiosError } from 'axios';
 import Carregando from 'componentes/Carregando';
 import CarregandoPagina from 'componentes/CarregandoPagina';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
-import { useAppSelector } from 'hooks';
 import { api } from 'lib/axios';
 import { FormEvent, useEffect, useState } from 'react';
-import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
-import { CheckCircleFill } from 'react-bootstrap-icons';
+import { Alert, Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { CheckCircleFill, EyeFill, EyeSlashFill } from 'react-bootstrap-icons';
+import { useAppSelector } from 'hooks';
 
 interface Users {
     tipo: 'post' | 'put';
@@ -24,6 +24,7 @@ interface FormCampos {
     usuario: string;
     email: string;
     senha: string;
+    confirmarSenha: string;
     admin: boolean;
 }
 
@@ -32,6 +33,7 @@ interface FormErros {
     usuario: string | null;
     email: string | null;
     senha: string | null;
+    confirmarSenha: string | null;
     admin: boolean;
 }
 export default function FormularioUsuario({
@@ -52,6 +54,7 @@ export default function FormularioUsuario({
         usuario: usuario || '',
         email: email || '',
         senha: senha || '',
+        confirmarSenha: senha || '',
         admin: admin || false,
     });
     const [erros, setErros] = useState<FormErros>({
@@ -59,6 +62,7 @@ export default function FormularioUsuario({
         usuario: null,
         email: null,
         senha: null,
+        confirmarSenha: null,
         admin: false,
     });
 
@@ -71,26 +75,45 @@ export default function FormularioUsuario({
     const [adminPut, setadminPut] = useState(false);
 
     const [selectedOption, setSelectedOption] = useState(false);
+    const [verSenha, setVerSenha] = useState(false);
+    const [verConfirmacaoDeSenha, setVerConfirmacaoDeSenha] = useState(false);
+
+    const lidarComVerSenha = () => {
+        setVerSenha(!verSenha);
+    };
+
+    const lidarComVerConfirmacaoDeSenha = () => {
+        setVerConfirmacaoDeSenha(!verConfirmacaoDeSenha);
+    };
+
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(e.target.value === 'true');
     };
 
-    const validarSenha = (senha: string) => {
-        const regex: RegExp =
-            /^(?=.*[A-Z]{1,})(?=.*\d{1,})(?=.*[a-z]{1,})[A-Za-z0-9]{6,}$/;
-        return regex.test(senha);
-    };
-
     useEffect(() => {
         setEstaCarregando(false);
-
         setadminPut(tipo === 'put');
         setSelectedOption(admin === true);
     }, [admin, tipo]);
 
     const validarForm = () => {
-        const { nome, usuario, email, senha }: FormCampos = form;
+        const { nome, usuario, email, senha, confirmarSenha }: FormCampos =
+            form;
         const novoErros = {} as FormErros;
+
+        const validarSenha = (senha: string) => {
+            const regex: RegExp =
+                /^(?=.*[A-Z]{1,})(?=.*\d{1,})(?=.*[a-z]{1,})[A-Za-z0-9]{6,}$/;
+            return regex.test(senha);
+        };
+
+        const validarUsername = (username: string) => {
+            const regex: RegExp = /^[a-z0-9_.]+$/;
+            return regex.test(username);
+        };
+
+        const ehEmail = (email: string) =>
+            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
         if (!nome || nome === '') {
             novoErros.nome = 'Preencha seu nome completo';
@@ -98,19 +121,33 @@ export default function FormularioUsuario({
 
         if (!usuario || usuario === '') {
             novoErros.usuario = 'Preencha o nome do seu usuário';
+        } else if (usuario.length < 3) {
+            novoErros.usuario = 'O usuário deve ter mais do que 3 caracteres';
+        } else if (!validarUsername(usuario)) {
+            novoErros.usuario = `Não é permitido espaços, letras maiúsculas e @!#$%^\u00B4\u0060&*?/|,:"<'([{-+\u005C`;
         }
 
         if (!email || email === '') {
             novoErros.email = 'Preencha um e-mail válido';
+        } else if (!ehEmail(email)) {
+            novoErros.email = 'E-mail inválido';
         }
 
-        if (tipo === 'post' && (!senha || senha === '')) {
-            novoErros.senha = 'Preencha uma senha';
-        }
+        if (tipo === 'post') {
+            if (!senha || senha === '') {
+                novoErros.senha = 'Preencha uma senha';
+            } else if (!validarSenha(senha)) {
+                novoErros.senha =
+                    'Pelo menos 6 caracteres, 1 letra minúscula, 1 letra maiúscula e 1 número';
+            }
 
-        if (tipo === 'post' && !validarSenha(senha)) {
-            novoErros.senha =
-                'Pelo menos 6 caracteres, 1 letra minúscula, 1 letra maiúscula e 1 número';
+            if (!confirmarSenha || confirmarSenha === '') {
+                novoErros.confirmarSenha = 'Preencha a confirmação de senha';
+            }
+
+            if (senha !== confirmarSenha) {
+                novoErros.confirmarSenha = 'As senhas não são iguais';
+            }
         }
 
         return novoErros;
@@ -154,6 +191,7 @@ export default function FormularioUsuario({
                         usuario: '',
                         email: '',
                         senha: '',
+                        confirmarSenha: '',
                         admin: false,
                     });
                 }
@@ -212,8 +250,6 @@ export default function FormularioUsuario({
             });
         }
     };
-
-    //const options = ['Sim', 'Não'];
 
     return (
         <>
@@ -318,35 +354,132 @@ export default function FormularioUsuario({
                         </Form.Group>
 
                         {!adminPut && (
-                            <Form.Group
-                                className='mb-3'
-                                controlId='criarUsuario.ControlInputSenha'
-                            >
-                                <Form.Label>Senha</Form.Label>
-                                <Form.Control
-                                    type='password'
-                                    placeholder='Digite uma senha'
-                                    required
-                                    value={form.senha}
-                                    onChange={(e) =>
-                                        lidarComAsMudancasNosCampos(
-                                            'senha',
-                                            e.target.value
-                                        )
-                                    }
-                                    isInvalid={!!erros.senha}
-                                />
-                                <Form.Control.Feedback type='invalid'>
-                                    {erros.senha}
-                                </Form.Control.Feedback>
+                            <>
+                                <Form.Group
+                                    className='mb-3'
+                                    controlId='criarUsuario.ControlInputSenha'
+                                >
+                                    <Form.Label>Senha</Form.Label>
 
-                                {!erros.senha && (
-                                    <Form.Text className='text-muted'>
-                                        Pelo menos 6 caracteres, 1 letra
-                                        minúscula, 1 letra maiúscula e 1 número
-                                    </Form.Text>
-                                )}
-                            </Form.Group>
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            type={
+                                                verSenha ? 'text' : 'password'
+                                            }
+                                            placeholder='Digite uma senha'
+                                            required
+                                            value={form.senha}
+                                            onChange={(e) =>
+                                                lidarComAsMudancasNosCampos(
+                                                    'senha',
+                                                    e.target.value
+                                                )
+                                            }
+                                            isInvalid={!!erros.senha}
+                                        />
+
+                                        <Button
+                                            tabIndex={-1}
+                                            variant='outline-light'
+                                            id='ver-senha'
+                                            onClick={lidarComVerSenha}
+                                            disabled={
+                                                form.senha === '' ? true : false
+                                            }
+                                        >
+                                            {verSenha ? (
+                                                <>
+                                                    <EyeSlashFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ocultar senha
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <EyeFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ver senha
+                                                    </span>
+                                                </>
+                                            )}
+                                        </Button>
+
+                                        <Form.Control.Feedback type='invalid'>
+                                            {erros.senha}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+
+                                    {!erros.senha && (
+                                        <Form.Text className='text-muted'>
+                                            Pelo menos 6 caracteres, 1 letra
+                                            minúscula, 1 letra maiúscula e 1
+                                            número
+                                        </Form.Text>
+                                    )}
+                                </Form.Group>
+
+                                <Form.Group
+                                    className='mb-3'
+                                    controlId='criarUsuario.ControlInputConfirmarSenha'
+                                >
+                                    <Form.Label>Confirmar senha</Form.Label>
+
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            type={
+                                                verConfirmacaoDeSenha
+                                                    ? 'text'
+                                                    : 'password'
+                                            }
+                                            placeholder='Repita a senha'
+                                            required
+                                            value={form.confirmarSenha}
+                                            onChange={(e) =>
+                                                lidarComAsMudancasNosCampos(
+                                                    'confirmarSenha',
+                                                    e.target.value
+                                                )
+                                            }
+                                            isInvalid={!!erros.confirmarSenha}
+                                        />
+
+                                        <Button
+                                            tabIndex={-1}
+                                            variant='outline-light'
+                                            id='ver-confirmacao-senha'
+                                            onClick={
+                                                lidarComVerConfirmacaoDeSenha
+                                            }
+                                            disabled={
+                                                form.confirmarSenha === ''
+                                                    ? true
+                                                    : false
+                                            }
+                                        >
+                                            {verConfirmacaoDeSenha ? (
+                                                <>
+                                                    <EyeSlashFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ocultar confirmação
+                                                        senha
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <EyeFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ver confirmação senha
+                                                    </span>
+                                                </>
+                                            )}
+                                        </Button>
+
+                                        <Form.Control.Feedback type='invalid'>
+                                            {erros.confirmarSenha}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </>
                         )}
 
                         {adminPut && (
