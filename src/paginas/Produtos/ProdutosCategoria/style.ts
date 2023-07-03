@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TituloSecoes = styled.h3`
-    color: var(--cor-preta-0);
+    color: var(--cor-preta-1-1);
     text-align: center;
     font-weight: var(--font-weight-preta);
     line-height: 130%;

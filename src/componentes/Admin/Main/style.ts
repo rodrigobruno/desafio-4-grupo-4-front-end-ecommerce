@@ -1,3 +1,4 @@
+import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const ContainerMain = styled.div`
@@ -16,4 +17,8 @@ export const ContainerMain = styled.div`
         padding: 3rem 3rem 0 3rem;
         margin-left: 250px;
     }
+`;
+
+export const ContainerS = styled(Container)`
+    min-height: 100%;
 `;

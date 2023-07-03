@@ -1,15 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import RodapeAdmin from '../Rodape';
-import { ContainerMain } from './style';
-import { Container } from 'react-bootstrap';
+import { ContainerMain, ContainerS } from './style';
 
 export default function MainAdmin() {
     return (
         <ContainerMain>
             <main className='main-admin'>
-                <Container fluid={true}>
+                <ContainerS fluid={true} className='h-100'>
                     <Outlet />
-                </Container>
+                </ContainerS>
             </main>
             <RodapeAdmin />
         </ContainerMain>

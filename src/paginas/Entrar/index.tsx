@@ -175,7 +175,7 @@ export default function Entrar() {
                             lg='8'
                             xl='7'
                             xxl='5'
-                            className='mb-5 p-5 p-sm-5'
+                            className='mb-5 p-4 p-sm-5'
                         >
                             <h2 className='mb-4 text-uppercase'>
                                 <DoorOpen className='bi me-2' />
