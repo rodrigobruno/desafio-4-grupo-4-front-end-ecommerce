@@ -117,7 +117,7 @@ export default function Cadastrar() {
 
         const validarSenha = (senha: string) => {
             const regex: RegExp =
-                /^(?=.*[A-Z]{1,})(?=.*\d{1,})(?=.*[a-z]{1,})[A-Za-z0-9]{6,}$/;
+                /^(?=.*[A-Z]{1,})(?=.*\d{1,})(?=.*[a-z]{1,})[^\s]{6,}$/;
             return regex.test(senha);
         };
 
