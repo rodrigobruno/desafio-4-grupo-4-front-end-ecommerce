@@ -24,6 +24,11 @@ body{
     vertical-align: -.125em;
 }
 
+.lazy-load-image-background {
+    height: auto;
+    width: 100%;
+}
+
 .Toastify__toast{
     font-family: $font-barlow!important;
     font-weight: $font-weight-regular!important;
