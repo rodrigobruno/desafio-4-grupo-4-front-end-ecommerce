@@ -1,8 +1,15 @@
 import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import { Form, Alert, Col, Container, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import {
+    Form,
+    Alert,
+    Col,
+    Container,
+    Row,
+    Button,
+    InputGroup,
+} from 'react-bootstrap';
 
 import { api } from 'lib/axios';
 import { AxiosError } from 'axios';
@@ -13,13 +20,36 @@ import { LoginResponse, CamposFormLogin, ErrosFormLogin } from 'types';
 
 import { Background, BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
-import { DoorOpen, PersonVcard } from 'react-bootstrap-icons';
+import {
+    DoorOpen,
+    EyeFill,
+    EyeSlashFill,
+    PersonVcard,
+} from 'react-bootstrap-icons';
+import { useLocation, useNavigate } from 'react-router';
 
 export default function Entrar() {
     const accessToken =
         useAppSelector((state) => state.authSlice.accessToken) ||
         localStorage.getItem('@autenticacao-react:token');
     const dispatch = useAppDispatch();
+
+    const [verSenha, setVerSenha] = useState(false);
+
+    const lidarComVerSenha = () => {
+        setVerSenha(!verSenha);
+    };
+
+    const navigate = useNavigate();
+    const { search } = useLocation();
+    const queryOrigem = new URLSearchParams(search).get('origem');
+    const origemCarrinho = () => {
+        navigate(
+            queryOrigem === 'carrinho'
+                ? '/cadastrar?origem=carrinho'
+                : '/cadastrar'
+        );
+    };
 
     const [form, setForm] = useState<CamposFormLogin>({
         username: '',
@@ -171,6 +201,7 @@ export default function Entrar() {
                                     controlId='formLoginUsername'
                                 >
                                     <Form.Label>Usuário</Form.Label>
+
                                     <Form.Control
                                         size='lg'
                                         type='text'
@@ -185,6 +216,7 @@ export default function Entrar() {
                                         isInvalid={!!erros.username}
                                         required
                                     />
+
                                     <Form.Control.Feedback type='invalid'>
                                         {erros.username}
                                     </Form.Control.Feedback>
@@ -195,24 +227,58 @@ export default function Entrar() {
                                     controlId='formLoginSenha'
                                 >
                                     <Form.Label>Senha</Form.Label>
-                                    <Form.Control
-                                        size='lg'
-                                        type='password'
-                                        placeholder='Digite sua senha'
-                                        value={form.password}
-                                        onChange={(e) =>
-                                            lidarComAsMudancasNosCampos(
-                                                'password',
-                                                e.target.value
-                                            )
-                                        }
-                                        isInvalid={!!erros.password}
-                                        required
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
-                                        {erros.password}
-                                    </Form.Control.Feedback>
+
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            size='lg'
+                                            type={
+                                                verSenha ? 'text' : 'password'
+                                            }
+                                            placeholder='Digite sua senha'
+                                            value={form.password}
+                                            onChange={(e) =>
+                                                lidarComAsMudancasNosCampos(
+                                                    'password',
+                                                    e.target.value
+                                                )
+                                            }
+                                            isInvalid={!!erros.password}
+                                            required
+                                        />
+                                        <Button
+                                            tabIndex={-1}
+                                            variant='outline-light'
+                                            id='ver-senha'
+                                            onClick={lidarComVerSenha}
+                                            disabled={
+                                                form.password === ''
+                                                    ? true
+                                                    : false
+                                            }
+                                        >
+                                            {verSenha ? (
+                                                <>
+                                                    <EyeSlashFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ocultar senha
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <EyeFill className='bi' />
+                                                    <span className='visually-hidden'>
+                                                        Ver senha
+                                                    </span>
+                                                </>
+                                            )}
+                                        </Button>
+
+                                        <Form.Control.Feedback type='invalid'>
+                                            {erros.password}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
                                 </Form.Group>
+
                                 <ButtonBlock
                                     variant='primary'
                                     type='submit'
@@ -238,9 +304,9 @@ export default function Entrar() {
                                 className='mt-5 mb-0 text-center'
                             >
                                 Não é cliente?{' '}
-                                <LinkContainer to='/cadastrar'>
-                                    <Alert.Link>Crie sua conta</Alert.Link>
-                                </LinkContainer>
+                                <Alert.Link onClick={origemCarrinho}>
+                                    Crie sua conta
+                                </Alert.Link>
                             </Alert>
                         </BgForm>
                     </Row>

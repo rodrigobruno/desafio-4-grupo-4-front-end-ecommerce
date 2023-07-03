@@ -22,7 +22,7 @@ import { AxiosError } from 'axios';
 import { Background, BgForm, ButtonBlock } from './style';
 import Carregando from 'componentes/Carregando';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ErroAtualizarPagina from 'componentes/ErroAtualizarPagina';
 
 export interface CamposFormUsuario {
@@ -43,6 +43,8 @@ export interface ErrosFormUsuario {
 
 export default function Cadastrar() {
     const navigate = useNavigate();
+    const { search } = useLocation();
+    const queryOrigem = new URLSearchParams(search).get('origem');
 
     const [form, setForm] = useState<CamposFormUsuario>({
         nameid: '',
@@ -184,7 +186,11 @@ export default function Cadastrar() {
                     password: form.password,
                 });
 
-                navigate('/entrar');
+                navigate(
+                    queryOrigem === 'carrinho'
+                        ? '/entrar?origem=carrinho'
+                        : '/entrar'
+                );
             } catch (error) {
                 const err = error as AxiosError;
                 if (err.response) {
