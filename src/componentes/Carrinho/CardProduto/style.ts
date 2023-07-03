@@ -1,4 +1,5 @@
 import { Button } from 'react-bootstrap';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import styled from 'styled-components';
 
 export const Produto = styled.div`
@@ -24,6 +25,12 @@ export const Produto = styled.div`
     padding-block: 1rem;
 `;
 
+export const ImagemQuadrada = styled(LazyLoadImage)`
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    width: 100%;
+`;
+
 export const Titulo = styled.div`
     font-size: 1.25rem;
     line-height: 1.5rem;
@@ -40,15 +47,6 @@ export const Preco = styled.div`
     min-width: 85px;
 `;
 
-export const Quantidade = styled.div`
-    width: 2rem;
-    height: 2rem;
-    line-height: 2rem;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: var(--font-weight-regular);
-`;
-
 export const BotaoExcluir = styled(Button)`
     border: 0;
 
@@ -60,5 +58,3 @@ export const BotaoExcluir = styled(Button)`
         background-color: var(--cor-preta-1) !important;
     }
 `;
-
-export const BotaoQuantidades = styled(BotaoExcluir)``;

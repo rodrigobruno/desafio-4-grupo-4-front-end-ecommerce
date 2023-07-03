@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { Produtos } from 'types';
-import { precoFormatadoParaReal } from 'utils';
-import { Preco, Produto, Titulo } from './style';
+import { lidarComPlaceholder, precoFormatadoParaReal } from 'utils';
+import { ImagemQuadrada, Preco, Produto, Titulo } from './style';
 import Placeholder from 'assets/placeholder.svg';
 
 export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
@@ -15,10 +15,12 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
     return (
         <>
             <Produto>
-                <img
+                <ImagemQuadrada
                     src={product.img}
                     alt={product.title}
                     onError={onImageError}
+                    placeholderSrc={lidarComPlaceholder(product.img)}
+                    effect='opacity'
                 />
 
                 <div>

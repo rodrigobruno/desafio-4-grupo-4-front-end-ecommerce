@@ -1,5 +1,5 @@
 import { LinkContainer } from 'react-router-bootstrap';
-import { precoFormatadoParaReal } from 'utils';
+import { lidarComPlaceholder, precoFormatadoParaReal } from 'utils';
 import {
     Container,
     ThumbnailDoProduto,
@@ -37,6 +37,8 @@ export default function CardProdutosDoPedido({
                 alt={nome}
                 onError={onImageError}
                 className='rounded'
+                placeholderSrc={lidarComPlaceholder(imagem)}
+                effect='opacity'
             />
             <InformacoesDoProduto>
                 <h3 className='h4 mb-3 text-uppercase'>{nome}</h3>

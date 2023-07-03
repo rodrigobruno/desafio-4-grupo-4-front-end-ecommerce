@@ -22,7 +22,6 @@ export default function NaoEncontrada() {
             <Container>
                 <Content>
                     <IrEmbora onClick={() => navigate(`/`)}>
-                        {/* <img src={irEmbora} alt='Ir embora' /> */}
                         <IrEmboraSvg />
                     </IrEmbora>
                     <Fala>

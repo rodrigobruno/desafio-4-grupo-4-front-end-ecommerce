@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const Produto = styled.div`
     display: grid;
@@ -21,6 +22,12 @@ export const Produto = styled.div`
     border-top: 1px solid var(--cor-preta-5);
     border-bottom: 1px solid var(--cor-preta-5);
     padding-block: 1rem;
+`;
+
+export const ImagemQuadrada = styled(LazyLoadImage)`
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    width: 100%;
 `;
 
 export const Titulo = styled.div`

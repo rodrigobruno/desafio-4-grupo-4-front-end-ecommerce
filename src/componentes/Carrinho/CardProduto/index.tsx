@@ -1,15 +1,8 @@
 import React, { SyntheticEvent } from 'react';
-import { DashLg, PlusLg, Trash3 } from 'react-bootstrap-icons';
+import { Trash3 } from 'react-bootstrap-icons';
 import { Produtos } from 'types';
-import { precoFormatadoParaReal } from 'utils';
-import {
-    BotaoQuantidades,
-    BotaoExcluir,
-    Quantidade,
-    Preco,
-    Produto,
-    Titulo,
-} from './style';
+import { lidarComPlaceholder, precoFormatadoParaReal } from 'utils';
+import { BotaoExcluir, Preco, Produto, Titulo, ImagemQuadrada } from './style';
 import { useAppDispatch } from 'hooks';
 import {
     adicionarQuantidade,
@@ -49,10 +42,12 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
     return (
         <>
             <Produto>
-                <img
+                <ImagemQuadrada
                     src={product.img}
                     alt={product.title}
                     onError={onImageError}
+                    placeholderSrc={lidarComPlaceholder(product.img)}
+                    effect='opacity'
                 />
 
                 <div>
@@ -67,40 +62,6 @@ export default function CardProdutoCarrinho({ product, quantity }: Produtos) {
                             adicionar={lidarComAdicionarQuantidadeProduto}
                             remover={lidarComRemoverQuantidadeProduto}
                         />
-
-                        {/* <BotaoQuantidades
-                                variant='outline-light'
-                                size='sm'
-                                onClick={() =>
-                                    dispatch(removerQuantidade(produto))
-                                }
-                                disabled={quantity === 1}
-                            >
-                                <DashLg className='bi' />
-                                <span className='visually-hidden'>
-                                    Retirar um {product.title}
-                                </span>
-                            </BotaoQuantidades>
-
-                            <Quantidade className='user-select-none'>
-                                {quantity}
-                                <span className='visually-hidden'>
-                                    produtos no carrinho
-                                </span>
-                            </Quantidade>
-
-                            <BotaoQuantidades
-                                variant='outline-light'
-                                size='sm'
-                                onClick={() =>
-                                    dispatch(adicionarQuantidade(produto))
-                                }
-                            >
-                                <PlusLg className='bi' />
-                                <span className='visually-hidden'>
-                                    Adicionar mais um {product.title}
-                                </span>
-                            </BotaoQuantidades> */}
                     </div>
                 </div>
 

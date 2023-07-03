@@ -1,7 +1,8 @@
-import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-export const ThumbnailDoProduto = styled.img`
+export const ThumbnailDoProduto = styled(LazyLoadImage)`
     width: 50px;
     aspect-ratio: 1 / 1;
     object-fit: contain;

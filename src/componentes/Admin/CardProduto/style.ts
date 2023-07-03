@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export const Container = styled.div`
     background-color: var(--cor-preta-5);
@@ -21,7 +22,7 @@ export const Botoes = styled.div`
     gap: 1rem;
 `;
 
-export const Imagem = styled.img`
+export const Imagem = styled(LazyLoadImage)`
     aspect-ratio: 1 / 1;
     object-fit: contain;
     width: 100px;

@@ -1,7 +1,7 @@
 import { Button, Modal } from 'react-bootstrap';
 import { PencilSquare, Trash3 } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
-import { precoFormatadoParaReal } from 'utils';
+import { lidarComPlaceholder, precoFormatadoParaReal } from 'utils';
 import PedidoInformacao from './ProdutoInformacao';
 import { useState } from 'react';
 import { api } from 'lib/axios';
@@ -77,7 +77,12 @@ export default function CardProdutoAdmin({
     return (
         <>
             <Container>
-                <Imagem src={imagem} alt={nome} />
+                <Imagem
+                    src={imagem}
+                    alt={nome}
+                    placeholderSrc={lidarComPlaceholder(imagem)}
+                    effect='opacity'
+                />
                 <PedidoInformacao titulo={numero} descricao={nome} />
                 <PedidoInformacao titulo='Preço' descricao={precoEmReais} />
                 <Botoes>

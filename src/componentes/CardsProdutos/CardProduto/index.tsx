@@ -1,6 +1,6 @@
 import { Button, Card, Col } from 'react-bootstrap';
 import { Categorias } from 'types';
-import { precoFormatadoParaReal } from 'utils';
+import { lidarComPlaceholder, precoFormatadoParaReal } from 'utils';
 import {
     CardContainer,
     CardTitulo,
@@ -45,12 +45,6 @@ export default function CardProduto({
         quantity: 1,
     };
 
-    const lidarComPlaceholder = (img = '') => {
-        const url = img.split('.webp');
-        const novaUrl = `${url[0]}-placeholder.webp`;
-        return novaUrl;
-    };
-
     return (
         <>
             <Col>
@@ -68,8 +62,8 @@ export default function CardProduto({
                         </CardOverlay>
                         <ImagemQuadrada
                             src={img}
-                            placeholderSrc={lidarComPlaceholder(img)}
                             alt={title}
+                            placeholderSrc={lidarComPlaceholder(img)}
                             effect='opacity'
                         />
                     </ImagemContainer>

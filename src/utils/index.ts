@@ -23,12 +23,12 @@ export const dataFormatadaParaDDMMYY = (data: string): string => {
 
 export const ehUmaUrlValida = (url: string): boolean => {
     const pattern = new RegExp(
-        '^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', // fragment locator
+        '^(https?:\\/\\/)?' +
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+            '((\\d{1,3}\\.){3}\\d{1,3}))' +
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+            '(\\?[;&a-z\\d%_.~+=-]*)?' +
+            '(\\#[-a-z\\d_]*)?$',
         'i'
     );
     return pattern.test(url);
@@ -38,4 +38,10 @@ export const anoAtual = (): number => {
     const dataDeHoje = new Date();
     const anoAtual = dataDeHoje.getFullYear();
     return anoAtual;
+};
+
+export const lidarComPlaceholder = (img = '') => {
+    const url = img.split('.webp');
+    const novaUrl = `${url[0]}-placeholder.webp`;
+    return novaUrl;
 };
