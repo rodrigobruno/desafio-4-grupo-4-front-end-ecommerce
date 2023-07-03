@@ -1,4 +1,3 @@
-import { ToastBody } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -27,9 +26,4 @@ export const Imagem = styled.img`
     object-fit: contain;
     width: 100px;
     height: 100px;
-`;
-
-export const ToastBodyColor = styled(ToastBody)`
-    color: var(--cor-preta-6);
-    font-weight: var(--font-weight-regular);
 `;

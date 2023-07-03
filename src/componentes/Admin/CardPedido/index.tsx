@@ -1,12 +1,14 @@
-import { Button, Modal, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { CardText, Trash3 } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 import { precoFormatadoParaReal, dataFormatadaParaDDMMYY } from 'utils';
-import { Container, Botoes, ToastBodyColor } from './style';
+import { Container, Botoes } from './style';
 import PedidoInformacao from './PedidoInformacao';
 import { api } from 'lib/axios';
 import { useState } from 'react';
 import { useAppSelector } from 'hooks';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
     id: string;
@@ -33,7 +35,6 @@ export default function CardPedidoAdmin({
 
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
-    const [mostrarToast, setMostrarToast] = useState(false);
     const lidandoComFechamentoDoModal = () => setMostrarModal(false);
     const lidandoComAberturaDoModal = () => setMostrarModal(true);
 
@@ -43,7 +44,6 @@ export default function CardPedidoAdmin({
     ) => {
         e.preventDefault();
         setEstaExcluindo(true);
-        setMostrarToast(false);
         setMostrarModal(false);
 
         try {
@@ -53,8 +53,26 @@ export default function CardPedidoAdmin({
                 },
             });
             pegarPedidos();
+
+            toast.success('Pedido excluido com sucesso', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } catch (error) {
-            setMostrarToast(true);
+            toast.error('Ocorreu um erro, tente novamente', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } finally {
             setEstaExcluindo(false);
         }
@@ -85,22 +103,7 @@ export default function CardPedidoAdmin({
                 </Botoes>
             </Container>
 
-            <ToastContainer
-                position='top-center'
-                className='position-fixed mt-3'
-            >
-                <Toast
-                    show={mostrarToast}
-                    bg='warning'
-                    onClose={() => setMostrarToast(false)}
-                    delay={5000}
-                    autohide
-                >
-                    <ToastBodyColor>
-                        Ocorreu um erro, tente novamente.
-                    </ToastBodyColor>
-                </Toast>
-            </ToastContainer>
+            <ToastContainer transition={Slide} />
 
             <Modal
                 show={mostrarModal}

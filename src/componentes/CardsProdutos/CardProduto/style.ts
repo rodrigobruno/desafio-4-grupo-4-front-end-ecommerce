@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Card, ToastBody } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 
 export const CardOverlay = styled.div`
     visibility: hidden;
@@ -80,9 +80,4 @@ export const CardButton = styled(Button)`
 
 export const CardFooter = styled.footer`
     padding-bottom: 2.625rem;
-`;
-
-export const ToastBodyColor = styled(ToastBody)`
-    color: var(--cor-preta-6);
-    font-weight: var(--font-weight-regular);
 `;

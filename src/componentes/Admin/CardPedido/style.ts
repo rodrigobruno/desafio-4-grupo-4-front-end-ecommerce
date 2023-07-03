@@ -1,4 +1,3 @@
-import { ToastBody } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -29,9 +28,4 @@ export const Botoes = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-`;
-
-export const ToastBodyColor = styled(ToastBody)`
-    color: var(--cor-preta-6);
-    font-weight: var(--font-weight-regular);
 `;

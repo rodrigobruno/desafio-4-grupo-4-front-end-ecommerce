@@ -1,12 +1,14 @@
-import { Button, Modal, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { PencilSquare, Trash3 } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 import { precoFormatadoParaReal } from 'utils';
 import PedidoInformacao from './ProdutoInformacao';
 import { useState } from 'react';
 import { api } from 'lib/axios';
-import { Container, Imagem, Botoes, ToastBodyColor } from './style';
+import { Container, Imagem, Botoes } from './style';
 import { useAppSelector } from 'hooks';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
     numero: string;
@@ -29,7 +31,6 @@ export default function CardProdutoAdmin({
     const precoEmReais = precoFormatadoParaReal(preco);
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
-    const [mostrarToast, setMostrarToast] = useState(false);
     const lidandoComFechamentoDoModal = () => setMostrarModal(false);
     const lidandoComAberturaDoModal = () => setMostrarModal(true);
 
@@ -39,7 +40,6 @@ export default function CardProdutoAdmin({
     ) => {
         e.preventDefault();
         setEstaExcluindo(true);
-        setMostrarToast(false);
         setMostrarModal(false);
 
         try {
@@ -49,8 +49,26 @@ export default function CardProdutoAdmin({
                 },
             });
             pegarProdutos();
+
+            toast.success('Produto excluido com sucesso', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } catch (error) {
-            setMostrarToast(true);
+            toast.error('Ocorreu um erro, tente novamente', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } finally {
             setEstaExcluindo(false);
         }
@@ -80,22 +98,7 @@ export default function CardProdutoAdmin({
                 </Botoes>
             </Container>
 
-            <ToastContainer
-                position='top-center'
-                className='position-fixed mt-3'
-            >
-                <Toast
-                    show={mostrarToast}
-                    bg='warning'
-                    onClose={() => setMostrarToast(false)}
-                    delay={5000}
-                    autohide
-                >
-                    <ToastBodyColor>
-                        Ocorreu um erro, tente novamente.
-                    </ToastBodyColor>
-                </Toast>
-            </ToastContainer>
+            <ToastContainer transition={Slide} />
 
             <Modal
                 show={mostrarModal}

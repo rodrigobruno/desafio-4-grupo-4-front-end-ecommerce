@@ -1,11 +1,13 @@
-import { Button, Modal, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { PencilSquare, Trash3 } from 'react-bootstrap-icons';
 import { LinkContainer } from 'react-router-bootstrap';
 import PedidoInformacao from './CategoriaInformacao';
 import { useState } from 'react';
 import { api } from 'lib/axios';
-import { Container, Botoes, ToastBodyColor } from './style';
-// import { useAppSelector } from 'hooks';
+import { Container, Botoes } from './style';
+import { useAppSelector } from 'hooks';
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
     id: string;
@@ -18,12 +20,11 @@ export default function CardCategoriaAdmin({
     nome,
     pegarCategorias,
 }: Props) {
-    // const accessToken =
-    //     useAppSelector((state) => state.authSlice.accessToken) ||
-    //     localStorage.getItem('@autenticacao-react:token');
+    const accessToken =
+        useAppSelector((state) => state.authSlice.accessToken) ||
+        localStorage.getItem('@autenticacao-react:token');
     const [estaExcluindo, setEstaExcluindo] = useState(false);
     const [mostrarModal, setMostrarModal] = useState(false);
-    const [mostrarToast, setMostrarToast] = useState(false);
     const lidandoComFechamentoDoModal = () => setMostrarModal(false);
     const lidandoComAberturaDoModal = () => setMostrarModal(true);
 
@@ -33,21 +34,35 @@ export default function CardCategoriaAdmin({
     ) => {
         e.preventDefault();
         setEstaExcluindo(true);
-        setMostrarToast(false);
         setMostrarModal(false);
 
         try {
-            await api.delete(
-                `/categories/${id}`
-                // , {
-                //     headers: {
-                //         Authorization: 'Bearer ' + accessToken,
-                //     },
-                // }
-            );
+            await api.delete(`/categories/${id}`, {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            });
             pegarCategorias();
+
+            toast.success('Categoria excluida com sucesso', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } catch (error) {
-            setMostrarToast(true);
+            toast.error('Ocorreu um erro, tente novamente', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: false,
+                draggable: false,
+                theme: 'colored',
+                autoClose: 2000,
+            });
         } finally {
             setEstaExcluindo(false);
         }
@@ -76,22 +91,7 @@ export default function CardCategoriaAdmin({
                 </Botoes>
             </Container>
 
-            <ToastContainer
-                position='top-center'
-                className='position-fixed mt-3'
-            >
-                <Toast
-                    show={mostrarToast}
-                    bg='warning'
-                    onClose={() => setMostrarToast(false)}
-                    delay={5000}
-                    autohide
-                >
-                    <ToastBodyColor>
-                        Ocorreu um erro, tente novamente.
-                    </ToastBodyColor>
-                </Toast>
-            </ToastContainer>
+            <ToastContainer transition={Slide} />
 
             <Modal
                 show={mostrarModal}
