@@ -1,7 +1,8 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Header = styled.header`
-    & .nav-link.active:not(#menu-carrinho .nav-link) {
+export const NavLinkS = styled(NavLink)`
+    &.active {
         padding-bottom: calc(var(--bs-nav-link-padding-y) - 3px);
 
         &::after {
@@ -11,7 +12,9 @@ export const Header = styled.header`
             display: block;
         }
     }
+`;
 
+export const Header = styled.header`
     & #menu-carrinho {
         order: 0;
     }

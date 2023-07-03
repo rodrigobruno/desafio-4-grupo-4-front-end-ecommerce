@@ -76,9 +76,6 @@ export default function MenuAdmin({ active }: Props) {
                         <CashStack className='bi' />
                         <NavLabel active={active}>Cupons</NavLabel>
                     </NavLinkMenu>
-                    <SubNavLinkMenu to='/admin/cupons/criar'>
-                        <NavLabel active={active}>Criar Cupon</NavLabel>
-                    </SubNavLinkMenu>
                 </NavLi>
                 <NavLi>
                     <NavButtonMenu onClick={() => dispatch(logout())}>

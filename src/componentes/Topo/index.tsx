@@ -1,25 +1,39 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'hooks';
 
-import { Container, Nav, Navbar, Badge } from 'react-bootstrap';
+import {
+    Container,
+    Nav,
+    Navbar,
+    Badge,
+    Offcanvas,
+    Button,
+} from 'react-bootstrap';
 
 import { ReactComponent as IconeCarrinho } from '../../assets/carrinho.svg';
 import { ReactComponent as LogoGamaZoneDark } from '../../assets/logo-gama-zone-dark.svg';
-import { Header } from './style';
+import { Header, NavLinkS } from './style';
 
-import MenuLogin from './MenuLogin';
-import MenuLogado from './MenuLogado';
 import CarrinhoOffcanvas from 'componentes/Carrinho';
 import { mostrar } from 'store/modules/menu';
 import { useLocation, matchPath } from 'react-router';
+import { logout } from 'store/modules/usuario';
+import { useState } from 'react';
 
 export default function Topo() {
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const ehPaginaDeCheckout = matchPath(pathname, '/finalizar-compra');
     const dispatch = useAppDispatch();
     const estaLogado = useAppSelector((state) => state.authSlice._id);
+    const ehAdmin = useAppSelector(
+        (state) => state?.authSlice.isAdmin === true
+    );
     const carrinhoState = useAppSelector((state) => state.carrinhoSlice);
     const produtosNoCarrinho = carrinhoState.carrinho.length;
-    const { pathname } = useLocation();
-    const ehPaginaDeCheckout = matchPath(pathname, '/finalizar-compra');
+
+    const [show, setShow] = useState(false);
+    const lidarComOffCanvas = () => setShow(!show);
 
     return (
         <>
@@ -27,7 +41,10 @@ export default function Topo() {
                 <Navbar bg='dark' expand='lg' variant='dark' className='py-3'>
                     <Container fluid='xl'>
                         {!ehPaginaDeCheckout && (
-                            <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                            <Navbar.Toggle
+                                aria-controls='navbar-main'
+                                onClick={lidarComOffCanvas}
+                            />
                         )}
 
                         <Navbar.Brand className='me-0 me-lg-5'>
@@ -58,34 +75,114 @@ export default function Topo() {
                                         </Badge>
                                     </div>
                                 </div>
-                                <Navbar.Collapse
+                                <Navbar.Offcanvas
                                     id='navbar-main'
                                     className='text-uppercase'
+                                    aria-labelledby='navbar-main-titulo'
+                                    placement='start'
+                                    show={show}
+                                    onHide={lidarComOffCanvas}
                                 >
-                                    <Nav className='justify-content-between flex-grow-1 gap-3 m-3 m-lg-0'>
-                                        <div className='d-flex flex-lg-row flex-column gap-3'>
-                                            <NavLink
-                                                to='/'
-                                                end
-                                                className={'nav-link'}
-                                            >
-                                                Inicio
-                                            </NavLink>
+                                    <Offcanvas.Header closeButton>
+                                        <Offcanvas.Title
+                                            id='navbar-main-titulo'
+                                            className='a text-uppercase'
+                                        >
+                                            Menu
+                                        </Offcanvas.Title>
+                                    </Offcanvas.Header>
+                                    <Offcanvas.Body>
+                                        <Nav className='justify-content-between flex-grow-1 gap-3 m-3 m-lg-0'>
+                                            <div className='d-flex flex-lg-row flex-column gap-3'>
+                                                <NavLinkS
+                                                    to='/'
+                                                    onClick={lidarComOffCanvas}
+                                                    className='nav-link'
+                                                >
+                                                    Inicio
+                                                </NavLinkS>
+                                                <NavLinkS
+                                                    to='/produtos'
+                                                    onClick={lidarComOffCanvas}
+                                                    className='nav-link'
+                                                >
+                                                    Produtos
+                                                </NavLinkS>
+                                            </div>
+                                            {estaLogado ? (
+                                                <div className='d-flex flex-lg-row flex-column gap-3'>
+                                                    <NavLinkS
+                                                        to='/pedidos'
+                                                        onClick={
+                                                            lidarComOffCanvas
+                                                        }
+                                                        className='nav-link'
+                                                    >
+                                                        Seus pedidos
+                                                    </NavLinkS>
 
-                                            <NavLink
-                                                to='/produtos'
-                                                className={'nav-link'}
-                                            >
-                                                Produtos
-                                            </NavLink>
-                                        </div>
-                                        {estaLogado ? (
-                                            <MenuLogado />
-                                        ) : (
-                                            <MenuLogin />
-                                        )}
-                                    </Nav>
-                                </Navbar.Collapse>
+                                                    <NavLinkS
+                                                        to='/perfil'
+                                                        onClick={
+                                                            lidarComOffCanvas
+                                                        }
+                                                        className='nav-link'
+                                                    >
+                                                        Seus dados
+                                                    </NavLinkS>
+
+                                                    {ehAdmin && (
+                                                        <NavLinkS
+                                                            to='/admin'
+                                                            onClick={
+                                                                lidarComOffCanvas
+                                                            }
+                                                            className='nav-link'
+                                                        >
+                                                            Painel
+                                                            <span className='d-lg-none d-xl-none d-inline-block d-xxl-inline-block'>
+                                                                &ensp;Administrativo
+                                                            </span>
+                                                        </NavLinkS>
+                                                    )}
+
+                                                    <Nav.Link
+                                                        onClick={() => {
+                                                            dispatch(logout());
+                                                            setShow(!show);
+                                                        }}
+                                                        as='button'
+                                                        className='text-start text-uppercase'
+                                                    >
+                                                        Sair
+                                                    </Nav.Link>
+                                                </div>
+                                            ) : (
+                                                <div className='d-flex flex-lg-row flex-column gap-3'>
+                                                    <NavLinkS
+                                                        to='/cadastrar'
+                                                        onClick={
+                                                            lidarComOffCanvas
+                                                        }
+                                                        className='nav-link'
+                                                    >
+                                                        Cadastrar
+                                                    </NavLinkS>
+
+                                                    <Button
+                                                        variant='outline-primary'
+                                                        onClick={() => {
+                                                            navigate('/entrar');
+                                                            setShow(!show);
+                                                        }}
+                                                    >
+                                                        Entrar
+                                                    </Button>
+                                                </div>
+                                            )}
+                                        </Nav>
+                                    </Offcanvas.Body>
+                                </Navbar.Offcanvas>
                             </>
                         )}
                     </Container>

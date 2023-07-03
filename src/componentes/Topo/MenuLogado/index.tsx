@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks';
-import { NavLink } from 'react-router-dom';
-import { logout } from 'store/modules/usuario';
 import Nav from 'react-bootstrap/Nav';
+import { logout } from 'store/modules/usuario';
+import { NavLinkS } from '../style';
 
 export default function MenuLogado() {
     const ehAdmin = useAppSelector(
@@ -11,21 +11,21 @@ export default function MenuLogado() {
 
     return (
         <div className='d-flex flex-lg-row flex-column gap-3'>
-            <NavLink to='/pedidos' className={'nav-link'}>
+            <NavLinkS to='/pedidos' className='nav-link'>
                 Seus pedidos
-            </NavLink>
+            </NavLinkS>
 
-            <NavLink to='/perfil' className={'nav-link'}>
+            <NavLinkS to='/perfil' className='nav-link'>
                 Seus dados
-            </NavLink>
+            </NavLinkS>
 
             {ehAdmin && (
-                <NavLink to='/admin' className={'nav-link'}>
+                <NavLinkS to='/admin' className='nav-link'>
                     Painel
                     <span className='d-lg-none d-xl-none d-inline-block d-xxl-inline-block'>
                         &ensp;Administrativo
                     </span>
-                </NavLink>
+                </NavLinkS>
             )}
 
             <Nav.Link
