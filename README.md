@@ -28,7 +28,7 @@ senha: Gama1234
 
 ```
 email: rodrigobruno
-senha: Ate2009
+senha: Gama1234
 ```
 
 ##### Ou faça seu cadastro de cliente: [Fazer cadastro](https://desafio-4-grupo-4-front-end-ecommerce.vercel.app/cadastrar)
