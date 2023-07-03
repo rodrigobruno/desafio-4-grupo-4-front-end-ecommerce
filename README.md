@@ -27,7 +27,7 @@ senha: Gama1234
 ##### Login de cliente para testes:
 
 ```
-email: rodrigobruno
+email: brendaneich
 senha: Gama1234
 ```
 
