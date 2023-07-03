@@ -42,14 +42,6 @@ export const ImagemContainer = styled.div`
     padding-inline: 2rem;
     padding-bottom: 2rem;
 
-    /* @media (min-width: 576px) {
-        padding: 2.5rem;
-    } */
-
-    /* @media (min-width: 768px) {
-        padding-inline: 0rem;
-    } */
-
     @media (min-width: 992px) {
         padding-inline: 5rem;
     }

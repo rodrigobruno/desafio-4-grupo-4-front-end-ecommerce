@@ -33,26 +33,21 @@ export default function Paginacao({
     ellipsis = ellipsis < 1 ? 0 : ellipsis + 2 >= entre ? entre - 2 : ellipsis;
 
     let positions = Array.from({ length: paginasTotais }, (v, i) => {
-        //v;
         return i;
     });
 
     const qtd_pages = entre * 2 + 1;
     const range =
         paginasTotais <= qtd_pages
-            ? // Show active without slice
-              positions
+            ? positions
             : paginaAtual - 1 <= entre
-            ? // Show active in left
-              positions.slice(0, qtd_pages - (ellipsis > 0 ? ellipsis + 1 : 0))
+            ? positions.slice(0, qtd_pages - (ellipsis > 0 ? ellipsis + 1 : 0))
             : paginaAtual + entre >= paginasTotais
-            ? // Show active in right
-              positions.slice(
+            ? positions.slice(
                   paginasTotais - qtd_pages + (ellipsis > 0 ? ellipsis + 1 : 0),
                   paginasTotais
               )
-            : // Show active in middle
-              positions.slice(
+            : positions.slice(
                   paginaAtual - 1 - (entre - (ellipsis > 0 ? ellipsis + 1 : 0)),
                   paginaAtual + (entre - (ellipsis > 0 ? ellipsis + 1 : 0))
               );
@@ -91,12 +86,9 @@ export default function Paginacao({
                             </Pagination.Item>
                         );
                     })}
-            {
-                // Show ellipsis when "page" is bigger than "between"
-                paginasTotais > entre * 2 + 1 &&
-                    ellipsis > 0 &&
-                    paginaAtual - 1 > entre && <Pagination.Ellipsis disabled />
-            }
+            {paginasTotais > entre * 2 + 1 &&
+                ellipsis > 0 &&
+                paginaAtual - 1 > entre && <Pagination.Ellipsis disabled />}
             {range.map((value) => {
                 return (
                     <Pagination.Item
@@ -112,14 +104,11 @@ export default function Paginacao({
                     </Pagination.Item>
                 );
             })}
-            {
-                // Show ellipsis when "page" is lower than "between"
-                paginasTotais > entre * 2 + 1 &&
-                    ellipsis > 0 &&
-                    paginaAtual < paginasTotais - entre && (
-                        <Pagination.Ellipsis disabled />
-                    )
-            }
+            {paginasTotais > entre * 2 + 1 &&
+                ellipsis > 0 &&
+                paginaAtual < paginasTotais - entre && (
+                    <Pagination.Ellipsis disabled />
+                )}
             {paginasTotais > entre * 2 + 1 &&
                 ellipsis > 0 &&
                 positions

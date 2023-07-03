@@ -150,7 +150,7 @@ export default function Topo() {
                                                     <Nav.Link
                                                         onClick={() => {
                                                             dispatch(logout());
-                                                            setShow(!show);
+                                                            fecharOffCanvas();
                                                         }}
                                                         as='button'
                                                         className='text-start text-uppercase'
@@ -174,7 +174,7 @@ export default function Topo() {
                                                         variant='outline-primary'
                                                         onClick={() => {
                                                             navigate('/entrar');
-                                                            setShow(!show);
+                                                            fecharOffCanvas();
                                                         }}
                                                     >
                                                         Entrar

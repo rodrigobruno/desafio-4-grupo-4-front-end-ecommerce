@@ -16,9 +16,7 @@ export type PedidoProps = {
             product: {
                 _id: string;
                 title: string;
-                //desc: string;
                 img: string;
-                //categories: [string];
                 price: number;
             };
             quantity: number;
@@ -29,8 +27,6 @@ export type PedidoProps = {
     address: Endereco;
     status: string;
     createdAt: string;
-    //updatedAt: string;
-    //__v: number;
 };
 
 export interface Categorias {
@@ -40,24 +36,10 @@ export interface Categorias {
 
 export type CardPedidosProps = {
     _id: string;
-    //userId: string;
-    //products: [{ productId: string; quantity: number; _id: string }];
     amount: number;
-    //address: string;
     status: string;
     createdAt: string;
-    //updatedAt: string;
-    //__v: number;
 };
-
-// export type CardProdutoProps = {
-//     _id?: number;
-//     title: string;
-//     desc?: string;
-//     img: string;
-//     categories?: string;
-//     price: number;
-// };
 
 export interface Produto {
     _id: string;
@@ -136,65 +118,4 @@ export interface ProdutosQuery {
 export interface UsuarioQuery {
     pagina?: number;
     limite?: number;
-}
-
-// export interface Estados {
-//     estado:
-//         | 'AC'
-//         | 'AL'
-//         | 'AP'
-//         | 'AM'
-//         | 'BA'
-//         | 'CE'
-//         | 'DF'
-//         | 'ES'
-//         | 'GO'
-//         | 'MA'
-//         | 'MT'
-//         | 'MS'
-//         | 'MG'
-//         | 'PA'
-//         | 'PB'
-//         | 'PR'
-//         | 'PE'
-//         | 'PI'
-//         | 'RJ'
-//         | 'RN'
-//         | 'RS'
-//         | 'RO'
-//         | 'RR'
-//         | 'SC'
-//         | 'SP'
-//         | 'SE'
-//         | 'TO';
-// }
-
-export enum Estados {
-    'AC',
-    'AL',
-    'AP',
-    'AM',
-    'BA',
-    'CE',
-    'DF',
-    'ES',
-    'GO',
-    'MA',
-    'MT',
-    'MS',
-    'MG',
-    'PA',
-    'PB',
-    'PR',
-    'PE',
-    'PI',
-    'RJ',
-    'RN',
-    'RS',
-    'RO',
-    'RR',
-    'SC',
-    'SP',
-    'SE',
-    'TO',
 }

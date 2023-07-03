@@ -36,10 +36,6 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     min-height: calc(100svh - 80px);
-
-    /* @media (min-width: 992px) {
-        min-height: calc(100svh - 85px);
-    } */
 `;
 
 export const Content = styled.div`
