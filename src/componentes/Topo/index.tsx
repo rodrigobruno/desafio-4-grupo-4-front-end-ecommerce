@@ -33,7 +33,8 @@ export default function Topo() {
     const produtosNoCarrinho = carrinhoState.carrinho.length;
 
     const [show, setShow] = useState(false);
-    const lidarComOffCanvas = () => setShow(!show);
+    const abrirOffCanvas = () => setShow(true);
+    const fecharOffCanvas = () => setShow(false);
 
     return (
         <>
@@ -43,7 +44,7 @@ export default function Topo() {
                         {!ehPaginaDeCheckout && (
                             <Navbar.Toggle
                                 aria-controls='navbar-main'
-                                onClick={lidarComOffCanvas}
+                                onClick={abrirOffCanvas}
                             />
                         )}
 
@@ -81,7 +82,7 @@ export default function Topo() {
                                     aria-labelledby='navbar-main-titulo'
                                     placement='start'
                                     show={show}
-                                    onHide={lidarComOffCanvas}
+                                    onHide={fecharOffCanvas}
                                 >
                                     <Offcanvas.Header closeButton>
                                         <Offcanvas.Title
@@ -96,14 +97,14 @@ export default function Topo() {
                                             <div className='d-flex flex-lg-row flex-column gap-3'>
                                                 <NavLinkS
                                                     to='/'
-                                                    onClick={lidarComOffCanvas}
+                                                    onClick={fecharOffCanvas}
                                                     className='nav-link'
                                                 >
                                                     Inicio
                                                 </NavLinkS>
                                                 <NavLinkS
                                                     to='/produtos'
-                                                    onClick={lidarComOffCanvas}
+                                                    onClick={fecharOffCanvas}
                                                     className='nav-link'
                                                 >
                                                     Produtos
@@ -114,7 +115,7 @@ export default function Topo() {
                                                     <NavLinkS
                                                         to='/pedidos'
                                                         onClick={
-                                                            lidarComOffCanvas
+                                                            fecharOffCanvas
                                                         }
                                                         className='nav-link'
                                                     >
@@ -124,7 +125,7 @@ export default function Topo() {
                                                     <NavLinkS
                                                         to='/perfil'
                                                         onClick={
-                                                            lidarComOffCanvas
+                                                            fecharOffCanvas
                                                         }
                                                         className='nav-link'
                                                     >
@@ -135,7 +136,7 @@ export default function Topo() {
                                                         <NavLinkS
                                                             to='/admin'
                                                             onClick={
-                                                                lidarComOffCanvas
+                                                                fecharOffCanvas
                                                             }
                                                             className='nav-link'
                                                         >
@@ -162,7 +163,7 @@ export default function Topo() {
                                                     <NavLinkS
                                                         to='/cadastrar'
                                                         onClick={
-                                                            lidarComOffCanvas
+                                                            fecharOffCanvas
                                                         }
                                                         className='nav-link'
                                                     >
