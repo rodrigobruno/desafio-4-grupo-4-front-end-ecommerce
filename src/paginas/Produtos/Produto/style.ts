@@ -32,8 +32,13 @@ export const Titulo = styled.h1`
     text-transform: uppercase;
     line-height: 100%;
     margin: 0;
+    hyphens: auto;
 
     @media (min-width: 425px) {
+        font-size: 3rem;
+    }
+
+    @media (min-width: 992px) {
         font-size: 4rem;
     }
 `;
