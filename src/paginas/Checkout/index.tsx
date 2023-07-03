@@ -220,7 +220,6 @@ export default function Checkout() {
         e: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const selectedOptions = e.currentTarget.selectedOptions[0].value;
-        console.log(selectedOptions);
         setFormEnderecoEstado(selectedOptions);
     };
 

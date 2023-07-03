@@ -262,7 +262,7 @@ export default function FormularioProduto({
                     variant='warning'
                     className='mb-4'
                 >
-                    Ocorreu um erro, tente novamente na próxima rodada.
+                    Produto já cadatrado.
                 </Alert>
             )}
 

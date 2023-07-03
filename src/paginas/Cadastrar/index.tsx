@@ -251,7 +251,7 @@ export default function Cadastrar() {
                                     variant='warning'
                                     className='mb-4'
                                 >
-                                    Nome, usuário ou e-mail já cadastrado.
+                                    Usuário ou e-mail já cadastrado.
                                 </Alert>
                             )}
 

@@ -259,7 +259,7 @@ export default function FormularioUsuario({
                     variant='warning'
                     className='mb-4'
                 >
-                    Ocorreu um erro, tente novamente na próxima rodada.
+                    Usuário ou e-mail já cadastrado.
                 </Alert>
             )}
 

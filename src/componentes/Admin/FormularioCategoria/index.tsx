@@ -94,13 +94,12 @@ export default function FormularioCategoria({
                         '/categories',
                         {
                             title: form.nome,
+                        },
+                        {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
                         }
-                        // },
-                        // {
-                        //     headers: {
-                        //         Authorization: 'Bearer ' + accessToken,
-                        //     },
-                        // }
                     );
 
                     setForm({
@@ -151,7 +150,7 @@ export default function FormularioCategoria({
                     variant='warning'
                     className='mb-4'
                 >
-                    Ocorreu um erro, tente novamente na próxima rodada.
+                    Categoria já cadastrada.
                 </Alert>
             )}
 
