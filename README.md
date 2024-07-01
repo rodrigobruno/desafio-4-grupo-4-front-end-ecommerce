@@ -67,7 +67,7 @@ npm install
 
 1. Renomei arquivo na raiz do projeto com nome `.env.exemple` para `.env`.
 
-2. No lugar de `http://www.url.com.br/api` coloque a URL da API local (não esquecer de colocar `/api`), se quiser testar localmente. Ou a url de produção `https://grupo04-xp49-production.up.railway.app/api`.
+2. No lugar de `http://www.url.com.br/api` coloque a URL da API local (não esquecer de colocar `/api`), se quiser testar localmente. Ou a url de produção `https://back-end-ecommerce-production.up.railway.app/api`.
 
 ### Para rodar o projejo
 
