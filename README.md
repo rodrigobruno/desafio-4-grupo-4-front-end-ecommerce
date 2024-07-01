@@ -20,14 +20,14 @@ Usamos a Vercel para hospedar a aplicação.
 ##### Login de administrador para testes:
 
 ```
-usuario: timbernerslee
+usuário: timbernerslee
 senha: Gama1234
 ```
 
 ##### Login de cliente para testes:
 
 ```
-email: brendaneich
+usuário: brendaneich
 senha: Gama1234
 ```
 
